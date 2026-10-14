@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Static Linked List & Stack Visualizer</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-card-border: #334155;
+            --accent-primary: #3b82f6;
+            --accent-primary-hover: #2563eb;
+            --accent-free: #06b6d4;
+            --accent-stack: #8b5cf6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --font-main: 'Inter', sans-serif;
+            --font-code: 'Fira Code', monospace;
+            --btn-min-height: 44px;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Typography dynamic fluid sizing */
+        h1, .h1 { font-size: clamp(1.4rem, 4vw, 2.2rem); }
+        h2, .h2 { font-size: clamp(1.2rem, 3vw, 1.75rem); }
+        h3, .h3 { font-size: clamp(1.05rem, 2.5vw, 1.35rem); }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* Navigation Pills */
+        .nav-pills .nav-link {
+            color: var(--text-muted);
+            border-radius: 12px;
+            padding: clamp(8px, 1.5vw, 12px) clamp(12px, 2vw, 20px);
+            font-weight: 600;
+            font-size: clamp(0.85rem, 1.8vw, 1rem);
+            min-height: var(--btn-min-height);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+        }
+        .nav-pills .nav-link:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .nav-pills .nav-link.active {
+            background: var(--accent-primary);
+            color: #ffffff;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Responsive Containers */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--bg-card-border);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: clamp(12px, 2.5vw, 24px);
+            margin-bottom: 20px;
+        }
+
+        /* Controls styling */
+        .form-control, .form-select {
+            background-color: #0f172a;
+            border: 1px solid var(--bg-card-border);
+            color: var(--text-main);
+            border-radius: 10px;
+            min-height: var(--btn-min-height);
+            font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #0f172a;
+            border-color: var(--accent-primary);
+            color: var(--text-main);
+            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+        }
+
+        .btn-custom {
+            min-height: var(--btn-min-height);
+            border-radius: 10px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 16px;
+            transition: all 0.2s ease;
+            font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+        }
+        .btn-custom-primary {
+            background: var(--accent-primary);
+            color: #fff;
+            border: none;
+        }
+        .btn-custom-primary:hover {
+            background: var(--accent-primary-hover);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .btn-custom-danger {
+            background: var(--accent-danger);
+            color: #fff;
+            border: none;
+        }
+        .btn-custom-danger:hover {
+            background: #dc2626;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .btn-custom-secondary {
+            background: #334155;
+            color: var(--text-main);
+            border: none;
+        }
+        .btn-custom-secondary:hover {
+            background: #475569;
+            color: var(--text-main);
+        }
+        .btn-custom-purple {
+            background: var(--accent-stack);
+            color: #fff;
+            border: none;
+        }
+        .btn-custom-purple:hover {
+            background: #7c3aed;
+            color: #fff;
+        }
+
+        /* Visualizer Memory Display Area */
+        .memory-viewport {
+            position: relative;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 30px 10px 40px 10px;
+            min-height: 280px;
+            border-radius: 12px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px dashed var(--bg-card-border);
+        }
+
+        .svg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .memory-grid {
+            display: flex;
+            gap: clamp(12px, 2vw, 24px);
+            position: relative;
+            z-index: 1;
+            min-width: max-content;
+        }
+
+        /* Linked List Node Card */
+        .node-card {
+            width: clamp(100px, 18vw, 130px);
+            background: var(--bg-card);
+            border: 2px solid var(--bg-card-border);
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+
+        .node-card.occupied {
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .node-card.free {
+            border-color: rgba(6, 182, 212, 0.4);
+            background: rgba(6, 182, 212, 0.05);
+        }
+
+        .node-index-badge {
+            position: absolute;
+            top: -12px;
+            background: #0f172a;
+            border: 1px solid var(--bg-card-border);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-family: var(--font-code);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .node-box {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .cell-data {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 8px;
+            padding: 8px 4px;
+            text-align: center;
+            font-family: var(--font-code);
+            font-weight: 700;
+            font-size: clamp(1rem, 2.2vw, 1.25rem);
+            color: #fff;
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-break: break-all;
+        }
+
+        .cell-pointer {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 8px;
+            padding: 4px;
+            text-align: center;
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border: 1px dashed var(--bg-card-border);
+        }
+
+        /* Pointer Badges Above Nodes */
+        .pointer-tag-container {
+            min-height: 28px;
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tag-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: pulseBadge 2s infinite;
+        }
+        .tag-start {
+            background: var(--accent-primary);
+            color: #fff;
+        }
+        .tag-free {
+            background: var(--accent-free);
+            color: #0f172a;
+        }
+        .tag-top {
+            background: var(--accent-stack);
+            color: #fff;
+        }
+
+        /* Stack Visualizer Specifics */
+        .stack-flex-container {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+            align-items: flex-end;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stack-bucket-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 180px;
+        }
+
+        .stack-bucket {
+            width: clamp(140px, 30vw, 180px);
+            border-left: 4px solid var(--accent-stack);
+            border-right: 4px solid var(--accent-stack);
+            border-bottom: 6px solid var(--accent-stack);
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            background: rgba(139, 92, 246, 0.05);
+            display: flex;
+            flex-direction: column-reverse;
+            padding: 8px;
+            gap: 8px;
+            min-height: 260px;
+            position: relative;
+        }
+
+        .stack-element {
+            height: 46px;
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            border-radius: 8px;
+            color: #fff;
+            font-family: var(--font-code);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 12px;
+            box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .stack-element-idx {
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        /* Animations */
+        @keyframes dropIn {
+            0% { transform: translateY(-80px); opacity: 0; scale: 0.8; }
+            100% { transform: translateY(0); opacity: 1; scale: 1; }
+        }
+
+        @keyframes liftOut {
+            0% { transform: translateY(0); opacity: 1; scale: 1; }
+            100% { transform: translateY(-80px); opacity: 0; scale: 0.8; }
+        }
+
+        @keyframes shakeError {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        @keyframes pulseSuccess {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        @keyframes scanHighlight {
+            0% { border-color: var(--accent-warning); box-shadow: 0 0 15px var(--accent-warning); }
+            100% { border-color: var(--bg-card-border); }
+        }
+
+        .anim-drop { animation: dropIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        .anim-lift { animation: liftOut 0.4s forwards; }
+        .shake-target { animation: shakeError 0.45s ease-in-out; }
+        .pulse-target { animation: pulseSuccess 0.6s ease-in-out; }
+        .scan-active { border-color: var(--accent-warning) !important; box-shadow: 0 0 20px var(--accent-warning) !important; transform: translateY(-4px); }
+
+        /* Code / State Terminal Panel */
+        .terminal-panel {
+            background: #090d16;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            padding: 16px;
+            font-family: var(--font-code);
+            font-size: clamp(0.75rem, 1.6vw, 0.88rem);
+            color: #38bdf8;
+            overflow-x: auto;
+            max-height: 250px;
+        }
+
+        .terminal-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .log-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 180px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+        }
+        .log-item {
+            padding: 6px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .log-time {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-family: var(--font-code);
+            min-width: 60px;
+        }
+
+        /* SVG Path Styling */
+        .svg-arrow-data {
+            stroke: var(--accent-primary);
+            stroke-width: 2.5;
+            fill: none;
+            marker-end: url(#arrowhead-data);
+            transition: all 0.3s ease;
+        }
+        .svg-arrow-free {
+            stroke: var(--accent-free);
+            stroke-width: 2;
+            stroke-dasharray: 5, 4;
+            fill: none;
+            marker-end: url(#arrowhead-free);
+            transition: all 0.3s ease;
+        }
+
+        /* Toast notifications */
+        .toast-container-custom {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 90vw;
+            width: 350px;
+        }
+
+        /* Legend box */
+        .legend-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-right: 12px;
+            margin-bottom: 6px;
+        }
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 576px) {
+            .btn-custom {
+                width: 100%;
+            }
+            .stack-flex-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body class="p-2 p-md-4">
+
+    <!-- Header Navigation Bar -->
+    <header class="container-fluid max-w-7xl mb-3">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 glass-card mb-0">
+            <div>
+                <h1 class="fw-bold mb-1 d-flex align-items-center gap-2">
+                    <i class="bi bi-cpu text-primary"></i> Data Structures Visualizer
+                </h1>
+                <p class="text-muted small mb-0">Array-based Memory Static Linked List & Array Stack in Python style</p>
+            </div>
+            
+            <div class="d-flex align-items-center gap-2 w-100 w-md-auto justify-content-between justify-content-md-end">
+                <!-- Navigation Tabs Switcher -->
+                <ul class="nav nav-pills flex-nowrap" id="dsTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="linked-list-tab" data-bs-toggle="pill" data-bs-target="#linked-list-pane" type="button" role="tab">
+                            <i class="bi bi-diagram-3-fill"></i> Linked List
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="stack-tab" data-bs-toggle="pill" data-bs-target="#stack-pane" type="button" role="tab">
+                            <i class="bi bi-layers-fill"></i> Stack
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="test-tab" data-bs-toggle="pill" data-bs-target="#test-pane" type="button" role="tab">
+                            <i class="bi bi-check2-circle"></i> Unit Tests
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="container-fluid max-w-7xl flex-grow-1">
+        <div class="tab-content" id="dsTabContent">
+
+            <!-- ================= LINKED LIST TAB ================= -->
+            <div class="tab-pane fade show active" id="linked-list-pane" role="tabpanel" tabindex="0">
+                
+                <!-- Controls & Input Bar -->
+                <div class="glass-card">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <label class="form-label small text-muted mb-1 fw-semibold">Value Input</label>
+                            <input type="text" id="ll-input" class="form-control" placeholder="e.g. 42 or 'A'" maxlength="6">
+                        </div>
+                        <div class="col-6 col-sm-3 col-lg-2">
+                            <label class="form-label small text-muted mb-1 invisible">Insert</label>
+                            <button id="btn-ll-insert" class="btn btn-custom btn-custom-primary w-100">
+                                <i class="bi bi-plus-circle"></i> Insert
+                            </button>
+                        </div>
+                        <div class="col-6 col-sm-3 col-lg-2">
+                            <label class="form-label small text-muted mb-1 invisible">Delete</label>
+                            <button id="btn-ll-delete" class="btn btn-custom btn-custom-danger w-100">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </div>
+                        <div class="col-6 col-sm-3 col-lg-2">
+                            <label class="form-label small text-muted mb-1 invisible">Find</label>
+                            <button id="btn-ll-find" class="btn btn-custom btn-custom-secondary w-100">
+                                <i class="bi bi-search"></i> Find
+                            </button>
+                        </div>
+                        <div class="col-6 col-sm-3 col-lg-3">
+                            <label class="form-label small text-muted mb-1 fw-semibold">Capacity (3-8)</label>
+                            <div class="d-flex gap-2">
+                                <select id="ll-capacity-select" class="form-select">
+                                    <option value="3">3 Slots</option>
+                                    <option value="4" selected>4 Slots</option>
+                                    <option value="5">5 Slots</option>
+                                    <option value="6">6 Slots</option>
+                                    <option value="8">8 Slots</option>
+                                </select>
+                                <button id="btn-ll-reset" class="btn btn-custom btn-custom-secondary" title="Reset Memory">
+                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Linked List Visual Memory Area -->
+                <div class="glass-card">
+                    <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                        <h3 class="fw-bold mb-0 text-primary d-flex align-items-center gap-2">
+                            <i class="bi bi-cpu-fill"></i> Static Memory Array View
+                        </h3>
+                        <!-- Speed Control & Legend -->
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="small text-muted">Speed:</span>
+                                <input type="range" id="anim-speed" class="form-range" min="100" max="1000" step="100" value="400" style="width: 80px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="mb-3">
+                        <span class="legend-badge"><span class="legend-color" style="background: var(--accent-primary);"></span> Data Chain (`start_pointer`)</span>
+                        <span class="legend-badge"><span class="legend-color" style="background: var(--accent-free);"></span> Free Chain (`free_pointer`)</span>
+                        <span class="legend-badge"><span class="legend-color" style="background: var(--accent-warning);"></span> Traversal Step</span>
+                    </div>
+
+                    <!-- Memory Viewport with SVG overlay -->
+                    <div class="memory-viewport" id="ll-viewport">
+                        <svg class="svg-overlay" id="ll-svg-canvas">
+                            <defs>
+                                <marker id="arrowhead-data" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6"/>
+                                </marker>
+                                <marker id="arrowhead-free" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#06b6d4"/>
+                                </marker>
+                            </defs>
+                        </svg>
+
+                        <div class="memory-grid" id="ll-nodes-grid">
+                            <!-- Dynamically populated node slots -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ================= STACK TAB ================= -->
+            <div class="tab-pane fade" id="stack-pane" role="tabpanel" tabindex="0">
+                
+                <!-- Stack Controls Bar -->
+                <div class="glass-card">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <label class="form-label small text-muted mb-1 fw-semibold">Value Input</label>
+                            <input type="text" id="stack-input" class="form-control" placeholder="e.g. 99 or 'X'" maxlength="6">
+                        </div>
+                        <div class="col-6 col-sm-3 col-lg-2">
+                            <label class="form-label small text-muted mb-1 invisible">Push</label>
+                            <button id="btn-stack-push" class="btn btn-custom btn-custom-purple w-100">
+                                <i class="bi bi-box-arrow-in-down"></i> Push
+                            </button>
+                        </div>
+                        <div class="col-6 col-sm-3 col-lg-2">
+                            <label class="form-label small text-muted mb-1 invisible">Pop</label>
+                            <button id="btn-stack-pop" class="btn btn-custom btn-custom-danger w-100">
+                                <i class="bi bi-box-arrow-up"></i> Pop
+                            </button>
+                        </div>
+                        <div class="col-6 col-sm-3 col-lg-2">
+                            <label class="form-label small text-muted mb-1 invisible">Peek</label>
+                            <button id="btn-stack-peek" class="btn btn-custom btn-custom-secondary w-100">
+                                <i class="bi bi-eye"></i> Peek
+                            </button>
+                        </div>
+                        <div class="col-6 col-sm-3 col-lg-3">
+                            <label class="form-label small text-muted mb-1 fw-semibold">Capacity (3-8)</label>
+                            <div class="d-flex gap-2">
+                                <select id="stack-capacity-select" class="form-select">
+                                    <option value="3">3 Slots</option>
+                                    <option value="4" selected>4 Slots</option>
+                                    <option value="5">5 Slots</option>
+                                    <option value="6">6 Slots</option>
+                                    <option value="8">8 Slots</option>
+                                </select>
+                                <button id="btn-stack-reset" class="btn btn-custom btn-custom-secondary" title="Reset Stack">
+                                    <i class="bi bi-arrow-counterclockwise"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dual Stack Display Area -->
+                <div class="glass-card">
+                    <h3 class="fw-bold mb-3 text-purple d-flex align-items-center gap-2" style="color: var(--accent-stack);">
+                        <i class="bi bi-layers flex-shrink-0"></i> Stack Views (Vertical Bucket & Horizontal Array)
+                    </h3>
+
+                    <div class="stack-flex-container py-3">
+                        <!-- Vertical Bucket Container -->
+                        <div class="stack-bucket-wrapper">
+                            <div class="fw-bold small text-muted mb-2"><i class="bi bi-segmented-nav"></i> LIFO Vertical Vessel</div>
+                            <div class="stack-bucket" id="stack-vessel">
+                                <!-- Elements stacked vertically bottom to top -->
+                            </div>
+                        </div>
+
+                        <!-- Parallel Horizontal Memory Array View -->
+                        <div class="flex-grow-1 w-100" style="max-width: 600px;">
+                            <div class="fw-bold small text-muted mb-2"><i class="bi bi-border-all"></i> Physical Memory Array Representation</div>
+                            <div class="memory-viewport" style="min-height: auto; padding: 20px 10px;">
+                                <div class="memory-grid justify-content-start" id="stack-array-grid">
+                                    <!-- Memory slots horizontal -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ================= UNIT TEST TAB ================= -->
+            <div class="tab-pane fade" id="test-pane" role="tabpanel" tabindex="0">
+                <div class="glass-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h3 class="fw-bold mb-1 text-success"><i class="bi bi-shield-check"></i> Automated Algorithm Test Suite</h3>
+                            <p class="text-muted small mb-0">Verifies edge cases, memory exhaustion, pointer recycling, and stack bounds.</p>
+                        </div>
+                        <button id="btn-run-tests" class="btn btn-custom btn-custom-primary">
+                            <i class="bi bi-play-fill"></i> Run All Tests
+                        </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover rounded-3 overflow-hidden" id="test-results-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Test Case</th>
+                                    <th scope="col">Target DS</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="test-results-body">
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-4">Click "Run All Tests" to execute unit test assertions.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= LIVE CODE STATE & LOG PANEL ================= -->
+        <div class="row g-3">
+            <!-- Python Live State View -->
+            <div class="col-12 col-lg-6">
+                <div class="glass-card h-100 mb-0">
+                    <div class="terminal-title">
+                        <span><i class="bi bi-terminal-fill text-warning"></i> Live Python Memory State</span>
+                        <span id="state-ds-indicator" class="badge bg-secondary">Linked List</span>
+                    </div>
+                    <pre class="terminal-panel mb-0" id="python-state-code"><code># Initializing memory state...</code></pre>
+                </div>
+            </div>
+
+            <!-- Real-time Operation History Log -->
+            <div class="col-12 col-lg-6">
+                <div class="glass-card h-100 mb-0">
+                    <div class="terminal-title">
+                        <span><i class="bi bi-journal-text text-info"></i> Operation History Log</span>
+                        <button id="btn-clear-log" class="btn btn-sm btn-link text-muted p-0 text-decoration-none">Clear</button>
+                    </div>
+                    <ul class="log-list" id="operation-log">
+                        <li class="log-item">
+                            <span class="log-time">00:00:00</span>
+                            <span class="text-muted">Visualizer initialized and ready.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification Container for Alerts -->
+    <div class="toast-container-custom" id="toast-container"></div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Visualizer Core Logic Application JS -->
+    <script>
+        /**
+         * ====================================================================
+         * STATIC LINKED LIST & STACK DATA STRUCTURE ENGINE (PYTHON PARITY)
+         * ====================================================================
+         */
+
+        // Utility: Pause execution for animations
+        const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+        // Global State Objects
+        const AppState = {
+            activeTab: 'linked-list', // 'linked-list' | 'stack'
+            animSpeed: 400,
+
+            // Linked List (Static Array Memory Allocation Model)
+            linkedList: {
+                capacity: 4,
+                list: [null, null, null, null],
+                pointers: [1, 2, 3, -1],
+                start_pointer: -1,
+                free_pointer: 0
+            },
+
+            // Stack (Static Array Stack)
+            stack: {
+                capacity: 4,
+                stack: [null, null, null, null],
+                top: -1
+            }
+        };
+
+        // DOM Element Cache
+        const DOM = {
+            // Linked List Controls
+            llInput: document.getElementById('ll-input'),
+            btnLLInsert: document.getElementById('btn-ll-insert'),
+            btnLLDelete: document.getElementById('btn-ll-delete'),
+            btnLLFind: document.getElementById('btn-ll-find'),
+            btnLLReset: document.getElementById('btn-ll-reset'),
+            llCapacitySelect: document.getElementById('ll-capacity-select'),
+            llViewport: document.getElementById('ll-viewport'),
+            llNodesGrid: document.getElementById('ll-nodes-grid'),
+            llSvgCanvas: document.getElementById('ll-svg-canvas'),
+
+            // Stack Controls
+            stackInput: document.getElementById('stack-input'),
+            btnStackPush: document.getElementById('btn-stack-push'),
+            btnStackPop: document.getElementById('btn-stack-pop'),
+            btnStackPeek: document.getElementById('btn-stack-peek'),
+            btnStackReset: document.getElementById('btn-stack-reset'),
+            stackCapacitySelect: document.getElementById('stack-capacity-select'),
+            stackVessel: document.getElementById('stack-vessel'),
+            stackArrayGrid: document.getElementById('stack-array-grid'),
+
+            // Common
+            animSpeedInput: document.getElementById('anim-speed'),
+            pythonStateCode: document.getElementById('python-state-code'),
+            stateDsIndicator: document.getElementById('state-ds-indicator'),
+            operationLog: document.getElementById('operation-log'),
+            btnClearLog: document.getElementById('btn-clear-log'),
+            toastContainer: document.getElementById('toast-container'),
+
+            // Tabs
+            tabLinkedList: document.getElementById('linked-list-tab'),
+            tabStack: document.getElementById('stack-tab'),
+            tabTest: document.getElementById('test-tab'),
+            btnRunTests: document.getElementById('btn-run-tests'),
+            testResultsBody: document.getElementById('test-results-body')
+        };
+
+        // --- Toast / Banner Alert System ---
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            const bgClass = type === 'danger' ? 'bg-danger text-white' : 
+                             type === 'success' ? 'bg-success text-white' : 
+                             type === 'warning' ? 'bg-warning text-dark' : 'bg-primary text-white';
+            
+            toast.className = `toast align-items-center border-0 show ${bgClass} mb-2 shadow-lg`;
+            toast.setAttribute('role', 'alert');
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body font-bold">
+                        <i class="bi ${type === 'danger' ? 'bi-exclamation-triangle-fill' : type === 'success' ? 'bi-check-circle-fill' : 'bi-info-circle-fill'} me-2"></i>
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close ${type === 'warning' ? '' : 'btn-close-white'} me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
+            DOM.toastContainer.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // --- Log History System ---
+        function logAction(msg, type = 'normal') {
+            const timeStr = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const li = document.createElement('li');
+            li.className = 'log-item';
+            
+            let colorStyle = '';
+            if (type === 'error') colorStyle = 'text-danger fw-bold';
+            else if (type === 'success') colorStyle = 'text-success fw-bold';
+            else if (type === 'warn') colorStyle = 'text-warning';
+
+            li.innerHTML = `<span class="log-time">${timeStr}</span> <span class="${colorStyle}">${msg}</span>`;
+            DOM.operationLog.prepend(li);
+        }
+
+        // --- Python State Code Display Panel ---
+        function updatePythonStatePanel() {
+            if (AppState.activeTab === 'linked-list') {
+                DOM.stateDsIndicator.textContent = "Linked List";
+                DOM.stateDsIndicator.className = "badge bg-primary";
+                const ll = AppState.linkedList;
+                DOM.pythonStateCode.innerHTML = 
+`<span class="text-secondary"># Linked List Memory State</span>
+<span class="text-info">start_pointer</span> = <span class="text-warning">${ll.start_pointer}</span>
+<span class="text-info">free_pointer</span>  = <span class="text-warning">${ll.free_pointer}</span>
+<span class="text-info">list</span>          = ${JSON.stringify(ll.list)}
+<span class="text-info">pointers</span>      = ${JSON.stringify(ll.pointers)}`;
+            } else if (AppState.activeTab === 'stack') {
+                DOM.stateDsIndicator.textContent = "Stack";
+                DOM.stateDsIndicator.className = "badge bg-purple";
+                DOM.stateDsIndicator.style.background = "var(--accent-stack)";
+                const st = AppState.stack;
+                DOM.pythonStateCode.innerHTML = 
+`<span class="text-secondary"># Stack Memory State</span>
+<span class="text-info">top</span>   = <span class="text-warning">${st.top}</span>
+<span class="text-info">stack</span> = ${JSON.stringify(st.stack)}`;
+            }
+        }
+
+        /**
+         * ====================================================================
+         * LINKED LIST VISUALIZER RENDERING & SVG ARROWS ENGINE
+         * ====================================================================
+         */
+
+        function initLinkedListMemory(capacity) {
+            AppState.linkedList.capacity = capacity;
+            AppState.linkedList.list = new Array(capacity).fill(null);
+            AppState.linkedList.pointers = Array.from({ length: capacity }, (_, i) => i < capacity - 1 ? i + 1 : -1);
+            AppState.linkedList.start_pointer = -1;
+            AppState.linkedList.free_pointer = 0;
+            renderLinkedList();
+            logAction(`Linked List memory initialized with capacity ${capacity}.`);
+        }
+
+        function renderLinkedList() {
+            const ll = AppState.linkedList;
+            DOM.llNodesGrid.innerHTML = '';
+
+            for (let i = 0; i < ll.capacity; i++) {
+                const isFree = ll.list[i] === null;
+                const nodeCard = document.createElement('div');
+                nodeCard.className = `node-card ${isFree ? 'free' : 'occupied'}`;
+                nodeCard.id = `ll-node-${i}`;
+
+                // Check pointers matching this node
+                let tagsHTML = '';
+                if (ll.start_pointer === i) tagsHTML += `<span class="tag-badge tag-start">START</span>`;
+                if (ll.free_pointer === i) tagsHTML += `<span class="tag-badge tag-free">FREE</span>`;
+
+                nodeCard.innerHTML = `
+                    <div class="node-index-badge">Index #${i}</div>
+                    <div class="pointer-tag-container mb-1">${tagsHTML}</div>
+                    <div class="node-box">
+                        <div class="cell-data" id="ll-data-${i}">${ll.list[i] !== null ? ll.list[i] : '<span style="opacity:0.2;">—</span>'}</div>
+                        <div class="cell-pointer">Next: <span class="fw-bold text-white">${ll.pointers[i]}</span></div>
+                    </div>
+                `;
+                DOM.llNodesGrid.appendChild(nodeCard);
+            }
+
+            // Draw connecting SVG arrows after DOM layout settles
+            requestAnimationFrame(() => drawSvgArrows());
+            updatePythonStatePanel();
+        }
+
+        /**
+         * Dynamic Bezier SVG Arrow Calculator for Linked List Chains
+         */
+        function drawSvgArrows() {
+            const ll = AppState.linkedList;
+            const svg = DOM.llSvgCanvas;
+            
+            // Clear existing paths (preserve defs)
+            const paths = svg.querySelectorAll('path');
+            paths.forEach(p => p.remove());
+
+            if (AppState.activeTab !== 'linked-list') return;
+
+            const viewportRect = DOM.llViewport.getBoundingClientRect();
+
+            // Function to get center top/bottom anchor points of a node card
+            const getAnchor = (index, position = 'bottom') => {
+                const card = document.getElementById(`ll-node-${index}`);
+                if (!card) return { x: 0, y: 0 };
+                const rect = card.getBoundingClientRect();
+                const x = rect.left + rect.width / 2 - viewportRect.left + DOM.llViewport.scrollLeft;
+                const y = position === 'top' ? (rect.top - viewportRect.top) : (rect.bottom - viewportRect.top);
+                return { x, y };
+            };
+
+            // Helper to draw a smooth curved SVG arrow path
+            const createPath = (fromIdx, toIdx, type = 'data', arcHeight = 35) => {
+                if (fromIdx < 0 || toIdx < 0) return;
+                const isTop = type === 'free';
+                const start = getAnchor(fromIdx, isTop ? 'top' : 'bottom');
+                const end = getAnchor(toIdx, isTop ? 'top' : 'bottom');
+
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('class', type === 'data' ? 'svg-arrow-data' : 'svg-arrow-free');
+
+                const dx = end.x - start.x;
+                const curveY = isTop ? Math.min(start.y, end.y) - arcHeight : Math.max(start.y, end.y) + arcHeight;
+
+                // Control point calculation for smooth Bezier curve
+                const controlX = start.x + dx / 2;
+                const d = `M ${start.x} ${start.y} Q ${controlX} ${curveY} ${end.x} ${end.y}`;
+                
+                path.setAttribute('d', d);
+                svg.appendChild(path);
+            };
+
+            // 1. Draw Data Chain Paths (Bottom curved arrows)
+            let currData = ll.start_pointer;
+            const visitedData = new Set();
+            while (currData !== -1 && !visitedData.has(currData)) {
+                visitedData.add(currData);
+                const nextData = ll.pointers[currData];
+                if (nextData !== -1) {
+                    const jumpDistance = Math.abs(nextData - currData);
+                    createPath(currData, nextData, 'data', 30 + jumpDistance * 10);
+                }
+                currData = nextData;
+            }
+
+            // 2. Draw Free Pool Chain Paths (Top curved dashed arrows)
+            let currFree = ll.free_pointer;
+            const visitedFree = new Set();
+            while (currFree !== -1 && !visitedFree.has(currFree)) {
+                visitedFree.add(currFree);
+                const nextFree = ll.pointers[currFree];
+                if (nextFree !== -1) {
+                    const jumpDistance = Math.abs(nextFree - currFree);
+                    createPath(currFree, nextFree, 'free', 25 + jumpDistance * 8);
+                }
+                currFree = nextFree;
+            }
+        }
+
+        /**
+         * Linked List Operations
+         */
+        async function insertLinkedList(val) {
+            const ll = AppState.linkedList;
+
+            // Check Overflow
+            if (ll.free_pointer === -1) {
+                showToast("Memory Full! No free memory slot available.", "danger");
+                DOM.llViewport.classList.add('shake-target');
+                setTimeout(() => DOM.llViewport.classList.remove('shake-target'), 500);
+                logAction(`Insert '${val}' failed: Memory Full (free_pointer = -1).`, 'error');
+                return false;
+            }
+
+            // Allocate free node
+            const newNodeIndex = ll.free_pointer;
+            ll.free_pointer = ll.pointers[newNodeIndex];
+
+            // Store value
+            ll.list[newNodeIndex] = val;
+
+            // Insert at head (Standard low-level static list allocation)
+            ll.pointers[newNodeIndex] = ll.start_pointer;
+            ll.start_pointer = newNodeIndex;
+
+            renderLinkedList();
+
+            // Visual animation feedback
+            const card = document.getElementById(`ll-node-${newNodeIndex}`);
+            if (card) {
+                card.classList.add('anim-drop');
+                setTimeout(() => card.classList.remove('anim-drop'), 500);
+            }
+
+            showToast(`Inserted '${val}' into allocated slot #${newNodeIndex}.`, "success");
+            logAction(`Inserted '${val}' at slot #${newNodeIndex}. Updated start_pointer = ${newNodeIndex}.`, 'success');
+            return true;
+        }
+
+        async function deleteLinkedList(val) {
+            const ll = AppState.linkedList;
+
+            if (ll.start_pointer === -1) {
+                showToast("List is empty! Nothing to delete.", "warning");
+                DOM.llViewport.classList.add('shake-target');
+                setTimeout(() => DOM.llViewport.classList.remove('shake-target'), 500);
+                logAction(`Delete '${val}' failed: List is empty.`, 'warn');
+                return false;
+            }
+
+            let curr = ll.start_pointer;
+            let prev = -1;
+            let found = false;
+
+            // Traversal animation search
+            while (curr !== -1) {
+                const card = document.getElementById(`ll-node-${curr}`);
+                if (card) card.classList.add('scan-active');
+                await sleep(AppState.animSpeed);
+
+                if (String(ll.list[curr]) === String(val)) {
+                    found = true;
+                    if (card) card.classList.remove('scan-active');
+                    break;
+                }
+
+                if (card) card.classList.remove('scan-active');
+                prev = curr;
+                curr = ll.pointers[curr];
+            }
+
+            if (!found) {
+                showToast(`Value '${val}' not found in Linked List.`, "danger");
+                logAction(`Delete failed: '${val}' not found.`, 'error');
+                return false;
+            }
+
+            // Unlink from active chain
+            if (prev === -1) {
+                // Deleting head
+                ll.start_pointer = ll.pointers[curr];
+            } else {
+                // Deleting middle / tail
+                ll.pointers[prev] = ll.pointers[curr];
+            }
+
+            // Recycle node into free pool chain
+            ll.list[curr] = null;
+            ll.pointers[curr] = ll.free_pointer;
+            ll.free_pointer = curr;
+
+            renderLinkedList();
+            showToast(`Deleted '${val}' from slot #${curr} and recycled to free pool.`, "success");
+            logAction(`Deleted '${val}' from slot #${curr}. Recycled to free pool.`, 'success');
+            return true;
+        }
+
+        async function findLinkedList(val) {
+            const ll = AppState.linkedList;
+
+            if (ll.start_pointer === -1) {
+                showToast("List is empty!", "warning");
+                return false;
+            }
+
+            let curr = ll.start_pointer;
+            let step = 0;
+
+            logAction(`Starting step-by-step traversal for '${val}' from start_pointer (${ll.start_pointer})...`);
+
+            while (curr !== -1) {
+                step++;
+                const card = document.getElementById(`ll-node-${curr}`);
+                if (card) card.classList.add('scan-active');
+                
+                logAction(`Step ${step}: Inspecting slot #${curr} (Value = ${ll.list[curr]})...`);
+                await sleep(AppState.animSpeed);
+
+                if (String(ll.list[curr]) === String(val)) {
+                    if (card) {
+                        card.classList.remove('scan-active');
+                        card.classList.add('pulse-target');
+                        setTimeout(() => card.classList.remove('pulse-target'), 1000);
+                    }
+                    showToast(`Found '${val}' at slot #${curr} in ${step} step(s)!`, "success");
+                    logAction(`SUCCESS: '${val}' found at slot #${curr}!`, 'success');
+                    return true;
+                }
+
+                if (card) card.classList.remove('scan-active');
+                curr = ll.pointers[curr];
+            }
+
+            showToast(`'${val}' not found in Linked List.`, "danger");
+            logAction(`Traversal finished. '${val}' not found.`, 'error');
+            return false;
+        }
+
+
+        /**
+         * ====================================================================
+         * STACK VISUALIZER ENGINE
+         * ====================================================================
+         */
+
+        function initStackMemory(capacity) {
+            AppState.stack.capacity = capacity;
+            AppState.stack.stack = new Array(capacity).fill(null);
+            AppState.stack.top = -1;
+            renderStack();
+            logAction(`Stack memory initialized with capacity ${capacity}.`);
+        }
+
+        function renderStack() {
+            const st = AppState.stack;
+
+            // 1. Render Vertical Vessel View (Bottom to Top)
+            DOM.stackVessel.innerHTML = '';
+            // Height calculation based on capacity
+            DOM.stackVessel.style.height = `${st.capacity * 52 + 20}px`;
+
+            for (let i = 0; i < st.capacity; i++) {
+                if (st.stack[i] !== null) {
+                    const el = document.createElement('div');
+                    el.className = `stack-element ${st.top === i ? 'border border-warning border-2' : ''}`;
+                    el.id = `stack-elem-${i}`;
+                    el.innerHTML = `
+                        <span>${st.stack[i]}</span>
+                        <span class="stack-element-idx">#${i} ${st.top === i ? 'TOP' : ''}</span>
+                    `;
+                    DOM.stackVessel.appendChild(el);
+                }
+            }
+
+            // 2. Render Horizontal Physical Array View
+            DOM.stackArrayGrid.innerHTML = '';
+            for (let i = 0; i < st.capacity; i++) {
+                const isOccupied = i <= st.top && st.stack[i] !== null;
+                const card = document.createElement('div');
+                card.className = `node-card ${isOccupied ? 'occupied' : 'free'}`;
+                card.id = `stack-array-node-${i}`;
+
+                card.innerHTML = `
+                    <div class="node-index-badge">Index #${i}</div>
+                    <div class="pointer-tag-container mb-1">
+                        ${st.top === i ? '<span class="tag-badge tag-top">TOP</span>' : ''}
+                    </div>
+                    <div class="node-box">
+                        <div class="cell-data">${st.stack[i] !== null ? st.stack[i] : '<span style="opacity:0.2;">—</span>'}</div>
+                    </div>
+                `;
+                DOM.stackArrayGrid.appendChild(card);
+            }
+
+            updatePythonStatePanel();
+        }
+
+        async function pushStack(val) {
+            const st = AppState.stack;
+
+            if (st.top >= st.capacity - 1) {
+                showToast("Stack Overflow! Maximum capacity reached.", "danger");
+                DOM.stackVessel.classList.add('shake-target');
+                setTimeout(() => DOM.stackVessel.classList.remove('shake-target'), 500);
+                logAction(`Push '${val}' failed: Stack Overflow.`, 'error');
+                return false;
+            }
+
+            st.top++;
+            st.stack[st.top] = val;
+            renderStack();
+
+            // Animate dropped element
+            const el = document.getElementById(`stack-elem-${st.top}`);
+            if (el) el.classList.add('anim-drop');
+
+            showToast(`Pushed '${val}' onto stack at top index #${st.top}.`, "success");
+            logAction(`Pushed '${val}' to index #${st.top}. New top = ${st.top}.`, 'success');
+            return true;
+        }
+
+        async function popStack() {
+            const st = AppState.stack;
+
+            if (st.top === -1) {
+                showToast("Stack Underflow! Stack is completely empty.", "danger");
+                DOM.stackVessel.classList.add('shake-target');
+                setTimeout(() => DOM.stackVessel.classList.remove('shake-target'), 500);
+                logAction(`Pop failed: Stack Underflow.`, 'error');
+                return false;
+            }
+
+            const poppedVal = st.stack[st.top];
+            const el = document.getElementById(`stack-elem-${st.top}`);
+
+            if (el) {
+                el.classList.add('anim-lift');
+                await sleep(300);
+            }
+
+            st.stack[st.top] = null;
+            st.top--;
+            renderStack();
+
+            showToast(`Popped value '${poppedVal}' from stack.`, "success");
+            logAction(`Popped '${poppedVal}'. New top = ${st.top}.`, 'success');
+            return poppedVal;
+        }
+
+        async function peekStack() {
+            const st = AppState.stack;
+
+            if (st.top === -1) {
+                showToast("Stack is empty! Cannot peek.", "warning");
+                logAction(`Peek failed: Stack empty.`, 'warn');
+                return null;
+            }
+
+            const val = st.stack[st.top];
+            const card = document.getElementById(`stack-array-node-${st.top}`);
+            const elem = document.getElementById(`stack-elem-${st.top}`);
+
+            if (card) card.classList.add('pulse-target');
+            if (elem) elem.classList.add('pulse-target');
+
+            setTimeout(() => {
+                if (card) card.classList.remove('pulse-target');
+                if (elem) elem.classList.remove('pulse-target');
+            }, 1000);
+
+            showToast(`Top Element (Peek): '${val}' at index #${st.top}`, "info");
+            logAction(`Peeked top item '${val}' at index #${st.top}.`, 'normal');
+            return val;
+        }
+
+
+        /**
+         * ====================================================================
+         * AUTOMATED UNIT TEST SUITE ENGINE
+         * ====================================================================
+         */
+        async function runUnitTestSuite() {
+            const tbody = DOM.testResultsBody;
+            tbody.innerHTML = `<tr><td colspan="5" class="text-center text-info py-4"><div class="spinner-border spinner-border-sm me-2"></div> Running test assertions...</td></tr>`;
+
+            const tests = [
+                {
+                    name: "Linked List: Insertion until capacity full",
+                    ds: "Linked List",
+                    fn: async () => {
+                        initLinkedListMemory(3);
+                        const r1 = await insertLinkedList("A");
+                        const r2 = await insertLinkedList("B");
+                        const r3 = await insertLinkedList("C");
+                        const r4 = await insertLinkedList("D"); // Should overflow
+                        return r1 && r2 && r3 && (r4 === false);
+                    }
+                },
+                {
+                    name: "Linked List: Delete head, middle, and missing item",
+                    ds: "Linked List",
+                    fn: async () => {
+                        initLinkedListMemory(4);
+                        await insertLinkedList("10");
+                        await insertLinkedList("20");
+                        await insertLinkedList("30");
+                        const delHead = await deleteLinkedList("30");
+                        const delMissing = await deleteLinkedList("99");
+                        return delHead && (delMissing === false);
+                    }
+                },
+                {
+                    name: "Linked List: Free memory pool chain recycling",
+                    ds: "Linked List",
+                    fn: async () => {
+                        initLinkedListMemory(3);
+                        await insertLinkedList("X");
+                        await deleteLinkedList("X");
+                        return AppState.linkedList.free_pointer === 0 && AppState.linkedList.start_pointer === -1;
+                    }
+                },
+                {
+                    name: "Stack: Push items to capacity",
+                    ds: "Stack",
+                    fn: async () => {
+                        initStackMemory(3);
+                        const p1 = await pushStack("1");
+                        const p2 = await pushStack("2");
+                        const p3 = await pushStack("3");
+                        return p1 && p2 && p3 && AppState.stack.top === 2;
+                    }
+                },
+                {
+                    name: "Stack: Overflow protection on full stack",
+                    ds: "Stack",
+                    fn: async () => {
+                        initStackMemory(2);
+                        await pushStack("1");
+                        await pushStack("2");
+                        const overflow = await pushStack("3"); // Should fail
+                        return overflow === false;
+                    }
+                },
+                {
+                    name: "Stack: Underflow protection on empty pop",
+                    ds: "Stack",
+                    fn: async () => {
+                        initStackMemory(3);
+                        const underflow = await popStack(); // Should fail
+                        return underflow === false;
+                    }
+                },
+                {
+                    name: "Stack: LIFO Order Verification",
+                    ds: "Stack",
+                    fn: async () => {
+                        initStackMemory(3);
+                        await pushStack("FIRST");
+                        await pushStack("SECOND");
+                        const popped = await popStack();
+                        return popped === "SECOND";
+                    }
+                }
+            ];
+
+            tbody.innerHTML = '';
+            let passedCount = 0;
+
+            for (let i = 0; i < tests.length; i++) {
+                const test = tests[i];
+                let pass = false;
+                let errMsg = '';
+
+                try {
+                    pass = await test.fn();
+                } catch (e) {
+                    pass = false;
+                    errMsg = e.message;
+                }
+
+                if (pass) passedCount++;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <th scope="row">${i + 1}</th>
+                    <td>${test.name}</td>
+                    <td><span class="badge bg-secondary">${test.ds}</span></td>
+                    <td>
+                        <span class="badge ${pass ? 'bg-success' : 'bg-danger'}">
+                            ${pass ? '<i class="bi bi-check-lg"></i> PASS' : '<i class="bi bi-x-lg"></i> FAIL'}
+                        </span>
+                    </td>
+                    <td class="small text-muted">${pass ? 'Assertion met successfully' : (errMsg || 'Condition failed')}</td>
+                `;
+                tbody.appendChild(tr);
+            }
+
+            logAction(`Unit test suite execution completed. Passed ${passedCount}/${tests.length} tests.`, passedCount === tests.length ? 'success' : 'warn');
+        }
+
+
+        /**
+         * ====================================================================
+         * EVENT LISTENERS & RESIZE OBSERVER BINDINGS
+         * ====================================================================
+         */
+        function bindEvents() {
+            // Speed slider
+            DOM.animSpeedInput.addEventListener('input', (e) => {
+                AppState.animSpeed = 1100 - parseInt(e.target.value);
+            });
+
+            // Linked List Controls
+            DOM.btnLLInsert.addEventListener('click', () => {
+                const val = DOM.llInput.value.trim() || String(Math.floor(Math.random() * 90 + 10));
+                insertLinkedList(val);
+                DOM.llInput.value = '';
+            });
+
+            DOM.llInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    if (AppState.activeTab === 'linked-list') DOM.btnLLInsert.click();
+                    else if (AppState.activeTab === 'stack') DOM.btnStackPush.click();
+                }
+            });
+
+            DOM.btnLLDelete.addEventListener('click', () => {
+                const val = DOM.llInput.value.trim();
+                if (!val) {
+                    showToast("Please enter a value to delete.", "warning");
+                    return;
+                }
+                deleteLinkedList(val);
+                DOM.llInput.value = '';
+            });
+
+            DOM.btnLLFind.addEventListener('click', () => {
+                const val = DOM.llInput.value.trim();
+                if (!val) {
+                    showToast("Please enter a value to find.", "warning");
+                    return;
+                }
+                findLinkedList(val);
+            });
+
+            DOM.btnLLReset.addEventListener('click', () => {
+                const cap = parseInt(DOM.llCapacitySelect.value);
+                initLinkedListMemory(cap);
+            });
+
+            DOM.llCapacitySelect.addEventListener('change', (e) => {
+                initLinkedListMemory(parseInt(e.target.value));
+            });
+
+            // Stack Controls
+            DOM.btnStackPush.addEventListener('click', () => {
+                const val = DOM.stackInput.value.trim() || String(Math.floor(Math.random() * 90 + 10));
+                pushStack(val);
+                DOM.stackInput.value = '';
+            });
+
+            DOM.btnStackPop.addEventListener('click', () => {
+                popStack();
+            });
+
+            DOM.btnStackPeek.addEventListener('click', () => {
+                peekStack();
+            });
+
+            DOM.btnStackReset.addEventListener('click', () => {
+                const cap = parseInt(DOM.stackCapacitySelect.value);
+                initStackMemory(cap);
+            });
+
+            DOM.stackCapacitySelect.addEventListener('change', (e) => {
+                initStackMemory(parseInt(e.target.value));
+            });
+
+            // Tab Switchers
+            DOM.tabLinkedList.addEventListener('shown.bs.tab', () => {
+                AppState.activeTab = 'linked-list';
+                updatePythonStatePanel();
+                requestAnimationFrame(() => drawSvgArrows());
+            });
+
+            DOM.tabStack.addEventListener('shown.bs.tab', () => {
+                AppState.activeTab = 'stack';
+                updatePythonStatePanel();
+            });
+
+            DOM.tabTest.addEventListener('shown.bs.tab', () => {
+                AppState.activeTab = 'test';
+            });
+
+            DOM.btnRunTests.addEventListener('click', () => {
+                runUnitTestSuite();
+            });
+
+            DOM.btnClearLog.addEventListener('click', () => {
+                DOM.operationLog.innerHTML = '';
+            });
+
+            // Responsive recalculation listeners
+            window.addEventListener('resize', () => {
+                if (AppState.activeTab === 'linked-list') drawSvgArrows();
+            });
+
+            DOM.llViewport.addEventListener('scroll', () => {
+                if (AppState.activeTab === 'linked-list') drawSvgArrows();
+            });
+
+            // ResizeObserver on the memory grid for accurate SVG arrow positioning
+            const resizeObserver = new ResizeObserver(() => {
+                if (AppState.activeTab === 'linked-list') drawSvgArrows();
+            });
+            resizeObserver.observe(DOM.llNodesGrid);
+        }
+
+        /**
+         * App Initialization Routine
+         */
+        window.addEventListener('DOMContentLoaded', () => {
+            initLinkedListMemory(4);
+            initStackMemory(4);
+            bindEvents();
+
+            // Populate initial mock data for instant visualization
+            insertLinkedList("A");
+            insertLinkedList("B");
+
+            pushStack("10");
+            pushStack("25");
+        });
+    </script>
+</body>
+</html>
