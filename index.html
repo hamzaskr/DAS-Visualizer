@@ -11,6 +11,12 @@
 @media(max-width:1100px){.layout{grid-template-columns:190px minmax(0,1fr);gap:15px}.app{padding:17px}.split{grid-template-columns:1fr}.page-head h2{font-size:25px}}
 @media(max-width:760px){.app{padding:13px}.topbar{margin-bottom:14px}.top-note{display:none}.layout{display:block}.sidebar{display:none}.mobile-nav{display:flex;gap:6px;overflow-x:auto;padding:4px 0 12px;margin-bottom:9px}.mobile-nav .nav-btn{width:auto;white-space:nowrap;flex:0 0 auto;margin:0;background:white;border:1px solid var(--line);padding:8px 10px}.mobile-nav .nav-btn.active{background:var(--blue-soft);border-color:#c9d8ff}.page-head{align-items:flex-start;flex-direction:column;gap:9px;margin-bottom:14px}.page-head h2{font-size:25px}.pill{align-self:flex-start}.card-head,.card-body{padding:15px}.controls .field{flex:1;min-width:calc(50% - 8px)}.controls .field.grow{min-width:100%}.controls .btn{flex:1}.delay{margin-left:0;width:100%}.node-box{height:70px}.node-track{min-height:195px}.nodes-row{padding-top:82px}.footer{flex-direction:column}.card-head{align-items:flex-start}.status-line{align-items:flex-start}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+/* Extended modules share the original light palette and card system. */
+textarea{font:inherit;color:var(--ink);resize:vertical}textarea:focus-visible{outline:3px solid #a9bdff;outline-offset:2px}.sidebar{max-height:calc(100vh - 36px);overflow:auto;scrollbar-width:thin}.nav-label{user-select:none}.call-stack{display:flex;flex-direction:column;gap:8px;max-height:430px;overflow:auto;padding:4px 4px 8px}.call-frame{border:1px solid #dce2ec;background:#fbfcff;border-radius:9px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;animation:fadeIn .18s ease}.call-frame b{font:700 12px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace}.call-frame span{font-size:10px;color:var(--muted)}.call-frame.active{border-color:#8eabff;background:#f1f5ff;box-shadow:0 0 0 2px #3566e81a}.node-chain{display:flex;align-items:stretch;gap:8px;overflow-x:auto;padding:10px 4px 16px;min-height:105px}.variant-node{flex:0 0 125px;min-height:82px;border:1.5px solid #cfd7e5;border-radius:11px;background:white;padding:12px 9px;display:flex;flex-direction:column;gap:6px;position:relative;transition:background .18s,border .18s,transform .18s}.variant-node b{font-size:14px;overflow-wrap:anywhere}.variant-node small{font-size:10px;color:var(--muted)}.variant-node .variant-index{font-size:9px;color:#8a94a6;font-weight:850}.variant-node.current{outline:3px solid #f6bf4b;outline-offset:1px;background:#fff6df;transform:translateY(-3px)}.variant-node.visited{border-color:#56bd90;background:var(--green-soft)}.chain-arrow{display:grid;place-items:center;color:var(--blue);font-weight:900;min-width:13px}.bst-canvas{overflow-x:auto;min-height:270px}.bst-branch{display:flex;flex-direction:column;align-items:center;min-width:max-content;padding:0 4px}.bst-node{position:relative;z-index:1;min-width:42px;min-height:42px;padding:10px;display:grid;place-items:center;border:2px solid #9bb3ff;background:#f1f5ff;border-radius:50%;box-shadow:0 3px 8px #1720330a;margin:0 auto}.bst-node.active{border-color:#e1a03d;background:#fff1d7;box-shadow:0 0 0 3px #ffc94e44;transform:scale(1.06)}.bst-node.visited{border-color:#56bd90;background:var(--green-soft)}.bst-children{display:flex;align-items:flex-start;gap:20px;position:relative;padding-top:22px}.bst-children:before{content:"";position:absolute;top:9px;left:25%;right:25%;height:13px;border-top:1.5px solid #c8d1e1;border-left:1.5px solid #c8d1e1;border-right:1.5px solid #c8d1e1}.bst-child{position:relative;padding-top:0}.bst-empty-slot{font:11px ui-monospace,monospace;color:#b0b8c6;border:1px dashed #d7deea;border-radius:20px;padding:10px 12px;min-width:38px;text-align:center}.sequence-output{white-space:pre-wrap;overflow-wrap:anywhere;background:#f7f9fc;border:1px solid var(--line);border-radius:10px;padding:13px;font:12px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace;min-height:52px;color:#45536a}.hash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:9px}.hash-bucket{min-width:0;min-height:86px;border:1.5px solid #cfd7e5;border-radius:11px;background:#f3f6ff;padding:10px;display:flex;flex-direction:column;gap:10px;transition:background .18s,border .18s,transform .18s;overflow-wrap:anywhere}.hash-bucket b{font-size:12px}.hash-bucket .bucket-index{font-size:9px;font-weight:850;color:#7f8ba0}.hash-bucket.empty{background:#fbfcfe;border-style:dashed;color:#9aa4b4}.hash-bucket.active{border-color:#e1a03d;background:#fff3dd;transform:translateY(-3px)}.hash-bucket.tombstone{background:#fff0f0;color:#a72c2c;border-style:dashed}.file-rows{display:flex;flex-direction:column;gap:8px}.file-record{display:grid;grid-template-columns:85px minmax(0,1fr) auto;gap:10px;align-items:center;background:white;border:1px solid var(--line);border-radius:9px;padding:11px}.file-record span,.file-record small{font-size:10px;font-weight:800;color:#8792a6}.file-record b{font-size:12px;overflow-wrap:anywhere}.file-record.next-record{border-color:#e1a03d;background:#fff9ec}.file-record.read-record{border-color:#56bd90;background:var(--green-soft)}.csv-table{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border:1px solid var(--line);border-radius:9px;overflow:hidden}.csv-table th,.csv-table td{padding:9px 11px;border-bottom:1px solid var(--line);text-align:left;overflow-wrap:anywhere}.csv-table th{background:#eef3ff;color:#34486f;font-weight:850}.csv-table tr:last-child td{border-bottom:0}.exception-flow{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin-top:14px}.flow-step{flex:1 1 115px;min-height:75px;border:1px solid #d7deea;background:#f7f9fc;border-radius:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;text-align:center;padding:10px;font-size:11px;font-weight:850;color:#536078}.flow-step small{font-size:10px;font-weight:600;color:#8993a5}.flow-step.active{border-color:#8eabff;background:var(--blue-soft);color:var(--blue);box-shadow:0 0 0 2px #3566e81a}.flow-step.error-flow{border-color:#ffc3c3}.flow-arrow{display:grid;place-items:center;color:#9aa4b4;font-size:18px;font-weight:900}.flow-step.active.error-flow{background:var(--red-soft);border-color:#eaa2a2;color:#a72c2c}.csv-table td{max-width:300px}.mobile-nav{scrollbar-width:thin}.mobile-nav .nav-btn{flex:0 0 auto}.module .code-card pre{max-height:450px}.message{overflow-wrap:anywhere}
+@media(max-width:1100px){.hash-grid{grid-template-columns:repeat(auto-fit,minmax(85px,1fr))}.bst-children{gap:10px}}
+@media(max-width:760px){.file-record{grid-template-columns:68px minmax(0,1fr);}.file-record small{grid-column:2}.exception-flow{gap:5px}.flow-arrow{font-size:14px}.flow-step{flex-basis:94px;padding:8px 5px}.call-stack{max-height:300px}.node-chain{padding-bottom:12px}.hash-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.bst-children:before{left:20%;right:20%}.controls>.controls{min-width:100%}.csv-table th,.csv-table td{padding:7px}.module .card-body{min-width:0}}
+@media(prefers-reduced-motion:reduce){.variant-node.current,.hash-bucket.active{transform:none}}
+
 </style>
 </head>
 <body>
@@ -30,10 +36,21 @@
       <button class="nav-btn" data-module="insertion"><span class="nav-icon">I↗</span>Insertion sort</button>
       <button class="nav-btn" data-module="linear"><span class="nav-icon">L⌕</span>Linear search</button>
       <button class="nav-btn" data-module="binary"><span class="nav-icon">B⌕</span>Binary search</button>
+      <button class="nav-btn" data-module="recursive-binary"><span class="nav-icon">Bʳ</span>Recursive binary search</button>
+      <div class="nav-label" style="margin-top:12px">Abstract data types</div>
+      <button class="nav-btn" data-module="queue-linear"><span class="nav-icon">LQ</span>Linear queue</button>
+      <button class="nav-btn" data-module="linked-variants"><span class="nav-icon">LL</span>Linked-list variants</button>
+      <button class="nav-btn" data-module="bst"><span class="nav-icon">BST</span>Binary search tree</button>
+      <button class="nav-btn" data-module="hash"><span class="nav-icon">#</span>Hash table</button>
+      <div class="nav-label" style="margin-top:12px">Core recursion</div>
+      <button class="nav-btn" data-module="recursion"><span class="nav-icon">f(n)</span>Recursion lab</button>
+      <div class="nav-label" style="margin-top:12px">Files & quality</div>
+      <button class="nav-btn" data-module="files"><span class="nav-icon">CSV</span>Files & exceptions</button>
+      <button class="nav-btn" data-module="tests"><span class="nav-icon">✓</span>Built-in tests</button>
       <div class="side-foot">Python-inspired logic<br>Vanilla JavaScript · Single file</div>
     </aside>
     <nav class="mobile-nav" aria-label="Module navigation">
-      <button class="nav-btn active" data-module="linked">Linked list</button><button class="nav-btn" data-module="stack">Stack</button><button class="nav-btn" data-module="queue">Queue</button><button class="nav-btn" data-module="bubble">Bubble sort</button><button class="nav-btn" data-module="insertion">Insertion sort</button><button class="nav-btn" data-module="linear">Linear search</button><button class="nav-btn" data-module="binary">Binary search</button>
+      <button class="nav-btn active" data-module="linked">Linked list</button><button class="nav-btn" data-module="stack">Stack</button><button class="nav-btn" data-module="queue">Circular queue</button><button class="nav-btn" data-module="bubble">Bubble sort</button><button class="nav-btn" data-module="insertion">Insertion sort</button><button class="nav-btn" data-module="linear">Linear search</button><button class="nav-btn" data-module="binary">Binary search</button><button class="nav-btn" data-module="recursive-binary">Recursive binary</button><button class="nav-btn" data-module="queue-linear">Linear queue</button><button class="nav-btn" data-module="linked-variants">Linked variants</button><button class="nav-btn" data-module="bst">BST</button><button class="nav-btn" data-module="hash">Hash table</button><button class="nav-btn" data-module="recursion">Recursion</button><button class="nav-btn" data-module="files">Files & exceptions</button><button class="nav-btn" data-module="tests">Tests</button>
     </nav>
     <main class="main">
       <section class="module active" id="module-linked">
@@ -206,7 +223,7 @@
 
       <section class="module" id="module-linear">
         <div class="page-head"><div><div class="eyebrow">Algorithm · 06</div><h2>Linear search</h2><p>Check each element from left to right until a match is found or the array ends.</p></div><span class="pill">O(n) worst case</span></div>
-        <div class="card"><div class="card-head"><h3>Search an array</h3></div><div class="card-body"><div class="controls"><div class="field grow"><label for="linear-input">Array values</label><input id="linear-input" value="4, 8, 2, 9, 2, 7" /></div><div class="field"><label for="linear-target">Target</label><input id="linear-target" value="2" /></div><button class="btn secondary" id="linear-load">Load / reset</button><div class="play-controls"><button class="btn" id="linear-step">Step</button><button class="btn secondary" id="linear-play">Play</button><button class="btn ghost" id="linear-pause" disabled>Pause</button></div></div><div class="message" id="linear-message" role="status">Start to inspect index 0.</div></div></div>
+        <div class="card"><div class="card-head"><h3>Search an array</h3></div><div class="card-body"><div class="controls"><div class="field grow"><label for="linear-input">Array values</label><input id="linear-input" value="4, 8, 2, 9, 2, 7" /></div><div class="field"><label for="linear-target">Target</label><input id="linear-target" value="2" /></div><button class="btn secondary" id="linear-load">Load / reset</button><div class="play-controls"><button class="btn" id="linear-step">Step</button><button class="btn secondary" id="linear-play">Play</button><button class="btn ghost" id="linear-pause" disabled>Pause</button><button class="btn ghost" id="linear-restart">Restart</button></div></div><div class="message" id="linear-message" role="status">Start to inspect index 0.</div></div></div>
         <div class="card"><div class="card-head"><h3>Index-by-index traversal</h3><div class="delay"><label for="linear-delay">Step delay</label><input id="linear-delay" class="delay-control" type="range" min="150" max="1400" step="50" value="650"><span class="delay-value">650 ms</span></div></div><div class="card-body"><div class="array-visual" id="linear-view"></div><div class="caption-box" id="linear-caption">Linear search does not require a sorted array.</div></div></div>
         <div class="card code-card"><div class="code-toolbar"><span>Python · linear search</span><button class="copy-code" data-code="linear-python">Copy code</button></div><pre id="linear-python">def linear_search(values, target):
     for index, value in enumerate(values):
@@ -217,7 +234,7 @@
 
       <section class="module" id="module-binary">
         <div class="page-head"><div><div class="eyebrow">Algorithm · 07</div><h2>Binary search</h2><p>Repeatedly halve the search range. The input must be sorted in ascending order before searching.</p></div><span class="pill">O(log n) worst case</span></div>
-        <div class="card"><div class="card-head"><h3>Search a sorted array</h3><span class="status-chip" id="binary-sort-status">Sorted check pending</span></div><div class="card-body"><div class="controls"><div class="field grow"><label for="binary-input">Array values</label><input id="binary-input" value="1, 3, 5, 7, 9, 11, 13, 15" /></div><div class="field"><label for="binary-target">Target</label><input id="binary-target" value="11" /></div><button class="btn secondary" id="binary-load">Load / reset</button><div class="play-controls"><button class="btn" id="binary-step">Step</button><button class="btn secondary" id="binary-play">Play</button><button class="btn ghost" id="binary-pause" disabled>Pause</button></div></div><div class="message" id="binary-message" role="status">Load a sorted array, then step to see low, mid, and high narrow the range.</div></div></div>
+        <div class="card"><div class="card-head"><h3>Search a sorted array</h3><span class="status-chip" id="binary-sort-status">Sorted check pending</span></div><div class="card-body"><div class="controls"><div class="field grow"><label for="binary-input">Array values</label><input id="binary-input" value="1, 3, 5, 7, 9, 11, 13, 15" /></div><div class="field"><label for="binary-target">Target</label><input id="binary-target" value="11" /></div><button class="btn secondary" id="binary-load">Load / reset</button><div class="play-controls"><button class="btn" id="binary-step">Step</button><button class="btn secondary" id="binary-play">Play</button><button class="btn ghost" id="binary-pause" disabled>Pause</button><button class="btn ghost" id="binary-restart">Restart</button></div></div><div class="message" id="binary-message" role="status">Load a sorted array, then step to see low, mid, and high narrow the range.</div></div></div>
         <div class="card"><div class="card-head"><h3>Range narrowing</h3><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap"><div class="mini-labels"><span class="l">Low</span><span class="m">Mid</span><span class="h">High</span></div><div class="delay"><label for="binary-delay">Step delay</label><input id="binary-delay" class="delay-control" type="range" min="150" max="1400" step="50" value="650"><span class="delay-value">650 ms</span></div></div></div><div class="card-body"><div class="array-visual" id="binary-view"></div><div class="caption-box" id="binary-caption">Mid = floor((low + high) / 2).</div></div></div>
         <div class="card code-card"><div class="code-toolbar"><span>Python · binary search</span><button class="copy-code" data-code="binary-python">Copy code</button></div><pre id="binary-python">def binary_search(values, target):
     low, high = 0, len(values) - 1
@@ -232,8 +249,193 @@
     return -1</pre></div>
       </section>
 
-      <section class="card" style="margin-top:18px" id="testing-card">
-        <details><summary>Built-in checks · linked list, stack, queue, sorting and searching</summary><div class="card-body"><p class="small-note" style="margin-top:0">Runs against fresh logic instances, separately from the interactive visualizations.</p><button class="btn" id="run-tests">Run all tests</button><div id="test-summary" class="message" style="margin-bottom:12px">No tests run yet.</div><div id="test-results" class="test-results">Test output will appear here.</div></div></details>
+      <section class="module" id="module-recursive-binary">
+        <div class="page-head"><div><div class="eyebrow">Algorithm · 08</div><h2>Recursive binary search</h2><p>Each call handles a smaller inclusive range. Watch the call stack grow and unwind as low and high narrow.</p></div><span class="pill">Recursive · O(log n)</span></div>
+        <div class="card"><div class="card-head"><div><h3>Search a sorted array recursively</h3><p>Unsorted input is rejected before any recursive calls are made.</p></div><span class="status-chip" id="rb-status">Ready</span></div><div class="card-body"><div class="controls"><div class="field grow"><label for="rb-input">Array values</label><input id="rb-input" value="1, 3, 5, 7, 9, 11, 13, 15"></div><div class="field"><label for="rb-target">Target</label><input id="rb-target" value="11"></div><button class="btn secondary" id="rb-load">Load / reset</button><div class="play-controls"><button class="btn" id="rb-trace-step">Step</button><button class="btn secondary" id="rb-trace-play">Play</button><button class="btn ghost" id="rb-trace-pause" disabled>Pause</button><button class="btn ghost" id="rb-trace-restart">Restart</button></div></div><div class="message" id="rb-message" role="status" aria-live="polite">Load a sorted array to begin.</div></div></div>
+        <div class="split"><div class="card"><div class="card-head"><h3>Search range</h3><div class="delay"><label for="rb-delay">Step delay</label><input id="rb-delay" class="delay-control" type="range" min="150" max="1400" step="50" value="650"><span class="delay-value">650 ms</span></div></div><div class="card-body"><div class="array-visual" id="rb-view"></div><div class="caption-box" id="rb-caption">Low, mid and high identify the current recursive range.</div></div></div><div class="card"><div class="card-head"><h3>Recursive call stack</h3><span class="status-chip" id="rb-depth">DEPTH 0</span></div><div class="card-body"><div class="call-stack" id="rb-stack"><div class="stack-empty">No calls yet.</div></div></div></div></div>
+        <div class="card code-card"><div class="code-toolbar"><span>Python · recursive binary search</span><button class="copy-code" data-code="rb-python">Copy code</button></div><pre id="rb-python">def binary_search(values, target, low, high):
+    if low > high:
+        return -1
+    mid = (low + high) // 2
+    if values[mid] == target:
+        return mid
+    if values[mid] < target:
+        return binary_search(values, target, mid + 1, high)
+    return binary_search(values, target, low, mid - 1)</pre></div>
+      </section>
+
+      <section class="module" id="module-queue-linear">
+        <div class="page-head"><div><div class="eyebrow">Abstract data type · 09</div><h2>Linear array queue</h2><p>Unlike the circular queue, a basic linear queue does not wrap rear back to index 0. Dequeued spaces at the front are not reused without resetting.</p></div><span class="pill">FIFO · No wrap-around</span></div>
+        <div class="card"><div class="card-head"><div><h3>Queue operations</h3><p>Front advances on dequeue; rear only moves to the right.</p></div><div class="status-line" id="lq-badges"></div></div><div class="card-body"><div class="controls"><div class="field small"><label for="lq-capacity">Capacity</label><input id="lq-capacity" type="number" min="1" max="24" value="5" step="1"></div><button class="btn secondary" id="lq-reset">Create / reset</button><div class="field grow"><label for="lq-value">Value</label><input id="lq-value" placeholder="e.g. record A"></div><button class="btn teal" id="lq-enqueue">Enqueue</button><button class="btn danger" id="lq-dequeue">Dequeue</button><button class="btn secondary" id="lq-front">Peek front</button></div><div class="message" id="lq-message" role="status" aria-live="polite">Enqueue a value to add it after the current rear.</div></div></div>
+        <div class="split"><div class="card"><div class="card-head"><h3>Linear queue slots</h3></div><div class="card-body"><div class="visual-wrap"><div class="queue-track" id="lq-view"></div><div class="legend"><span><i class="dot blue"></i>Occupied</span><span><i class="dot" style="background:var(--teal)"></i>Front</span><span><i class="dot orange"></i>Rear</span></div></div><div class="caption-box" id="lq-caption">Front = 0 and Rear = -1 mean no items have been inserted.</div></div></div><div class="card"><div class="card-head"><h3>State</h3><span class="status-chip">LINEAR</span></div><div class="card-body"><pre class="state-code" id="lq-state"></pre><div class="caption-box">Limitation: a full rear index blocks another enqueue even when earlier slots are empty.</div></div></div></div>
+        <div class="card code-card"><div class="code-toolbar"><span>Python · linear queue</span><button class="copy-code" data-code="lq-python">Copy code</button></div><pre id="lq-python">class LinearQueue:
+    def __init__(self, capacity):
+        self.items = [None] * capacity
+        self.front = 0
+        self.rear = -1
+        self.count = 0
+
+    def enqueue(self, item):
+        if self.rear == len(self.items) - 1:
+            return False
+        self.rear += 1
+        self.items[self.rear] = item
+        self.count += 1
+        return True
+
+    def dequeue(self):
+        if self.count == 0:
+            return None
+        item = self.items[self.front]
+        self.items[self.front] = None
+        self.front += 1
+        self.count -= 1
+        return item</pre></div>
+      </section>
+
+      <section class="module" id="module-linked-variants">
+        <div class="page-head"><div><div class="eyebrow">Abstract data type · 10</div><h2>Linked-list variants</h2><p>Compare singly and doubly linked nodes. Insert at the head, tail, or sorted position; trace a traversal and inspect pointer repairs during deletion.</p></div><span class="pill">Singly + doubly linked</span></div>
+        <div class="card"><div class="card-head"><div><h3>Configure the list</h3><p>The separate static-array list above still mirrors the supplied Python implementation exactly.</p></div><div class="status-line" id="lv-badges"></div></div><div class="card-body"><div class="controls"><div class="field"><label for="lv-mode">Node type</label><select id="lv-mode"><option value="singly">Singly linked</option><option value="doubly">Doubly linked</option></select></div><div class="field small"><label for="lv-capacity">Capacity</label><input id="lv-capacity" type="number" min="1" max="24" value="8" step="1"></div><button class="btn secondary" id="lv-reset">Create / reset</button><div class="field grow"><label for="lv-value">Value</label><input id="lv-value" placeholder="e.g. 14"></div><div class="field"><label for="lv-position">Insertion position</label><select id="lv-position"><option value="head">Head</option><option value="tail">Tail</option><option value="ordered">Ordered position</option></select></div><button class="btn teal" id="lv-insert">Insert</button><button class="btn danger" id="lv-delete">Delete first match</button></div><div class="controls" style="margin-top:10px"><button class="btn secondary" id="lv-traverse-load">Prepare traversal</button><div class="play-controls"><button class="btn" id="lv-trace-step">Step</button><button class="btn secondary" id="lv-trace-play">Play</button><button class="btn ghost" id="lv-trace-pause" disabled>Pause</button><button class="btn ghost" id="lv-trace-restart">Restart</button></div><div class="delay"><label for="lv-delay">Step delay</label><input id="lv-delay" class="delay-control" type="range" min="150" max="1400" step="50" value="650"><span class="delay-value">650 ms</span></div></div><div class="message" id="lv-message" role="status" aria-live="polite">Create the list, then insert a node.</div></div></div>
+        <div class="split"><div class="card"><div class="card-head"><h3>Logical chain</h3><span class="status-chip" id="lv-walk">HEAD → TAIL</span></div><div class="card-body"><div class="visual-wrap"><div class="node-chain" id="lv-chain"></div><div class="small-note" id="lv-free"></div></div><div class="caption-box" id="lv-caption">Head and tail both use -1 when the list is empty.</div></div></div><div class="card"><div class="card-head"><h3>Pointer state</h3><span class="status-chip">LIVE</span></div><div class="card-body"><pre class="state-code" id="lv-state"></pre><div class="caption-box">Singly linked nodes use <code>next</code>. Doubly linked nodes also repair the successor's <code>prev</code> pointer.</div></div></div></div>
+        <div class="card code-card"><div class="code-toolbar"><span>Python · linked-list insertion and deletion</span><button class="copy-code" data-code="lv-python">Copy code</button></div><pre id="lv-python">class Node:
+    def __init__(self, value):
+        self.value = value
+        self.prev = None
+        self.next = None
+
+class LinkedList:
+    def insert_tail(self, value):
+        node = Node(value)
+        if self.head is None:
+            self.head = self.tail = node
+        else:
+            node.prev = self.tail
+            self.tail.next = node
+            self.tail = node
+
+    def delete(self, value):
+        node = self.head
+        while node is not None and node.value != value:
+            node = node.next
+        if node is None:
+            return False
+        if node.prev is not None:
+            node.prev.next = node.next
+        else:
+            self.head = node.next
+        if node.next is not None:
+            node.next.prev = node.prev
+        else:
+            self.tail = node.prev
+        return True</pre></div>
+      </section>
+
+      <section class="module" id="module-bst">
+        <div class="page-head"><div><div class="eyebrow">Abstract data type · 11</div><h2>Binary search tree</h2><p>Insert numeric keys, search by following left/right branches, and compare pre-order, in-order, and post-order traversals.</p></div><span class="pill">BST operations</span></div>
+        <div class="card"><div class="card-head"><div><h3>Tree controls</h3><p>Duplicate keys are rejected. In-order traversal visits keys in ascending order.</p></div><div class="status-line" id="bst-badges"></div></div><div class="card-body"><div class="controls"><div class="field grow"><label for="bst-values">Initial values (comma-separated)</label><input id="bst-values" value="8, 3, 10, 1, 6, 14, 4, 7, 13"></div><button class="btn secondary" id="bst-build">Create tree</button><div class="field"><label for="bst-key">Numeric key</label><input id="bst-key" value="6"></div><button class="btn teal" id="bst-insert">Insert</button><button class="btn secondary" id="bst-search">Search</button><div class="field"><label for="bst-traversal">Traversal order</label><select id="bst-traversal"><option value="preorder">Pre-order</option><option value="inorder">In-order</option><option value="postorder">Post-order</option></select></div><button class="btn" id="bst-traverse">Run traversal</button></div><div class="controls" style="margin-top:10px"><div class="play-controls"><button class="btn secondary" id="bst-trace-step">Step</button><button class="btn secondary" id="bst-trace-play">Play</button><button class="btn ghost" id="bst-trace-pause" disabled>Pause</button><button class="btn ghost" id="bst-trace-restart">Restart</button></div><div class="delay"><label for="bst-delay">Step delay</label><input id="bst-delay" class="delay-control" type="range" min="150" max="1400" step="50" value="650"><span class="delay-value">650 ms</span></div></div><div class="message" id="bst-message" role="status" aria-live="polite">Create a tree or use the example tree.</div></div></div>
+        <div class="split"><div class="card"><div class="card-head"><h3>Tree visualization</h3><span class="status-chip" id="bst-root-label">ROOT · EMPTY</span></div><div class="card-body"><div class="visual-wrap bst-canvas" id="bst-view"><div class="stack-empty">EMPTY · insert or create nodes to begin.</div></div><div class="caption-box" id="bst-caption">The root is the entry point for every search and traversal.</div></div></div><div class="card"><div class="card-head"><h3>Visited order</h3><span class="status-chip">OUTPUT</span></div><div class="card-body"><div id="bst-output" class="sequence-output">No nodes visited yet.</div><div class="small-note">Search highlights the path from root to target. Traversal output accumulates one visited node at a time.</div></div></div></div>
+        <div class="card code-card"><div class="code-toolbar"><span>Python · binary search tree</span><button class="copy-code" data-code="bst-python">Copy code</button></div><pre id="bst-python">class Node:
+    def __init__(self, key):
+        self.key = key
+        self.left = self.right = None
+
+class BST:
+    def insert(self, root, key):
+        if root is None:
+            return Node(key)
+        if key < root.key:
+            root.left = self.insert(root.left, key)
+        elif key > root.key:
+            root.right = self.insert(root.right, key)
+        else:
+            raise ValueError("duplicate key")
+        return root
+
+    def inorder(self, node):
+        if node is not None:
+            self.inorder(node.left)
+            print(node.key)
+            self.inorder(node.right)</pre></div>
+      </section>
+
+      <section class="module" id="module-hash">
+        <div class="page-head"><div><div class="eyebrow">Abstract data type · 12</div><h2>Hash table</h2><p>Hash each key to a bucket, then resolve collisions by linear probing or chaining. The load factor is entries divided by table size.</p></div><span class="pill">Hashing + collisions</span></div>
+        <div class="card"><div class="card-head"><div><h3>Table operations</h3><p>Hash function: sum the Unicode code points in the key, then take modulo table size.</p></div><div class="status-line" id="hash-badges"></div></div><div class="card-body"><div class="controls"><div class="field small"><label for="hash-size">Table size</label><input id="hash-size" type="number" min="1" max="24" step="1" value="7"></div><div class="field"><label for="hash-mode">Collision handling</label><select id="hash-mode"><option value="linear">Linear probing</option><option value="chaining">Chaining</option></select></div><button class="btn secondary" id="hash-reset">Create / reset</button><div class="field grow"><label for="hash-key">Key</label><input id="hash-key" value="cat" placeholder="e.g. cat"></div><button class="btn teal" id="hash-insert">Insert key</button><button class="btn secondary" id="hash-search">Find key</button><button class="btn danger" id="hash-delete">Delete key</button></div><div class="message" id="hash-message" role="status" aria-live="polite">Enter a key to see its hash and collision path.</div></div></div>
+        <div class="split"><div class="card"><div class="card-head"><h3>Buckets / slots</h3><span class="status-chip" id="hash-load">LOAD FACTOR 0.00</span></div><div class="card-body"><div class="hash-grid" id="hash-view"></div><div class="caption-box" id="hash-computation">Hash computation appears here.</div></div></div><div class="card"><div class="card-head"><h3>Probe / chain trace</h3><span class="status-chip">TRACE</span></div><div class="card-body"><div id="hash-trace" class="sequence-output">No collision trace yet.</div><pre class="state-code" id="hash-state"></pre></div></div></div>
+        <div class="card code-card"><div class="code-toolbar"><span>Python · linear probing</span><button class="copy-code" data-code="hash-python">Copy code</button></div><pre id="hash-python">def hash_key(key, size):
+    return sum(ord(char) for char in key) % size
+
+def insert(table, key):
+    start = hash_key(key, len(table))
+    for offset in range(len(table)):
+        index = (start + offset) % len(table)
+        if table[index] is None:
+            table[index] = key
+            return index
+        if table[index] == key:
+            return index
+    raise OverflowError("hash table is full")</pre></div>
+      </section>
+
+      <section class="module" id="module-recursion">
+        <div class="page-head"><div><div class="eyebrow">Core recursive mathematics · 13</div><h2>Recursion lab</h2><p>Trace function calls, base cases, and returned values for factorial, Fibonacci, countdown, and summation.</p></div><span class="pill">Call stack + unwinding</span></div>
+        <div class="card"><div class="card-head"><div><h3>Choose a recursive function</h3><p>Inputs are limited to keep the call trace readable and prevent runaway recursion.</p></div><span class="status-chip" id="rec-status">READY</span></div><div class="card-body"><div class="controls"><div class="field"><label for="rec-mode">Function</label><select id="rec-mode"><option value="factorial">Factorial n!</option><option value="fibonacci">Fibonacci sequence</option><option value="countdown">Countdown</option><option value="sum">Summation 1 + … + n</option></select></div><div class="field small"><label for="rec-n">n</label><input id="rec-n" type="number" min="0" max="12" value="5" step="1"></div><button class="btn secondary" id="rec-load">Build call trace</button><div class="play-controls"><button class="btn" id="rec-trace-step">Step</button><button class="btn secondary" id="rec-trace-play">Play</button><button class="btn ghost" id="rec-trace-pause" disabled>Pause</button><button class="btn ghost" id="rec-trace-restart">Restart</button></div><div class="delay"><label for="rec-delay">Step delay</label><input id="rec-delay" class="delay-control" type="range" min="150" max="1400" step="50" value="650"><span class="delay-value">650 ms</span></div></div><div class="message" id="rec-message" role="status" aria-live="polite">Choose an operation and build its trace.</div></div></div>
+        <div class="split"><div class="card"><div class="card-head"><h3>Active call stack</h3><span class="status-chip" id="rec-depth">DEPTH 0</span></div><div class="card-body"><div class="call-stack" id="rec-stack"><div class="stack-empty">No recursive calls yet.</div></div><div class="caption-box" id="rec-caption">Calls grow toward the base case, then return values unwind the stack.</div></div></div><div class="card"><div class="card-head"><h3>Result / sequence</h3><span class="status-chip">OUTPUT</span></div><div class="card-body"><div class="sequence-output" id="rec-output">Result will appear while the trace runs.</div><div id="rec-sequence" class="sequence-output" style="margin-top:10px">Sequence output appears here.</div></div></div></div>
+        <div class="card code-card"><div class="code-toolbar"><span>Python · recursive functions</span><button class="copy-code" data-code="rec-python">Copy code</button></div><pre id="rec-python">def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)
+
+def countdown(n):
+    if n < 0:
+        return
+    print(n)
+    countdown(n - 1)
+
+def summation(n):
+    if n <= 0:
+        return 0
+    return n + summation(n - 1)</pre></div>
+      </section>
+
+      <section class="module" id="module-files">
+        <div class="page-head"><div><div class="eyebrow">File management · 14</div><h2>Files & exception handling</h2><p>Simulate sequential file access in memory, parse CSV safely, and follow a try/catch path when an operation fails. No server file access is used.</p></div><span class="pill">In-memory only</span></div>
+        <div class="card"><div class="card-head"><div><h3>Sequential file read / write</h3><p>Each non-empty input line becomes one record in an in-browser simulated file.</p></div><div class="status-line" id="file-badges"></div></div><div class="card-body"><div class="controls"><div class="field grow"><label for="file-input">Records to write (one per line)</label><textarea id="file-input" rows="4" style="width:100%;min-width:260px;border:1px solid #dce2ec;border-radius:9px;padding:10px" >alpha
+beta
+gamma</textarea></div><div class="controls"><button class="btn teal" id="file-write">Write records</button><button class="btn secondary" id="file-read">Read next record</button><button class="btn secondary" id="file-rewind">Rewind</button><div class="field"><label for="file-find">Find record</label><input id="file-find" placeholder="e.g. beta"></div><button class="btn secondary" id="file-find-btn">Find</button></div></div><div class="message" id="file-message" role="status" aria-live="polite">Write records to create an in-memory file buffer.</div></div></div>
+        <div class="split"><div class="card"><div class="card-head"><h3>Simulated file records</h3><span class="status-chip" id="file-cursor">CURSOR 0</span></div><div class="card-body"><div id="file-records" class="file-rows"><div class="stack-empty">The simulated file is empty.</div></div><div class="caption-box" id="file-caption">The read cursor advances by one record per read operation.</div></div></div><div class="card"><div class="card-head"><h3>Read buffer</h3><span class="status-chip">SEQUENTIAL</span></div><div class="card-body"><pre class="state-code" id="file-state">records = []
+read_pointer = 0</pre></div></div></div>
+        <div class="card"><div class="card-head"><div><h3>CSV parser</h3><p>Quoted commas and escaped double quotes are supported; malformed rows are reported as CSV errors.</p></div><span class="status-chip">CSV</span></div><div class="card-body"><div class="field grow"><label for="csv-input">CSV text</label><textarea id="csv-input" rows="4" style="width:100%;border:1px solid #dce2ec;border-radius:9px;padding:10px">name,age,note
+Ava,18,"likes, graphs"
+Bilal,19,"said ""hello"""</textarea></div><div class="controls" style="margin-top:10px"><button class="btn teal" id="csv-parse">Parse CSV</button><span class="small-note">Rows must contain the same number of fields.</span></div><div class="message" id="csv-message" role="status" aria-live="polite">Parse the example to inspect rows and fields.</div><div id="csv-steps" class="sequence-output" style="margin-top:12px">Split trace appears here.</div><div id="csv-table" style="overflow-x:auto;margin-top:12px"></div></div></div>
+        <div class="card"><div class="card-head"><div><h3>Try / except interception</h3><p>Run a safe simulated failure, or handle an error raised by file search or CSV parsing.</p></div><span class="status-chip" id="exc-status">READY</span></div><div class="card-body"><div class="controls"><div class="field"><label for="exc-kind">Simulated operation</label><select id="exc-kind"><option value="number">Invalid numeric input</option><option value="missing">Missing record</option><option value="csv">Malformed CSV row</option></select></div><div class="field grow"><label for="exc-input">Input</label><input id="exc-input" value="not-a-number"></div><button class="btn" id="exc-run">Run try / except</button><button class="btn secondary" id="exc-handle-pending">Handle last file / CSV error</button></div><div class="message" id="exc-message" role="status" aria-live="polite">The operation runs in TRY; failures flow to the EXCEPT handler.</div><div class="exception-flow" id="exc-flow"><div class="flow-step">TRY<br><small>operation starts</small></div><div class="flow-arrow">→</div><div class="flow-step">OPERATION<br><small>waiting to run</small></div><div class="flow-arrow">→</div><div class="flow-step">EXCEPT<br><small>handler waits</small></div></div><div class="caption-box" id="exc-caption">Caught errors display their type and message; they do not crash the page.</div><div class="controls" style="margin-top:12px"><div class="play-controls"><button class="btn secondary" id="exc-trace-step">Step</button><button class="btn secondary" id="exc-trace-play">Play</button><button class="btn ghost" id="exc-trace-pause" disabled>Pause</button><button class="btn ghost" id="exc-trace-restart">Restart</button></div><div class="delay"><label for="exc-delay">Step delay</label><input id="exc-delay" class="delay-control" type="range" min="150" max="1400" step="50" value="650"><span class="delay-value">650 ms</span></div></div></div></div>
+        <div class="split"><div class="card code-card"><div class="code-toolbar"><span>Python · sequential file buffer</span><button class="copy-code" data-code="file-python">Copy code</button></div><pre id="file-python">records = []
+with open("records.txt", "w", encoding="utf-8") as file:
+    for line in input_text.splitlines():
+        file.write(line + "\n")
+
+with open("records.txt", "r", encoding="utf-8") as file:
+    for line in file:
+        print(line.rstrip("\n"))</pre></div><div class="card code-card"><div class="code-toolbar"><span>Python · CSV and exception handling</span><button class="copy-code" data-code="exc-python">Copy code</button></div><pre id="exc-python">import csv
+
+try:
+    with open("records.csv", newline="", encoding="utf-8") as file:
+        for row in csv.reader(file):
+            print(row)
+except (OSError, csv.Error, ValueError) as error:
+    print(type(error).__name__, str(error))
+    # Handle the error without stopping the program.</pre></div></div>
+      </section>
+
+      <section class="module" id="module-tests">
+        <div class="page-head"><div><div class="eyebrow">Quality checks · 15</div><h2>Built-in tests</h2><p>Run the core and extended logic tests against fresh instances, including edge cases across every added module.</p></div><span class="pill">No page reload</span></div>
+        <section class="card" style="margin-top:18px" id="testing-card"><details open><summary>Core checks · linked list, stack, queue, sorting and searching</summary><div class="card-body"><p class="small-note" style="margin-top:0">Runs against fresh logic instances, separately from the interactive visualizations.</p><button class="btn" id="run-tests">Run core tests</button><div id="test-summary" class="message" style="margin-bottom:12px">No tests run yet.</div><div id="test-results" class="test-results">Test output will appear here.</div></div></details></section>
+        <section class="card"><div class="card-head"><div><h3>Extended checks</h3><p>Recursive search, linked-list variants, linear queue, BSTs, hashing, recursion, CSV and exceptions.</p></div><button class="btn" id="run-extended-tests">Run extended tests</button></div><div class="card-body"><div id="extended-summary" class="message" role="status" aria-live="polite">No extended tests run yet.</div><div id="extended-results" class="test-results">Extended test output will appear here.</div></div></section>
       </section>
       <div class="footer"><span>Data Structures Lab · educational visualizer</span><span>Light mode · keyboard-friendly controls</span></div>
     </main>
@@ -367,7 +569,7 @@ document.querySelectorAll('.copy-code').forEach(btn=>btn.addEventListener('click
 let linked = new LinkList(4), llCurrent=-1, llFound=-1, llFailed=false, llMotion=-1, llBusy=false, llVersion=0;
 function renderLinked() {
   const active=linked.activeIndices(), free=linked.freeIndices();
-  $('ll-badges').innerHTML=chip(`${active.length}/${linked.capacity} USED`,active.length===linked.capacity?'full':'good')+chip(active.length===0?'EMPTY':'ACTIVE',active.length===0?'empty':'');
+  $('ll-badges').innerHTML=chip(active.length===linked.capacity?`FULL · ${active.length}/${linked.capacity}`:`${active.length}/${linked.capacity} USED`,active.length===linked.capacity?'full':'good')+chip(active.length===0?'EMPTY':'ACTIVE',active.length===0?'empty':'');
   const track=$('ll-track'), n=linked.capacity, width=n*121-11;
   track.style.width=`${width+16}px`; track.style.minWidth=`${width+16}px`;
   let paths='';
@@ -405,7 +607,7 @@ async function traverseLinked(action){
   if(linked.startPointer===-1){setMessage('ll-message',`EMPTY: cannot ${action} because the linked list has no active nodes.`,'error');llCaption('Start = -1 means traversal has no first node.');renderLinked();return;}
   llBusy=true;const version=++llVersion;llFound=-1;llFailed=false;
   const trace=linked.trace(value);let found=-1;
-  for(const idx of trace){if(version!==llVersion)break;llCurrent=idx;renderLinked();setMessage('ll-message',`${action==='find'?'Finding':'Deleting'} “${value}”: checking index ${idx}…`);llCaption(`Inspect list[${idx}] = ${linked.list[idx]}. Next index is pointers[${idx}] = ${linked.pointers[idx]}.`);await sleep(470);if(linked.list[idx]===value){found=idx;break;}}
+  for(const idx of trace){if(version!==llVersion)break;llCurrent=idx;renderLinked();setMessage('ll-message',`${action==='find'?'Finding':'Deleting'} “${value}”: checking index ${idx}…`);llCaption(`Inspect list[${idx}] = ${linked.list[idx]}. Next index is pointers[${idx}] = ${linked.pointers[idx]}.`);await sleep(delay);if(linked.list[idx]===value){found=idx;break;}}
   if(version!==llVersion){llBusy=false;return;}
   if(action==='find'){
     if(found!==-1){llFound=found;llCurrent=found;setMessage('ll-message',`Found “${value}” at index ${found}.`,'success');llCaption(`find returns ${found} at the first match reached from Start. Duplicate values later in the chain are not examined.`);}
@@ -424,7 +626,7 @@ renderLinked();
 // ------------------------------ Stack UI ------------------------------
 let stack=new Stack(5),stackMotion=null,stackTimer=null;
 function renderStack(){
-  const used=stack.top+1;$('stack-badges').innerHTML=chip(`${used}/${stack.items.length} USED`,used===stack.items.length?'full':'good')+chip(used===0?'EMPTY':'TOP '+stack.top,used===0?'empty':'');
+  const used=stack.top+1;$('stack-badges').innerHTML=chip(used===stack.items.length?`FULL · ${used}/${stack.items.length}`:`${used}/${stack.items.length} USED`,used===stack.items.length?'full':'good')+chip(used===0?'EMPTY':'TOP '+stack.top,used===0?'empty':'');
   const view=$('stack-view');let html='';
   if(stackMotion&&stackMotion.type==='pop')html+=`<div class="stack-cell exit"><span>${esc(stackMotion.value)}</span><span class="index">POPPED · index ${stackMotion.index}</span></div>`;
   if(used===0)html+='<div class="stack-empty">EMPTY · top = -1<br>Push a value to begin.</div>';
@@ -441,7 +643,7 @@ renderStack();
 
 // ------------------------------ Queue UI ------------------------------
 let queue=new Queue(5),queueMotion=null,queueTimer=null;
-function renderQueue(){const q=$('queue-view');const used=queue.count;$('queue-badges').innerHTML=chip(`${used}/${queue.items.length} USED`,used===queue.items.length?'full':'good')+chip(used===0?'EMPTY':`FRONT ${queue.front} · REAR ${queue.rear}`,used===0?'empty':'');let html='';for(let i=0;i<queue.items.length;i++){const front=used>0&&i===queue.front,rear=used>0&&i===queue.rear;const exiting=queueMotion&&queueMotion.type==='dequeue'&&queueMotion.index===i;const entering=queueMotion&&queueMotion.type==='enqueue'&&queueMotion.index===i;const value=exiting?queueMotion.value:queue.items[i];html+=`<div class="queue-cell ${value!==null?'filled':''} ${front?'front-cell':''} ${rear?'rear-cell':''} ${exiting?'exit':''} ${entering?'enter':''}"><div class="queue-ptr">${front?'FRONT': ''}${front&&rear?' / ':''}${rear?'REAR':''}</div><div class="queue-idx">INDEX ${i}</div><div class="queue-val">${value===null?'—':esc(value)}</div></div>`;}$('queue-view').innerHTML=html;$('queue-state').textContent=`Capacity: ${queue.items.length}\nCount: ${queue.count}\nFront: ${queue.count===0?-1:queue.front}\nRear: ${queue.rear}\nItems: ${pythonArray(queue.items)}`;}
+function renderQueue(){const q=$('queue-view');const used=queue.count;$('queue-badges').innerHTML=chip(used===queue.items.length?`FULL · ${used}/${queue.items.length}`:`${used}/${queue.items.length} USED`,used===queue.items.length?'full':'good')+chip(used===0?'EMPTY':`FRONT ${queue.front} · REAR ${queue.rear}`,used===0?'empty':'');let html='';for(let i=0;i<queue.items.length;i++){const front=used>0&&i===queue.front,rear=used>0&&i===queue.rear;const exiting=queueMotion&&queueMotion.type==='dequeue'&&queueMotion.index===i;const entering=queueMotion&&queueMotion.type==='enqueue'&&queueMotion.index===i;const value=exiting?queueMotion.value:queue.items[i];html+=`<div class="queue-cell ${value!==null?'filled':''} ${front?'front-cell':''} ${rear?'rear-cell':''} ${exiting?'exit':''} ${entering?'enter':''}"><div class="queue-ptr">${front?'FRONT': ''}${front&&rear?' / ':''}${rear?'REAR':''}</div><div class="queue-idx">INDEX ${i}</div><div class="queue-val">${value===null?'—':esc(value)}</div></div>`;}$('queue-view').innerHTML=html;$('queue-state').textContent=`Capacity: ${queue.items.length}\nCount: ${queue.count}\nFront: ${queue.count===0?-1:queue.front}\nRear: ${queue.rear}\nItems: ${pythonArray(queue.items)}`;}
 function clearQueueMotion(){if(queueTimer)clearTimeout(queueTimer);queueTimer=setTimeout(()=>{queueMotion=null;renderQueue();},450);}
 $('queue-reset').addEventListener('click',()=>{try{queue=new Queue(validateCapacity($('queue-capacity').value));queueMotion=null;renderQueue();setMessage('queue-message',`Created an empty circular queue with capacity ${queue.items.length}.`,'success');$('queue-caption').textContent='Front and rear are -1 while the queue is empty.';}catch(e){setMessage('queue-message',e.message,'error');}});
 $('queue-enqueue').addEventListener('click',()=>{let v;try{v=parseValue($('queue-value').value);}catch(e){setMessage('queue-message',e.message,'error');return;}const r=queue.enqueue(v);if(!r.ok){setMessage('queue-message','FULL: queue capacity reached. Dequeue an item or create a larger queue.','error');$('queue-caption').textContent='Count equals capacity, so enqueue is blocked; no state changed.';renderQueue();return;}queueMotion={type:'enqueue',index:r.index};renderQueue();setMessage('queue-message',`Enqueued “${v}” at rear index ${r.index}.`,'success');$('queue-caption').textContent=`Rear advanced to index ${queue.rear}; the new item waits behind existing items. Front remains ${queue.front}.`;$('queue-value').value='';clearQueueMotion();});
@@ -522,6 +724,311 @@ function runTests(){const results=[];let passed=0;const test=(name,fn)=>{try{fn(
  const out=$('test-results');out.innerHTML=results.map((r,i)=>`<div class="${r.ok?'test-pass':'test-fail'}">${r.ok?'✓':'✗'} ${i+1}. ${esc(r.name)}${r.ok?'':` — ${esc(r.error)}`}</div>`).join('');setMessage('test-summary',`${passed}/${results.length} tests passed. ${passed===results.length?'All logic checks are green.':'Review the failed checks below.'}`,passed===results.length?'success':'error');
 }
 $('run-tests').addEventListener('click',runTests);
+// --------------------- Extended data structures / algorithms ---------------------
+class LinearQueue {
+  constructor(capacity) { this.capacity=validateCapacity(capacity); this.items=Array(this.capacity).fill(null); this.front=0; this.rear=-1; this.count=0; }
+  enqueue(value) {
+    // A linear queue never wraps rear; freed front slots stay unused.
+    if (this.rear >= this.capacity - 1) return {ok:false,reason:'full'};
+    this.rear += 1; this.items[this.rear] = value; this.count += 1;
+    return {ok:true,index:this.rear};
+  }
+  dequeue() {
+    if (this.count===0) return {ok:false,reason:'empty'};
+    const index=this.front, value=this.items[index]; this.items[index]=null; this.front += 1; this.count -= 1;
+    return {ok:true,index,value};
+  }
+  peek() { return this.count===0 ? {ok:false,reason:'empty'} : {ok:true,index:this.front,value:this.items[this.front]}; }
+}
+
+class LinkedVariant {
+  constructor(capacity=8, mode='singly') {
+    this.capacity=validateCapacity(capacity); this.mode=mode; this.nodes=Array(this.capacity).fill(null);
+    this.free=Array.from({length:this.capacity},(_,i)=>this.capacity-1-i); this.head=-1; this.tail=-1;
+  }
+  activeIndices() { const out=[], seen=new Set(); let i=this.head; while(i!==-1 && !seen.has(i)){out.push(i);seen.add(i);i=this.nodes[i].next;} return out; }
+  insert(value, position='head') {
+    if(!this.free.length) return {ok:false,reason:'full'};
+    const idx=this.free.pop(); this.nodes[idx]={value,prev:-1,next:-1};
+    if(this.head===-1){this.head=this.tail=idx;return {ok:true,index:idx,position:'head'};}
+    if(position==='head'){
+      this.nodes[idx].next=this.head; if(this.mode==='doubly')this.nodes[this.head].prev=idx; this.head=idx;
+      return {ok:true,index:idx,position};
+    }
+    if(position==='tail'){
+      this.nodes[idx].prev=this.mode==='doubly'?this.tail:-1; this.nodes[this.tail].next=idx; this.tail=idx;
+      return {ok:true,index:idx,position};
+    }
+    // Ordered insertion walks until the first value greater than the new value.
+    let prev=-1,next=this.head; while(next!==-1 && compare(this.nodes[next].value,value)<=0){prev=next;next=this.nodes[next].next;}
+    if(next===-1){this.nodes[idx].prev=this.mode==='doubly'?this.tail:-1;this.nodes[this.tail].next=idx;this.tail=idx;return {ok:true,index:idx,position:'ordered-tail'};}
+    this.nodes[idx].next=next; this.nodes[idx].prev=this.mode==='doubly'?prev:-1;
+    if(prev!==-1)this.nodes[prev].next=idx;else this.head=idx;
+    if(this.mode==='doubly')this.nodes[next].prev=idx;
+    return {ok:true,index:idx,position:'ordered'};
+  }
+  find(value) { const path=[];let i=this.head;while(i!==-1){path.push(i);if(sameValue(this.nodes[i].value,value))return {index:i,path};i=this.nodes[i].next;}return {index:-1,path}; }
+  delete(value) {
+    const found=this.find(value); if(this.head===-1)return {ok:false,reason:'empty',path:[]}; if(found.index===-1)return {ok:false,reason:'not-found',path:found.path};
+    const i=found.index,node=this.nodes[i],next=node.next;let prev=-1;
+    if(this.mode==='doubly')prev=node.prev;else{let cursor=this.head;while(cursor!==-1&&this.nodes[cursor].next!==i)cursor=this.nodes[cursor].next;prev=cursor;}
+    if(prev!==-1)this.nodes[prev].next=next;else this.head=next;
+    if(next!==-1){if(this.mode==='doubly')this.nodes[next].prev=prev;}else this.tail=prev;
+    this.nodes[i]=null;this.free.push(i);return {ok:true,index:i,value:node.value,prev,next};
+  }
+  toState() { return `Type: ${this.mode}\nCapacity: ${this.capacity}\nHead: ${this.head}\nTail: ${this.tail}\nFree slots: [${this.free.join(', ')}]\nNodes by slot:\n`+this.nodes.map((n,i)=>`  ${i}: ${n?`value=${JSON.stringify(n.value)}, prev=${this.mode==='doubly'?n.prev:'(unused)'}, next=${n.next}`:'None'}`).join('\n'); }
+}
+
+class BinarySearchTree {
+  constructor() { this.root=null; this.size=0; }
+  insert(key) {
+    if(!Number.isFinite(key))return {ok:false,reason:'invalid'};
+    if(!this.root){this.root={key,left:null,right:null};this.size++;return {ok:true,key};}
+    let node=this.root,path=[];
+    while(node){path.push(node.key);if(key===node.key)return {ok:false,reason:'duplicate',path};if(key<node.key){if(!node.left){node.left={key,left:null,right:null};this.size++;return {ok:true,key,path};}node=node.left;}else{if(!node.right){node.right={key,left:null,right:null};this.size++;return {ok:true,key,path};}node=node.right;}}
+    return {ok:false,reason:'duplicate',path};
+  }
+  search(key) { let node=this.root,path=[];while(node){path.push(node.key);if(node.key===key)return {found:true,path,node};node=key<node.key?node.left:node.right;}return {found:false,path,node:null}; }
+  traverse(order) { const out=[];const walk=n=>{if(!n)return;if(order==='preorder')out.push(n);walk(n.left);if(order==='inorder')out.push(n);walk(n.right);if(order==='postorder')out.push(n);};walk(this.root);return out; }
+}
+const HASH_TOMBSTONE = Object.freeze({tombstone:true});
+class HashTable {
+  constructor(size=7,mode='linear') { const n=Number(size);if(!Number.isInteger(n)||n<1||n>24)throw new Error('Table size must be a positive integer from 1 to 24.');this.size=n;this.mode=mode;this.slots=mode==='linear'?Array(n).fill(null):Array.from({length:n},()=>[]);this.count=0;this.lastTrace=[]; }
+  hash(key) { return Array.from(String(key)).reduce((sum,ch)=>sum+ch.codePointAt(0),0)%this.size; }
+  insert(key) {
+    const home=this.hash(key),trace=[];
+    if(this.mode==='chaining') { const bucket=this.slots[home];trace.push(home);if(bucket.some(x=>x===key))return {ok:false,reason:'exists',home,trace};bucket.push(key);this.count++;this.lastTrace=trace;return {ok:true,index:home,home,trace}; }
+    let firstTomb=-1;
+    for(let offset=0;offset<this.size;offset++) { const i=(home+offset)%this.size;trace.push(i);const v=this.slots[i];if(v===key)return {ok:false,reason:'exists',home,trace};if(v===HASH_TOMBSTONE&&firstTomb===-1)firstTomb=i;if(v===null){const index=firstTomb===-1?i:firstTomb;this.slots[index]=key;this.count++;this.lastTrace=trace;return {ok:true,index,home,trace};} }
+    if(firstTomb!==-1){this.slots[firstTomb]=key;this.count++;this.lastTrace=trace;return {ok:true,index:firstTomb,home,trace};}
+    this.lastTrace=trace;return {ok:false,reason:'full',home,trace};
+  }
+  find(key) {
+    const home=this.hash(key),trace=[];
+    if(this.mode==='chaining'){trace.push(home);const found=this.slots[home].includes(key);this.lastTrace=trace;return {found,index:found?home:-1,home,trace};}
+    for(let offset=0;offset<this.size;offset++){const i=(home+offset)%this.size;trace.push(i);const v=this.slots[i];if(v===null)break;if(v===key){this.lastTrace=trace;return {found:true,index:i,home,trace};}}
+    this.lastTrace=trace;return {found:false,index:-1,home,trace};
+  }
+  delete(key) {
+    const found=this.find(key);if(!found.found)return {ok:false,reason:'not-found',...found};
+    if(this.mode==='chaining'){this.slots[found.index]=this.slots[found.index].filter(v=>v!==key);}else this.slots[found.index]=HASH_TOMBSTONE;
+    this.count--;return {ok:true,...found};
+  }
+  state() { return this.mode==='linear'?this.slots.map((v,i)=>`${i}: ${v===null?'None':v===HASH_TOMBSTONE?'<DELETED>':JSON.stringify(v)}`).join('\n'):this.slots.map((bucket,i)=>`${i}: [${bucket.map(v=>JSON.stringify(v)).join(', ')}]`).join('\n'); }
+}
+function factorialRecursive(n) { if(!Number.isInteger(n)||n<0||n>12)throw new Error('Factorial input must be an integer from 0 to 12.');return n<=1?1:n*factorialRecursive(n-1); }
+function fibonacciRecursive(n) { if(!Number.isInteger(n)||n<0||n>10)throw new Error('Fibonacci input must be an integer from 0 to 10.');return n<=1?n:fibonacciRecursive(n-1)+fibonacciRecursive(n-2); }
+function fibonacciSequence(n) { return Array.from({length:n+1},(_,i)=>fibonacciRecursive(i)); }
+class CSVParseError extends Error { constructor(message){super(message);this.name='CSVParseError';} }
+function parseCSV(text) {
+  const input=String(text??'');if(input.trim()==='')throw new CSVParseError('CSV input is empty.');
+  const rows=[];let row=[],field='',quoted=false,afterQuote=false;
+  const commitField=()=>{row.push(field);field='';afterQuote=false;};
+  const commitRow=()=>{commitField();if(row.some(v=>v!==''))rows.push(row);row=[];};
+  for(let i=0;i<input.length;i++){
+    const ch=input[i];
+    if(quoted){
+      if(ch==='"'&&input[i+1]==='"'){field+='"';i++;}
+      else if(ch==='"'){quoted=false;afterQuote=true;}
+      else field+=ch;
+      continue;
+    }
+    if(afterQuote){
+      if(ch===','){commitField();}
+      else if(ch==='\n'){commitRow();}
+      else if(ch==='\r'){}
+      else if(ch===' '||ch==='\t'){}
+      else throw new CSVParseError(`Unexpected character after closing quote at character ${i+1}.`);
+      continue;
+    }
+    if(ch===',')commitField();
+    else if(ch==='\n')commitRow();
+    else if(ch==='\r'){}
+    else if(ch==='"'){if(field!=='')throw new CSVParseError(`Unexpected quote inside an unquoted field at character ${i+1}.`);quoted=true;}
+    else field+=ch;
+  }
+  if(quoted)throw new CSVParseError('Unclosed quoted field at end of CSV input.');
+  if(field!==''||row.length>0||afterQuote)commitRow();
+  if(!rows.length)throw new CSVParseError('CSV has no rows.');
+  const width=rows[0].length;
+  for(let i=1;i<rows.length;i++)if(rows[i].length!==width)throw new CSVParseError(`Malformed row ${i+1}: expected ${width} fields but found ${rows[i].length}.`);
+  return rows;
+}
+function captureException(fn) { try { return {ok:true,value:fn()}; } catch(error) { return {ok:false,type:error.name||'Error',message:error.message}; } }
+
+// Shared step player: one click advances a frame; Play uses the shared delay slider.
+const tracePlayers = Object.create(null);
+function stopTrace(key) { const p=tracePlayers[key];if(p){p.playing=false;if(p.timer)clearTimeout(p.timer);const pause=$(`${key}-trace-pause`),play=$(`${key}-trace-play`);if(pause)pause.disabled=true;if(play)play.disabled=false;} }
+function createTrace(key,steps,render) { stopTrace(key);tracePlayers[key]={steps,index:-1,render,playing:false,timer:null};render(null,tracePlayers[key]); }
+function nextTrace(key) { const p=tracePlayers[key];if(!p||p.index>=p.steps.length-1)return false;p.index++;p.render(p.steps[p.index],p);return p.index<p.steps.length-1; }
+function playTrace(key) { const p=tracePlayers[key];if(!p||p.index>=p.steps.length-1)return;stopTrace(key);p.playing=true;const pause=$(`${key}-trace-pause`),play=$(`${key}-trace-play`);if(pause)pause.disabled=false;if(play)play.disabled=true;const tick=()=>{if(!p.playing)return;const more=nextTrace(key);if(more&&p.playing)p.timer=setTimeout(tick,delay);else{p.playing=false;if(pause)pause.disabled=true;if(play)play.disabled=false;}};tick(); }
+function pauseTrace(key) { stopTrace(key); }
+function restartTrace(key) { const p=tracePlayers[key];if(!p)return;stopTrace(key);p.index=-1;p.render(null,p); }
+function wireTraceControls(key) {
+  $(`${key}-trace-step`).addEventListener('click',()=>{let p=tracePlayers[key];if(!p)return;stopTrace(key);nextTrace(key);});
+  $(`${key}-trace-play`).addEventListener('click',()=>playTrace(key));
+  $(`${key}-trace-pause`).addEventListener('click',()=>pauseTrace(key));
+  $(`${key}-trace-restart`).addEventListener('click',()=>restartTrace(key));
+}
+function renderCells(containerId,values,frame={}) {
+  const el=$(containerId);if(!el)return;let html='';
+  values.forEach((v,i)=>{const cls=['array-cell'];if((frame.highlight||[]).includes(i))cls.push('hl');if(frame.match===i)cls.push('match');if(frame.low===i)cls.push('low');if(frame.mid===i)cls.push('mid');if(frame.high===i)cls.push('high');if((frame.swap||[]).includes(i))cls.push('swap');html+=`<div class="${cls.join(' ')}"><span class="idx">INDEX ${i}</span><span class="val">${esc(v)}</span></div>`;});el.innerHTML=html||'<div class="stack-empty">Array is empty.</div>';
+}
+
+// Recursive binary-search trace (iterative event generation; rendered stack mirrors recursion).
+function buildRecursiveBinarySteps(values,target) {
+  for(let i=1;i<values.length;i++)if(compare(values[i-1],values[i])>0)throw new Error('UNSORTED: recursive binary search requires ascending order.');
+  const steps=[],frames=[];
+  const rec=(low,high)=>{
+    const frame={low,high,depth:frames.length};frames.push(frame);const snapshot=()=>frames.map(f=>({...f}));
+    steps.push({kind:'call',low,high,mid:null,stack:snapshot(),caption:`Call binary_search(values, ${target}, ${low}, ${high}).`,message:`Enter call with low=${low}, high=${high}.`});
+    if(low>high){steps.push({kind:'base',low,high,mid:null,stack:snapshot(),result:-1,caption:'The range is empty because low > high. Return -1.',message:'BASE CASE: low > high, so return -1.'});frames.pop();steps.push({kind:'return',low,high,mid:null,stack:snapshot(),result:-1,caption:'This call returns -1 to its caller.',message:'Return -1; the caller continues unwinding.'});return -1;}
+    const mid=Math.floor((low+high)/2),value=values[mid];steps.push({kind:'compare',low,high,mid,stack:snapshot(),caption:`mid = floor((${low} + ${high}) / 2) = ${mid}. Compare ${value} with ${target}.`,message:`Check values[${mid}] = ${value}.`});
+    if(sameValue(value,target)){frames.pop();steps.push({kind:'return',low,high,mid,stack:snapshot(),result:mid,found:mid,caption:`Match at index ${mid}; return ${mid}.`,message:`FOUND at index ${mid}.`});return mid;}
+    const result=compare(value,target)<0?rec(mid+1,high):rec(low,mid-1);frames.pop();steps.push({kind:'return',low,high,mid,stack:snapshot(),result,caption:`The recursive call returns ${result}; this frame now returns the same result.`,message:`Unwind: return ${result}.`});return result;
+  };
+  const result=rec(0,values.length-1);steps.push({kind:'done',low:0,high:values.length-1,mid:null,stack:[],result,found:result>=0?result:-1,caption:result>=0?`Search completed with index ${result}.`:'Search completed; target is absent.',message:result>=0?`FOUND: ${target} at index ${result}.`:`NOT FOUND: ${target} is not in the array.`});return steps;
+}
+let rbValues=[];
+function renderRecursiveBinary(step) {
+  if(!step){renderCells('rb-view',rbValues,{});$('rb-stack').innerHTML='<div class="stack-empty">No calls yet. Press Step or Play.</div>';$('rb-depth').textContent='DEPTH 0';$('rb-caption').textContent='Low, mid and high identify the current recursive range.';return;}
+  renderCells('rb-view',rbValues,{low:step.low>=0&&step.low<rbValues.length?step.low:-1,mid:step.mid,high:step.high>=0&&step.high<rbValues.length?step.high:-1,match:step.found});
+  $('rb-stack').innerHTML=step.stack.length?step.stack.map((f,i)=>`<div class="call-frame ${i===step.stack.length-1?'active':''}"><b>binary_search(${f.low}, ${f.high})</b><span>depth ${f.depth} · range [${f.low}, ${f.high}]</span></div>`).join(''):'<div class="stack-empty">Call stack has unwound.</div>';
+  $('rb-depth').textContent=`DEPTH ${step.stack.length}`;$('rb-caption').textContent=step.caption;setMessage('rb-message',step.message,step.kind==='done'?(step.result>=0?'success':'warn'):'info');$('rb-status').textContent=step.kind==='done'?'COMPLETE':step.kind.toUpperCase();
+}
+$('rb-load').addEventListener('click',()=>{try{rbValues=parseArray($('rb-input').value);const targetArr=parseArray($('rb-target').value);if(targetArr.length!==1)throw new Error('Target must be a single value.');const steps=buildRecursiveBinarySteps(rbValues,targetArr[0]);createTrace('rb',steps,renderRecursiveBinary);setMessage('rb-message',`Loaded ${rbValues.length} values. Step through the recursive calls.`, 'success');$('rb-status').textContent='LOADED';}catch(e){stopTrace('rb');setMessage('rb-message',e.message,'error');$('rb-status').textContent='INVALID';}});
+$('rb-trace-step').addEventListener('click',()=>{if(!tracePlayers.rb)$('rb-load').click();const p=tracePlayers.rb;if(p){stopTrace('rb');nextTrace('rb');}});
+$('rb-trace-play').addEventListener('click',()=>{if(!tracePlayers.rb)$('rb-load').click();playTrace('rb');});$('rb-trace-pause').addEventListener('click',()=>pauseTrace('rb'));$('rb-trace-restart').addEventListener('click',()=>restartTrace('rb'));
+
+// Linear queue UI. The circular queue above remains unchanged.
+let linearQueue=new LinearQueue(5),lqMotion=null;
+function renderLinearQueue(){const q=linearQueue;const used=q.count;$('lq-badges').innerHTML=chip(q.rear===q.capacity-1?`FULL · REAR LIMIT`:`${used}/${q.capacity} ITEMS`,q.rear===q.capacity-1?'full':'good')+chip(used===0?'EMPTY':`FRONT ${q.front} · REAR ${q.rear}`,used===0?'empty':'');let html='';for(let i=0;i<q.capacity;i++){const isFront=used>0&&i===q.front,isRear=used>0&&i===q.rear;const exiting=lqMotion&&lqMotion.type==='dequeue'&&lqMotion.index===i,entering=lqMotion&&lqMotion.type==='enqueue'&&lqMotion.index===i;html+=`<div class="queue-cell ${q.items[i]!==null?'filled':''} ${isFront?'front-cell':''} ${isRear?'rear-cell':''} ${exiting?'exit':''} ${entering?'enter':''}"><div class="queue-ptr">${isFront?'FRONT ':''}${isRear?'REAR':''}</div><div class="queue-idx">INDEX ${i}</div><div class="queue-val">${q.items[i]===null?'—':esc(q.items[i])}</div></div>`;}$('lq-view').innerHTML=html;$('lq-state').textContent=`Capacity: ${q.capacity}\nCount: ${q.count}\nFront: ${q.count===0?-1:q.front}\nRear: ${q.rear}\nItems: ${pythonArray(q.items)}`;}
+function clearLQMotion(){setTimeout(()=>{lqMotion=null;renderLinearQueue();},400);}
+$('lq-reset').addEventListener('click',()=>{try{linearQueue=new LinearQueue($('lq-capacity').value);lqMotion=null;renderLinearQueue();setMessage('lq-message',`Created a linear queue with capacity ${linearQueue.capacity}.`,'success');$('lq-caption').textContent='Front = 0 and Rear = -1 mean the queue is empty.';}catch(e){setMessage('lq-message',e.message,'error');}});
+$('lq-enqueue').addEventListener('click',()=>{let value;try{value=parseValue($('lq-value').value);}catch(e){setMessage('lq-message',e.message,'error');return;}const r=linearQueue.enqueue(value);if(!r.ok){setMessage('lq-message','FULL: rear reached the last array index. This linear queue cannot reuse front slots.','error');$('lq-caption').textContent='Rear = capacity − 1 blocks enqueue. Circular queues avoid this limitation by wrapping rear around.';renderLinearQueue();return;}lqMotion={type:'enqueue',index:r.index};renderLinearQueue();setMessage('lq-message',`Enqueued “${value}” at rear index ${r.index}.`,'success');$('lq-caption').textContent=`Rear moved to ${linearQueue.rear}; the item joins the FIFO line.`;$('lq-value').value='';clearLQMotion();});
+$('lq-dequeue').addEventListener('click',()=>{const r=linearQueue.dequeue();if(!r.ok){setMessage('lq-message','EMPTY: cannot dequeue because the queue has no items.','error');$('lq-caption').textContent='Count = 0 means no front item can be removed.';renderLinearQueue();return;}lqMotion={type:'dequeue',index:r.index,value:r.value};renderLinearQueue();setMessage('lq-message',`Dequeued “${r.value}” from front index ${r.index}.`,'success');$('lq-caption').textContent=`Front advanced to ${linearQueue.front}; slot ${r.index} is cleared but rear does not move backward.`;clearLQMotion();});
+$('lq-front').addEventListener('click',()=>{const r=linearQueue.peek();if(!r.ok){setMessage('lq-message','EMPTY: there is no front value to peek at.','error');}else setMessage('lq-message',`Front is “${r.value}” at index ${r.index}; nothing was removed.`,'success');renderLinearQueue();});renderLinearQueue();
+
+// Singly/doubly linked list operations with a bounded node-slot pool.
+let variantList=new LinkedVariant(8,'singly'),lvCurrent=-1,lvVisited=[];
+function renderLinkedVariant(){const list=variantList,order=list.activeIndices();$('lv-badges').innerHTML=chip(order.length===list.capacity?`FULL · ${order.length}/${list.capacity}`:`${order.length}/${list.capacity} USED`,order.length===list.capacity?'full':'good')+chip(order.length===0?'EMPTY':`${list.mode.toUpperCase()} LINKED`,order.length===0?'empty':'good');$('lv-walk').textContent=`HEAD ${list.head} · TAIL ${list.tail}`;let chain='';if(!order.length)chain='<div class="stack-empty">EMPTY · head = tail = -1</div>';else chain=order.map((idx,k)=>{const n=list.nodes[idx];return `${k?'<div class="chain-arrow">→</div>':''}<div class="variant-node ${lvCurrent===idx?'current':''} ${lvVisited.includes(idx)?'visited':''}"><span class="variant-index">INDEX ${idx}</span><b>${esc(n.value)}</b><small>${list.mode==='doubly'?`prev: ${n.prev} · `:''}next: ${n.next}</small></div>`;}).join('');$('lv-chain').innerHTML=chain;$('lv-free').textContent=`Free slots: ${list.free.length?list.free.join(', '):'none'}${list.free.length===0?' · FULL':''}`;$('lv-state').textContent=list.toState();}
+$('lv-reset').addEventListener('click',()=>{try{variantList=new LinkedVariant($('lv-capacity').value,$('lv-mode').value);lvCurrent=-1;lvVisited=[];createTrace('lv',[],renderVariantTrace);renderLinkedVariant();setMessage('lv-message',`Created an empty ${variantList.mode} list with capacity ${variantList.capacity}.`,'success');$('lv-caption').textContent='Head and tail both use -1 when the list is empty.';}catch(e){setMessage('lv-message',e.message,'error');}});
+$('lv-mode').addEventListener('change',()=>{$('lv-reset').click();});
+$('lv-insert').addEventListener('click',()=>{let v;try{v=parseValue($('lv-value').value);}catch(e){setMessage('lv-message',e.message,'error');return;}const pos=$('lv-position').value,r=variantList.insert(v,pos);if(!r.ok){setMessage('lv-message','FULL: no free node slots remain. Delete a node or increase capacity.','error');$('lv-caption').textContent='The free-slot pool is empty, so no pointers changed.';renderLinkedVariant();return;}lvCurrent=r.index;lvVisited=[];renderLinkedVariant();setMessage('lv-message',`Inserted “${v}” at slot ${r.index} (${r.position}).`,'success');$('lv-caption').textContent=pos==='head'?`Head changed to ${r.index}; its next pointer links to the former head.`:pos==='tail'?`Tail changed to ${r.index}; the former tail now points to the new node.`:`The chain was scanned in value order; links on each side of slot ${r.index} now include the inserted node.`;$('lv-value').value='';setTimeout(()=>{lvCurrent=-1;renderLinkedVariant();},450);});
+$('lv-delete').addEventListener('click',()=>{let v;try{v=parseValue($('lv-value').value,'Delete value');}catch(e){setMessage('lv-message',e.message,'error');return;}const r=variantList.delete(v);if(!r.ok){setMessage('lv-message',r.reason==='empty'?'EMPTY: cannot delete from an empty list.':`“${v}” is not in the list; no nodes changed.`,'error');$('lv-caption').textContent='An unsuccessful deletion leaves the node slots and links unchanged.';renderLinkedVariant();return;}lvCurrent=r.index;renderLinkedVariant();setMessage('lv-message',`Deleted first match “${r.value}” from slot ${r.index}.`,'success');$('lv-caption').textContent=`Updated the predecessor link to ${r.next}; ${variantList.mode==='doubly'?'also repaired the successor prev pointer.':'the singly linked successor needs no prev update.'} Slot ${r.index} returned to the free pool.`;$('lv-value').value='';setTimeout(()=>{lvCurrent=-1;renderLinkedVariant();},450);});
+function renderVariantTrace(step){if(!step){lvCurrent=-1;lvVisited=[];renderLinkedVariant();setMessage('lv-message','Traversal ready. Press Step or Play to visit each node from head to tail.');return;}lvCurrent=step.index??-1;lvVisited=step.visited||[];renderLinkedVariant();setMessage('lv-message',step.message,step.kind==='done'?'success':'info');$('lv-caption').textContent=step.caption;}
+$('lv-traverse-load').addEventListener('click',()=>{const order=variantList.activeIndices();const steps=order.map((idx,k)=>({kind:'visit',index:idx,visited:order.slice(0,k+1),message:`Visit slot ${idx}: value = ${variantList.nodes[idx].value}.`,caption:`Traversal follows next=${variantList.nodes[idx].next} from node ${idx}.` }));steps.push({kind:'done',index:-1,visited:order,message:`Traversal complete. Visited ${order.length} node(s).` ,caption:'The chain ended at next = -1; each active node was visited once.'});createTrace('lv',steps,renderVariantTrace);setMessage('lv-message',`Prepared a traversal with ${order.length} step(s).`,'success');});wireTraceControls('lv');renderLinkedVariant();
+
+// Binary search tree build, search path and traversal traces.
+let bst=new BinarySearchTree(),bstHighlight=[],bstVisited=[];
+function treeHtml(node){if(!node)return '<div class="bst-empty-slot">∅</div>';const highlight=bstHighlight.includes(node.key),visited=bstVisited.includes(node.key);return `<div class="bst-branch"><div class="bst-node ${highlight?'active':''} ${visited?'visited':''}"><b>${node.key}</b></div><div class="bst-children"><div class="bst-child">${treeHtml(node.left)}</div><div class="bst-child">${treeHtml(node.right)}</div></div></div>`;}
+function renderBST(){ $('bst-badges').innerHTML=chip(`${bst.size} NODES`,bst.size===0?'empty':'good')+chip(bst.root===null?'EMPTY':`ROOT ${bst.root.key}`,bst.root===null?'empty':'');$('bst-root-label').textContent=bst.root===null?'ROOT · EMPTY':`ROOT · ${bst.root.key}`;$('bst-view').innerHTML=bst.root?treeHtml(bst.root):'<div class="stack-empty">EMPTY · insert or create nodes to begin.</div>'; }
+function parseNumericKeys(raw){const list=parseArray(raw);if(list.some(v=>typeof v!=='number'||!Number.isFinite(v)))throw new Error('BST keys must all be finite numbers.');return list;}
+$('bst-build').addEventListener('click',()=>{try{const values=parseNumericKeys($('bst-values').value);bst=new BinarySearchTree();let duplicates=[];values.forEach(v=>{const r=bst.insert(v);if(!r.ok)duplicates.push(v);});bstHighlight=[];bstVisited=[];renderBST();$('bst-output').textContent='Tree created. No traversal run yet.';setMessage('bst-message',duplicates.length?`Tree built; duplicate keys rejected: ${duplicates.join(', ')}.`:`Built a BST with ${bst.size} unique keys.` ,duplicates.length?'warn':'success');$('bst-caption').textContent='Each value smaller than a node is inserted to its left; larger values go to its right.';createTrace('bst',[],renderBSTTrace);}catch(e){setMessage('bst-message',e.message,'error');}});
+$('bst-insert').addEventListener('click',()=>{let key;try{const raw=$('bst-key').value;if(raw.trim()==='')throw new Error('Key cannot be empty.');key=Number(raw);if(!Number.isFinite(key))throw new Error('BST key must be a finite number.');}catch(e){setMessage('bst-message',e.message,'error');return;}const r=bst.insert(key);renderBST();if(!r.ok){setMessage('bst-message',r.reason==='duplicate'?`Duplicate key ${key} rejected; the tree is unchanged.`:'Invalid key.','error');return;}setMessage('bst-message',`Inserted ${key} into the BST.`,'success');$('bst-caption').textContent='The new key was attached at the first empty left or right child reached.';});
+function renderBSTTrace(step){if(!step){bstHighlight=[];bstVisited=[];renderBST();return;}bstHighlight=step.path|| (step.key!==undefined?[step.key]:[]);bstVisited=step.visited||[];renderBST();if(step.output)$('bst-output').textContent=step.output;if(step.message)setMessage('bst-message',step.message,step.kind==='done'?(step.success===false?'warn':'success'):'info');if(step.caption)$('bst-caption').textContent=step.caption;}
+$('bst-search').addEventListener('click',()=>{let key;try{if($('bst-key').value.trim()==='')throw new Error('Search key cannot be empty.');key=Number($('bst-key').value);if(!Number.isFinite(key))throw new Error('Search key must be numeric.');}catch(e){setMessage('bst-message',e.message,'error');return;}if(!bst.root){setMessage('bst-message','EMPTY: cannot search an empty tree.','error');$('bst-caption').textContent='Insert at least one key before searching.';renderBST();return;}const result=bst.search(key);const steps=[];let path=[];for(const visited of result.path){path.push(visited);steps.push({kind:'compare',key:visited,path:[...path],visited:[...path],message:`Compare target ${key} with node ${visited}.`,caption:visited===key?`Target equals node ${visited}; stop searching.`:key<visited?`${key} < ${visited}; follow the left child.`:`${key} > ${visited}; follow the right child.` ,output:`Search path: ${path.join(' → ')}`});}steps.push({kind:'done',key,path:result.path,visited:result.path,message:result.found?`FOUND ${key}; search path: ${result.path.join(' → ')}.`:`NOT FOUND ${key}; reached an empty child.`,caption:result.found?'Search stopped at the matching node.':'The final left/right child was empty, so the key is absent.',output:`Search path: ${result.path.join(' → ')||'none'}\nResult: ${result.found?key:'not found'}`,success:result.found});createTrace('bst',steps,renderBSTTrace);setMessage('bst-message',`Prepared ${steps.length} search frames. Press Step or Play.`, 'success');});
+$('bst-traverse').addEventListener('click',()=>{if(!bst.root){setMessage('bst-message','EMPTY: cannot traverse an empty tree.','error');return;}const order=$('bst-traversal').value,nodes=bst.traverse(order),steps=[],visited=[];nodes.forEach((node,i)=>{visited.push(node.key);steps.push({kind:'visit',key:node.key,path:[node.key],visited:[...visited],message:`Visit ${node.key} (${order.replace('order','-order')}).`,caption:`${order==='preorder'?'Root, then left, then right.':order==='inorder'?'Left subtree, then root, then right subtree.':'Left subtree, then right subtree, then root.'} Visited ${node.key}.`,output:`${order.toUpperCase()}\n${visited.join(' → ')}`});});steps.push({kind:'done',visited:visited.slice(),message:`${order} traversal complete.`,caption:`Final ${order} order: ${visited.join(', ')}.`,output:`${order.toUpperCase()}\n${visited.join(' → ')}`});createTrace('bst',steps,renderBSTTrace);setMessage('bst-message',`Prepared ${nodes.length} visits in ${order} order.`, 'success');});wireTraceControls('bst');renderBST();
+
+// Hash table interaction and collision trace.
+let hashTable=new HashTable(7,'linear'),hashHighlights=[];let pendingException=null;
+function renderHash(){const h=hashTable,load=h.count/h.size;$('hash-badges').innerHTML=chip(h.mode==='linear'&&h.count===h.size?'FULL':h.count===0?'EMPTY':`${h.count} ENTRIES`,h.mode==='linear'&&h.count===h.size?'full':h.count===0?'empty':'good')+chip(h.mode.toUpperCase(),'');$('hash-load').textContent=`LOAD FACTOR ${load.toFixed(2)}`;let html='';for(let i=0;i<h.size;i++){const val=h.mode==='linear'?h.slots[i]:h.slots[i];const highlighted=hashHighlights.includes(i);if(h.mode==='linear'){const empty=val===null,tomb=val===HASH_TOMBSTONE;html+=`<div class="hash-bucket ${highlighted?'active':''} ${empty?'empty':''} ${tomb?'tombstone':''}"><span class="bucket-index">INDEX ${i}</span><b>${empty?'EMPTY':tomb?'DELETED':esc(val)}</b></div>`;}else{html+=`<div class="hash-bucket ${highlighted?'active':''} ${val.length===0?'empty':''}"><span class="bucket-index">BUCKET ${i}</span><b>${val.length?val.map(esc).join(' · '):'EMPTY'}</b></div>`;}}$('hash-view').innerHTML=html;$('hash-state').textContent=`Mode: ${h.mode}\nSize: ${h.size}\nEntries: ${h.count}\nLoad factor: ${load.toFixed(2)}\n${h.state()}`;}
+function resetHash(){try{hashTable=new HashTable($('hash-size').value,$('hash-mode').value);hashHighlights=[];renderHash();$('hash-computation').textContent='Hash computation appears here.';$('hash-trace').textContent='No collision trace yet.';setMessage('hash-message',`Created ${hashTable.mode} hash table with ${hashTable.size} slots.`,'success');}catch(e){setMessage('hash-message',e.message,'error');}}
+$('hash-reset').addEventListener('click',resetHash);$('hash-mode').addEventListener('change',resetHash);
+function hashKeyInput(){return parseValue($('hash-key').value,'Key');}
+function showHashTrace(key,op,result){hashHighlights=result.trace||[];renderHash();const codePoints=Array.from(key).map(ch=>`${ch}=${ch.codePointAt(0)}`);$('hash-computation').textContent=`h(${JSON.stringify(key)}) = (${codePoints.length?codePoints.map(x=>x.split('=')[1]).join(' + '):'0'}) mod ${hashTable.size} = ${result.home}.`;$('hash-trace').innerHTML=`<b>${esc(op)}</b><br>Home bucket: ${result.home}<br>Trace: ${result.trace.length?result.trace.join(' → '):'none'}<br>${result.index!==undefined&&result.index>=0?`Resolved index: ${result.index}<br>`:''}${result.found!==undefined?`Found: ${result.found?'yes':'no'}<br>`:''}Load factor: ${(hashTable.count/hashTable.size).toFixed(2)}`;}
+$('hash-insert').addEventListener('click',()=>{let key;try{key=hashKeyInput();}catch(e){setMessage('hash-message',e.message,'error');return;}const result=hashTable.insert(key);showHashTrace(key,'INSERT',result);if(!result.ok){const msg=result.reason==='full'?'FULL: every slot is occupied; insertion was blocked.':`Key “${key}” already exists.`;setMessage('hash-message',msg,'error');return;}setMessage('hash-message',`Inserted “${key}” at ${hashTable.mode==='linear'?'slot':'bucket'} ${result.index}.`,'success');});
+$('hash-search').addEventListener('click',()=>{let key;try{key=hashKeyInput();}catch(e){setMessage('hash-message',e.message,'error');return;}const result=hashTable.find(key);showHashTrace(key,'FIND',result);setMessage('hash-message',result.found?`Found “${key}” at ${result.index}.`:`“${key}” not found in the table.`,result.found?'success':'warn');});
+$('hash-delete').addEventListener('click',()=>{let key;try{key=hashKeyInput();}catch(e){setMessage('hash-message',e.message,'error');return;}const result=hashTable.delete(key);showHashTrace(key,'DELETE',result);setMessage('hash-message',result.ok?`Deleted “${key}”.`:`“${key}” is not in the table.`,result.ok?'success':'warn');});resetHash();
+
+// Core recursive maths: traces store stack snapshots so Step and Play show unwinding.
+function buildRecursionSteps(mode,n){
+  const steps=[],frames=[];let finalValue=null;const snap=()=>frames.map(f=>({...f}));
+  const traceRec=(kind,k,fn)=>{const frame={label:`${kind}(${k})`,depth:frames.length,n:k};frames.push(frame);steps.push({kind:'call',stack:snap(),caption:`Enter ${frame.label}.`,message:`CALL ${frame.label}.`});let result;
+    if(mode==='factorial'){if(k<=1)result=1;else result=k*traceRec('factorial',k-1,fn);}
+    else if(mode==='fibonacci'){if(k<=1)result=k;else result=traceRec('fib',k-1,fn)+traceRec('fib',k-2,fn);}
+    else if(mode==='sum'){result=k<=0?0:k+traceRec('summation',k-1,fn);}
+    else {result=k<0?[]:[k,...traceRec('countdown',k-1,fn)];}
+    steps.push({kind:'return',stack:snap(),caption:mode==='countdown'?`Return countdown segment ${result.join(', ')}.`:`Return ${result} from ${frame.label}.`,message:mode==='countdown'?`RETURN from ${frame.label}.`:`RETURN ${result} from ${frame.label}.`,value:result});frames.pop();return result;};
+  finalValue=traceRec(mode==='factorial'?'factorial':mode==='fibonacci'?'fib':mode==='sum'?'summation':'countdown',n,traceRec);
+  const sequence=mode==='fibonacci'?fibonacciSequence(n):mode==='countdown'?Array.from({length:n+1},(_,i)=>n-i):[];
+  steps.push({kind:'done',stack:[],value:finalValue,sequence,caption:mode==='fibonacci'?`Fibonacci sequence through F(${n}) is shown alongside the call trace.`:mode==='countdown'?'Countdown has reached its base case below zero.':'All recursive calls returned to the original frame.',message:mode==='factorial'?`${n}! = ${finalValue}.`:mode==='fibonacci'?`F(${n}) = ${finalValue}.`:mode==='sum'?`Summation from 1 to ${n} = ${finalValue}.`:`Countdown complete: ${sequence.join(', ')}.`});return steps;
+}
+function renderRecursionTrace(step){if(!step){$('rec-stack').innerHTML='<div class="stack-empty">No recursive calls yet.</div>';$('rec-depth').textContent='DEPTH 0';$('rec-output').textContent='Result will appear while the trace runs.';$('rec-sequence').textContent='Sequence output appears here.';$('rec-caption').textContent='Calls grow toward the base case, then return values unwind the stack.';return;}$('rec-stack').innerHTML=step.stack.length?step.stack.map((f,i)=>`<div class="call-frame ${i===step.stack.length-1?'active':''}"><b>${esc(f.label)}</b><span>depth ${f.depth}</span></div>`).join(''):'<div class="stack-empty">Stack unwound to depth 0.</div>';$('rec-depth').textContent=`DEPTH ${step.stack.length}`;$('rec-caption').textContent=step.caption;setMessage('rec-message',step.message,step.kind==='done'?'success':'info');$('rec-status').textContent=step.kind==='done'?'COMPLETE':step.kind.toUpperCase();if(step.kind==='done'){const mode=$('rec-mode').value;$('rec-output').textContent=mode==='factorial'?`${$('rec-n').value}! = ${step.value}`:mode==='fibonacci'?`F(${ $('rec-n').value }) = ${step.value}`:mode==='sum'?`sum(1..${$('rec-n').value}) = ${step.value}`:`Countdown complete.`;$('rec-sequence').textContent=step.sequence?`Sequence: ${step.sequence.join(', ')}`:mode==='fibonacci'?`Fibonacci values: ${fibonacciSequence(Number($('rec-n').value)).join(', ')}`:mode==='countdown'?`Countdown: ${Array.from({length:Number($('rec-n').value)+1},(_,i)=>Number($('rec-n').value)-i).join(', ')}`:'Sequence output is not applicable to this function.';}}
+wireTraceControls('rec');
+$('rec-load').addEventListener('click',()=>{const mode=$('rec-mode').value,raw=$('rec-n').value,n=Number(raw);try{if(String(raw).trim()===''||!Number.isInteger(n)||n<0)throw new Error('n must be a non-negative integer.');if(mode==='factorial'&&n>12)throw new Error('Factorial is limited to n ≤ 12.');if(mode==='fibonacci'&&n>10)throw new Error('Recursive Fibonacci is limited to n ≤ 10.');if((mode==='countdown'||mode==='sum')&&n>20)throw new Error('Countdown and summation are limited to n ≤ 20.');const steps=buildRecursionSteps(mode,n);createTrace('rec',steps,renderRecursionTrace);setMessage('rec-message',`Built ${steps.length} trace frames. Press Step or Play.`, 'success');$('rec-status').textContent='LOADED';}catch(e){stopTrace('rec');setMessage('rec-message',e.message,'error');$('rec-status').textContent='INVALID';}});
+
+
+// In-memory file management, RFC-style CSV parsing, and explicit exception flow.
+class SimulatedFile {
+  constructor(){this.records=[];this.readPointer=0;this.lastReadRecord=null;}
+  write(text){
+    if(String(text??'').trim()==='')throw new Error('Cannot write an empty or whitespace-only file.');
+    const records=String(text).split(/\r?\n/).filter(line=>line.trim()!=='');
+    if(!records.length)throw new Error('No non-empty records were supplied.');
+    this.records=records;this.readPointer=0;this.lastReadRecord=null;return records.length;
+  }
+  readNext(){
+    if(!this.records.length)throw createNamedError('FileNotFoundError','The simulated file has no records.');
+    if(this.readPointer>=this.records.length)throw createNamedError('EOFError','Every record has already been read. Rewind to start again.');
+    const index=this.readPointer++,value=this.records[index];this.lastReadRecord=index;return {index,value};
+  }
+  rewind(){this.readPointer=0;this.lastReadRecord=null;}
+  find(value){
+    const query=parseValue(value,'Record query'),index=this.records.indexOf(query);
+    if(index===-1)throw createNamedError('RecordNotFoundError',`Record ${JSON.stringify(query)} was not found in the simulated file.`);
+    this.lastReadRecord=index;return index;
+  }
+}
+function createNamedError(name,message){const error=new Error(message);error.name=name;return error;}
+let simulatedFile=new SimulatedFile();
+function renderFile(){const simulatedRecords=simulatedFile.records,readPointer=simulatedFile.readPointer,lastReadRecord=simulatedFile.lastReadRecord;$('file-badges').innerHTML=chip(`${simulatedRecords.length} RECORDS`,simulatedRecords.length?'good':'empty')+chip(simulatedRecords.length&&readPointer>=simulatedRecords.length?'EOF':'BUFFER','');$('file-cursor').textContent=`CURSOR ${readPointer}`;$('file-records').innerHTML=simulatedRecords.length?simulatedRecords.map((r,i)=>`<div class="file-record ${i===readPointer?'next-record':''} ${lastReadRecord===i?'read-record':''}"><span>RECORD ${i}</span><b>${esc(r)}</b><small>${i<readPointer?'read':i===readPointer?'next to read':'waiting'}</small></div>`).join(''):'<div class="stack-empty">The simulated file is empty.</div>';$('file-state').textContent=`records = ${JSON.stringify(simulatedRecords,null,2)}\nread_pointer = ${readPointer}\nlast_read_record = ${lastReadRecord===null?'None':lastReadRecord}`; }
+$('file-write').addEventListener('click',()=>{try{const count=simulatedFile.write($('file-input').value);renderFile();setMessage('file-message',`Wrote ${count} record(s) to the in-memory file buffer.`,'success');$('file-caption').textContent='Write replaced the simulated buffer; read_pointer reset to 0.';}catch(e){setMessage('file-message',e.message,'error');}});
+$('file-read').addEventListener('click',()=>{try{const r=simulatedFile.readNext();renderFile();setMessage('file-message',`Read record ${r.index}: “${r.value}”.`,'success');$('file-caption').textContent=`The sequential read pointer advanced from ${r.index} to ${simulatedFile.readPointer}.`;}catch(e){pendingException={type:e.name||'Error',message:e.message};renderFile();setMessage('file-message',`${e.name||'Error'}: ${e.message} Handle it in the try/except panel below.`,'error');}});
+$('file-rewind').addEventListener('click',()=>{simulatedFile.rewind();renderFile();setMessage('file-message','Read pointer rewound to record 0.','success');$('file-caption').textContent='Rewind changes the cursor only; stored records remain unchanged.';});
+$('file-find-btn').addEventListener('click',()=>{try{const index=simulatedFile.find($('file-find').value);pendingException=null;renderFile();setMessage('file-message',`Found “${simulatedFile.records[index]}” at record ${index}.`,'success');$('file-caption').textContent=`Find inspected the simulated records and matched record ${index}.`;}catch(e){if(e.name==='RecordNotFoundError')pendingException={type:e.name,message:e.message};setMessage('file-message',e.name==='RecordNotFoundError'?`${e.message} Handle it in the try/except panel below.`:e.message,'error');$('file-caption').textContent='Missing records are captured as exceptions instead of failing silently.';}});renderFile();
+function renderCSVTable(rows){if(!rows||!rows.length){$('csv-table').innerHTML='';return;}const [head,...body]=rows;$('csv-table').innerHTML=`<table class="csv-table"><thead><tr>${head.map(v=>`<th>${esc(v)}</th>`).join('')}</tr></thead><tbody>${body.map(row=>`<tr>${row.map(v=>`<td>${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;}
+$('csv-parse').addEventListener('click',()=>{const raw=$('csv-input').value;try{const rows=parseCSV(raw);pendingException=null;renderCSVTable(rows);const width=rows[0].length;const trace=rows.map((row,i)=>`Row ${i+1}: ${row.length} field(s) → ${row.map((v,j)=>`field ${j+1} = ${JSON.stringify(v)}`).join('; ')}`).join('\n');$('csv-steps').textContent=`Characters are scanned from left to right. Unquoted commas finish a field; commas inside quotes stay in the field.\n${trace}`;setMessage('csv-message',`Parsed ${rows.length} row(s), ${width} field(s) per row.`,'success');}catch(e){pendingException={type:e.name||'CSVParseError',message:e.message};$('csv-table').innerHTML='';$('csv-steps').textContent='Parsing stopped when the malformed field or row was detected.';setMessage('csv-message',`${e.name||'CSVParseError'}: ${e.message} Use “Handle last file / CSV error” in the try/except panel.`,'error');} });
+function exceptionSteps(error){return [
+  {stage:0,label:'TRY',detail:'Enter protected block.',caption:'Control enters the try block; the operation is about to run.'},
+  {stage:1,label:'OPERATION',detail:'Run requested operation.',caption:'The operation executes. A validation or lookup failure raises an exception.'},
+  {stage:2,label:'EXCEPTION',detail:`${error.type}: ${error.message}`,caption:'The operation raised an exception; normal flow skips to the matching handler.',error:true},
+  {stage:3,label:'EXCEPT HANDLER',detail:`Catch ${error.type}.`,caption:`The except handler receives the error type and message and can report or recover.`,error:true},
+  {stage:4,label:'CONTINUE',detail:'Control returns safely.',caption:'The page remains active. The handled error is visible for the learner.'}
+];}
+let lastExceptionSteps=[];
+function renderExceptionStep(step){if(!step){$('exc-flow').innerHTML='<div class="flow-step active">TRY<br><small>operation starts</small></div><div class="flow-arrow">→</div><div class="flow-step">OPERATION<br><small>waiting to run</small></div><div class="flow-arrow">→</div><div class="flow-step">EXCEPT<br><small>handler waits</small></div>'; $('exc-caption').textContent='Caught errors display their type and message; they do not crash the page.';return;}const stages=[['TRY','protected block'],['OPERATION','running statement'],['EXCEPTION','error raised'],['EXCEPT HANDLER','catch and handle'],['CONTINUE','safe continuation']];$('exc-flow').innerHTML=stages.map((s,i)=>`${i?'<div class="flow-arrow">→</div>':''}<div class="flow-step ${step.stage===i?'active':''} ${i>=2?'error-flow':''}"><b>${s[0]}</b><small>${s[1]}</small></div>`).join('');$('exc-caption').textContent=step.caption;if(step.error)$('exc-status').textContent='CAUGHT';if(step.stage===4)setMessage('exc-message',`Handled ${step.detail}.`, 'success');else if(step.stage===2||step.stage===3)setMessage('exc-message',step.detail,'error');else setMessage('exc-message',step.detail);}
+function runExceptionWith(error){lastExceptionSteps=exceptionSteps(error);createTrace('exc',lastExceptionSteps,renderExceptionStep);$('exc-status').textContent='TRACE READY';setMessage('exc-message',`Prepared a try/except trace for ${error.type}. Press Step or Play.`, 'success');}
+$('exc-run').addEventListener('click',()=>{const kind=$('exc-kind').value,input=$('exc-input').value;let result;
+  if(kind==='number')result=captureException(()=>{if(input.trim()==='')throw new TypeError('Numeric input cannot be empty.');const n=Number(input);if(!Number.isFinite(n))throw new ValueErrorShim('Invalid numeric input: expected a finite number.');return n;});
+  else if(kind==='missing')result={ok:false,type:'RecordNotFoundError',message:`Record ${JSON.stringify(input)} was not found.`};
+  else result=captureException(()=>parseCSV(input));
+  if(result.ok){pendingException=null;$('exc-status').textContent='NO ERROR';setMessage('exc-message','TRY completed without an exception.','success');createTrace('exc',[{stage:0,label:'TRY',detail:'Protected block entered.',caption:'The operation is running inside TRY.'},{stage:1,label:'SUCCESS',detail:'Operation completed.',caption:'No exception was raised, so the except handler is skipped.'},{stage:4,label:'CONTINUE',detail:'Continue normally.',caption:'Control continues after the try block.'}],renderExceptionStep);}else{pendingException={type:result.type,message:result.message};runExceptionWith(pendingException);}
+});
+function ValueErrorShim(message){this.name='ValueError';this.message=message;}
+$('exc-handle-pending').addEventListener('click',()=>{if(!pendingException){setMessage('exc-message','No pending file or CSV error to handle. Search for a missing record or parse malformed CSV first.','warn');return;}runExceptionWith(pendingException);});wireTraceControls('exc');
+
+// Extended tests, separate from the original core suite.
+$('run-extended-tests').addEventListener('click',()=>{
+  const results=[];const assert=(cond,msg='assertion failed')=>{if(!cond)throw new Error(msg);};const test=(name,fn)=>{try{fn();results.push({name,ok:true});}catch(e){results.push({name,ok:false,error:e.message});}};
+  test('Recursive binary search finds a key and shows call depth',()=>{const s=buildRecursiveBinarySteps([1,3,5,7,9],7);assert(s.some(x=>x.kind==='call'&&x.stack.length>1));assert(s[s.length-1].result===3);});
+  test('Recursive binary search rejects unsorted values',()=>{let failed=false;try{buildRecursiveBinarySteps([3,1,2],1);}catch(e){failed=/UNSORTED/.test(e.message);}assert(failed);});
+  test('Linked variants insert at head/tail/ordered position',()=>{const l=new LinkedVariant(5,'doubly');l.insert('3','head');l.insert('1','head');l.insert('5','tail');l.insert('4','ordered');assert(l.activeIndices().map(i=>l.nodes[i].value).join(',')==='1,3,4,5');});
+  test('Doubly linked deletion repairs previous pointer',()=>{const l=new LinkedVariant(4,'doubly');l.insert('1','tail');l.insert('2','tail');l.insert('3','tail');const r=l.delete('2');assert(r.ok);assert(l.nodes[l.head].next===l.tail&&l.nodes[l.tail].prev===l.head);});
+  test('Linear queue does not wrap and blocks rear overflow',()=>{const q=new LinearQueue(2);assert(q.enqueue('a').ok&&q.enqueue('b').ok);assert(q.dequeue().value==='a');assert(q.enqueue('c').reason==='full');});
+  test('BST rejects duplicates, searches and traverses in order',()=>{const t=new BinarySearchTree();[8,3,10,1,6].forEach(n=>t.insert(n));assert(t.insert(3).reason==='duplicate');assert(t.search(6).found);assert(t.traverse('inorder').map(n=>n.key).join(',')==='1,3,6,8,10');assert(t.traverse('preorder').map(n=>n.key).join(',')==='8,3,1,6,10');assert(t.traverse('postorder').map(n=>n.key).join(',')==='1,6,3,10,8');});
+  test('Hash table resolves collisions by probing and chaining',()=>{const l=new HashTable(5,'linear');assert(l.insert('ab').ok);assert(l.insert('ba').ok);assert(l.find('ba').found);assert(l.count===2);const c=new HashTable(5,'chaining');c.insert('ab');c.insert('ba');assert(c.slots[c.hash('ab')].length===2&&c.find('ba').found);});
+  test('Linear-probing hash table blocks insertion when full',()=>{const h=new HashTable(2,'linear');h.insert('a');h.insert('b');assert(h.insert('c').reason==='full');});
+  test('Factorial and recursive Fibonacci outputs',()=>{assert(factorialRecursive(5)===120);assert(factorialRecursive(0)===1);assert(fibonacciRecursive(8)===21);assert(fibonacciSequence(5).join(',')==='0,1,1,2,3,5');});
+  test('Recursive math input limits reject invalid sizes',()=>{let a=false,b=false;try{factorialRecursive(-1);}catch(e){a=true;}try{fibonacciRecursive(11);}catch(e){b=true;}assert(a&&b);});
+  test('CSV parsing preserves quoted commas and escaped quotes',()=>{const rows=parseCSV('name,note\nAva,"likes, graphs"\nBilal,"said ""hello"""');assert(rows[1][1]==='likes, graphs'&&rows[2][1]==='said "hello"');});
+  test('CSV parser reports malformed quotes and row widths',()=>{let quote=false,width=false;try{parseCSV('a,b\n"oops');}catch(e){quote=e.name==='CSVParseError';}try{parseCSV('a,b\n1,2\n3');}catch(e){width=e.name==='CSVParseError';}assert(quote&&width);});
+  test('Simulated file writes and reads records sequentially',()=>{const f=new SimulatedFile();assert(f.write('alpha\nbeta')===2);assert(f.readNext().value==='alpha'&&f.readNext().value==='beta');f.rewind();assert(f.readNext().value==='alpha');let missing=false;try{f.find('none');}catch(e){missing=e.name==='RecordNotFoundError';}assert(missing);});
+  test('Hash table size validation rejects invalid sizes',()=>{let failed=false;try{new HashTable(0,'linear');}catch(e){failed=true;}assert(failed);});
+  test('Exception interceptor captures and labels an error',()=>{const result=captureException(()=>{throw new TypeError('bad input');});assert(!result.ok&&result.type==='TypeError'&&result.message==='bad input');});
+  const passed=results.filter(r=>r.ok).length;$('extended-results').innerHTML=results.map((r,i)=>`<div class="${r.ok?'test-pass':'test-fail'}">${r.ok?'✓':'✗'} ${i+1}. ${esc(r.name)}${r.ok?'':` — ${esc(r.error)}`}</div>`).join('');setMessage('extended-summary',`${passed}/${results.length} extended tests passed. ${passed===results.length?'All added logic checks are green.':'Review the failed checks below.'}`,passed===results.length?'success':'error');
+});
+
 </script>
 </body>
 </html>
