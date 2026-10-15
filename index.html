@@ -1,1558 +1,527 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Static Linked List & Stack Visualizer</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --bg-card-border: #334155;
-            --accent-primary: #3b82f6;
-            --accent-primary-hover: #2563eb;
-            --accent-free: #06b6d4;
-            --accent-stack: #8b5cf6;
-            --accent-success: #10b981;
-            --accent-warning: #f59e0b;
-            --accent-danger: #ef4444;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --font-main: 'Inter', sans-serif;
-            --font-code: 'Fira Code', monospace;
-            --btn-min-height: 44px;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: var(--font-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
-
-        /* Typography dynamic fluid sizing */
-        h1, .h1 { font-size: clamp(1.4rem, 4vw, 2.2rem); }
-        h2, .h2 { font-size: clamp(1.2rem, 3vw, 1.75rem); }
-        h3, .h3 { font-size: clamp(1.05rem, 2.5vw, 1.35rem); }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
-        }
-
-        /* Navigation Pills */
-        .nav-pills .nav-link {
-            color: var(--text-muted);
-            border-radius: 12px;
-            padding: clamp(8px, 1.5vw, 12px) clamp(12px, 2vw, 20px);
-            font-weight: 600;
-            font-size: clamp(0.85rem, 1.8vw, 1rem);
-            min-height: var(--btn-min-height);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.25s ease;
-            border: 1px solid transparent;
-        }
-        .nav-pills .nav-link:hover {
-            color: var(--text-main);
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .nav-pills .nav-link.active {
-            background: var(--accent-primary);
-            color: #ffffff;
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
-        }
-
-        /* Responsive Containers */
-        .glass-card {
-            background: rgba(30, 41, 59, 0.75);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--bg-card-border);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            padding: clamp(12px, 2.5vw, 24px);
-            margin-bottom: 20px;
-        }
-
-        /* Controls styling */
-        .form-control, .form-select {
-            background-color: #0f172a;
-            border: 1px solid var(--bg-card-border);
-            color: var(--text-main);
-            border-radius: 10px;
-            min-height: var(--btn-min-height);
-            font-size: clamp(0.85rem, 1.8vw, 0.95rem);
-        }
-        .form-control:focus, .form-select:focus {
-            background-color: #0f172a;
-            border-color: var(--accent-primary);
-            color: var(--text-main);
-            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
-        }
-
-        .btn-custom {
-            min-height: var(--btn-min-height);
-            border-radius: 10px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 8px 16px;
-            transition: all 0.2s ease;
-            font-size: clamp(0.85rem, 1.8vw, 0.95rem);
-        }
-        .btn-custom-primary {
-            background: var(--accent-primary);
-            color: #fff;
-            border: none;
-        }
-        .btn-custom-primary:hover {
-            background: var(--accent-primary-hover);
-            color: #fff;
-            transform: translateY(-1px);
-        }
-        .btn-custom-danger {
-            background: var(--accent-danger);
-            color: #fff;
-            border: none;
-        }
-        .btn-custom-danger:hover {
-            background: #dc2626;
-            color: #fff;
-            transform: translateY(-1px);
-        }
-        .btn-custom-secondary {
-            background: #334155;
-            color: var(--text-main);
-            border: none;
-        }
-        .btn-custom-secondary:hover {
-            background: #475569;
-            color: var(--text-main);
-        }
-        .btn-custom-purple {
-            background: var(--accent-stack);
-            color: #fff;
-            border: none;
-        }
-        .btn-custom-purple:hover {
-            background: #7c3aed;
-            color: #fff;
-        }
-
-        /* Visualizer Memory Display Area */
-        .memory-viewport {
-            position: relative;
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            padding: 30px 10px 40px 10px;
-            min-height: 280px;
-            border-radius: 12px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px dashed var(--bg-card-border);
-        }
-
-        .svg-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .memory-grid {
-            display: flex;
-            gap: clamp(12px, 2vw, 24px);
-            position: relative;
-            z-index: 1;
-            min-width: max-content;
-        }
-
-        /* Linked List Node Card */
-        .node-card {
-            width: clamp(100px, 18vw, 130px);
-            background: var(--bg-card);
-            border: 2px solid var(--bg-card-border);
-            border-radius: 14px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px;
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            user-select: none;
-        }
-
-        .node-card.occupied {
-            border-color: var(--accent-primary);
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
-        }
-
-        .node-card.free {
-            border-color: rgba(6, 182, 212, 0.4);
-            background: rgba(6, 182, 212, 0.05);
-        }
-
-        .node-index-badge {
-            position: absolute;
-            top: -12px;
-            background: #0f172a;
-            border: 1px solid var(--bg-card-border);
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            font-family: var(--font-code);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: 700;
-        }
-
-        .node-box {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin-top: 10px;
-        }
-
-        .cell-data {
-            background: rgba(15, 23, 42, 0.8);
-            border-radius: 8px;
-            padding: 8px 4px;
-            text-align: center;
-            font-family: var(--font-code);
-            font-weight: 700;
-            font-size: clamp(1rem, 2.2vw, 1.25rem);
-            color: #fff;
-            min-height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            word-break: break-all;
-        }
-
-        .cell-pointer {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 8px;
-            padding: 4px;
-            text-align: center;
-            font-family: var(--font-code);
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            border: 1px dashed var(--bg-card-border);
-        }
-
-        /* Pointer Badges Above Nodes */
-        .pointer-tag-container {
-            min-height: 28px;
-            display: flex;
-            gap: 4px;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .tag-badge {
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            animation: pulseBadge 2s infinite;
-        }
-        .tag-start {
-            background: var(--accent-primary);
-            color: #fff;
-        }
-        .tag-free {
-            background: var(--accent-free);
-            color: #0f172a;
-        }
-        .tag-top {
-            background: var(--accent-stack);
-            color: #fff;
-        }
-
-        /* Stack Visualizer Specifics */
-        .stack-flex-container {
-            display: flex;
-            flex-direction: row;
-            gap: 30px;
-            align-items: flex-end;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .stack-bucket-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 180px;
-        }
-
-        .stack-bucket {
-            width: clamp(140px, 30vw, 180px);
-            border-left: 4px solid var(--accent-stack);
-            border-right: 4px solid var(--accent-stack);
-            border-bottom: 6px solid var(--accent-stack);
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-            background: rgba(139, 92, 246, 0.05);
-            display: flex;
-            flex-direction: column-reverse;
-            padding: 8px;
-            gap: 8px;
-            min-height: 260px;
-            position: relative;
-        }
-
-        .stack-element {
-            height: 46px;
-            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-            border-radius: 8px;
-            color: #fff;
-            font-family: var(--font-code);
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 12px;
-            box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .stack-element-idx {
-            font-size: 0.75rem;
-            opacity: 0.7;
-        }
-
-        /* Animations */
-        @keyframes dropIn {
-            0% { transform: translateY(-80px); opacity: 0; scale: 0.8; }
-            100% { transform: translateY(0); opacity: 1; scale: 1; }
-        }
-
-        @keyframes liftOut {
-            0% { transform: translateY(0); opacity: 1; scale: 1; }
-            100% { transform: translateY(-80px); opacity: 0; scale: 0.8; }
-        }
-
-        @keyframes shakeError {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
-        }
-
-        @keyframes pulseSuccess {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            50% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-
-        @keyframes scanHighlight {
-            0% { border-color: var(--accent-warning); box-shadow: 0 0 15px var(--accent-warning); }
-            100% { border-color: var(--bg-card-border); }
-        }
-
-        .anim-drop { animation: dropIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-        .anim-lift { animation: liftOut 0.4s forwards; }
-        .shake-target { animation: shakeError 0.45s ease-in-out; }
-        .pulse-target { animation: pulseSuccess 0.6s ease-in-out; }
-        .scan-active { border-color: var(--accent-warning) !important; box-shadow: 0 0 20px var(--accent-warning) !important; transform: translateY(-4px); }
-
-        /* Code / State Terminal Panel */
-        .terminal-panel {
-            background: #090d16;
-            border: 1px solid #1e293b;
-            border-radius: 12px;
-            padding: 16px;
-            font-family: var(--font-code);
-            font-size: clamp(0.75rem, 1.6vw, 0.88rem);
-            color: #38bdf8;
-            overflow-x: auto;
-            max-height: 250px;
-        }
-
-        .terminal-title {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .log-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            max-height: 180px;
-            overflow-y: auto;
-            font-size: 0.85rem;
-        }
-        .log-item {
-            padding: 6px 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-        }
-        .log-time {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            font-family: var(--font-code);
-            min-width: 60px;
-        }
-
-        /* SVG Path Styling */
-        .svg-arrow-data {
-            stroke: var(--accent-primary);
-            stroke-width: 2.5;
-            fill: none;
-            marker-end: url(#arrowhead-data);
-            transition: all 0.3s ease;
-        }
-        .svg-arrow-free {
-            stroke: var(--accent-free);
-            stroke-width: 2;
-            stroke-dasharray: 5, 4;
-            fill: none;
-            marker-end: url(#arrowhead-free);
-            transition: all 0.3s ease;
-        }
-
-        /* Toast notifications */
-        .toast-container-custom {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-            max-width: 90vw;
-            width: 350px;
-        }
-
-        /* Legend box */
-        .legend-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-right: 12px;
-            margin-bottom: 6px;
-        }
-        .legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 3px;
-        }
-
-        /* Mobile specific adjustments */
-        @media (max-width: 576px) {
-            .btn-custom {
-                width: 100%;
-            }
-            .stack-flex-container {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f8fb">
+<title>Data Structures Lab</title>
+<style>
+:root{--bg:#f5f7fb;--paper:#fff;--ink:#172033;--muted:#67738a;--line:#e2e7f0;--blue:#3566e8;--blue-soft:#eaf0ff;--teal:#0d9488;--teal-soft:#e5f8f5;--orange:#c47727;--orange-soft:#fff2df;--red:#d64747;--red-soft:#fff0f0;--green:#15845c;--green-soft:#e5f7ef;--purple:#7558cf;--purple-soft:#f0eaff;--shadow:0 12px 35px rgba(31,48,85,.06);--radius:16px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #a9bdff;outline-offset:2px}.app{max-width:1500px;margin:auto;padding:24px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:13px}.brand-mark{width:44px;height:44px;display:grid;place-items:center;background:var(--ink);color:white;border-radius:13px;font-weight:800;font-size:20px;box-shadow:0 5px 14px #17203320}.eyebrow{color:var(--blue);font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.brand h1{font-size:22px;line-height:1.15;margin:2px 0 0;letter-spacing:-.04em}.top-note{color:var(--muted);font-size:13px}.layout{display:grid;grid-template-columns:225px minmax(0,1fr);gap:22px;align-items:start}.sidebar{position:sticky;top:18px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow)}.nav-label{padding:8px 10px 10px;font-size:10px;letter-spacing:.12em;color:#8b95a8;font-weight:800;text-transform:uppercase}.nav-btn{width:100%;border:0;background:transparent;color:#566178;border-radius:10px;text-align:left;display:flex;align-items:center;gap:10px;padding:10px 11px;margin-bottom:3px;font-weight:650;font-size:13px;transition:.18s}.nav-btn:hover{background:#f3f6fc;color:var(--ink)}.nav-btn.active{background:var(--blue-soft);color:var(--blue)}.nav-icon{width:24px;height:24px;display:grid;place-items:center;background:#f0f2f7;border-radius:7px;font-size:12px;font-weight:850}.nav-btn.active .nav-icon{background:#d9e4ff}.side-foot{border-top:1px solid var(--line);margin-top:10px;padding:13px 9px 4px;color:var(--muted);font-size:11px}.main{min-width:0}.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;margin:2px 0 20px}.page-head h2{font-size:29px;letter-spacing:-.045em;margin:3px 0 5px;line-height:1.15}.page-head p{color:var(--muted);margin:0;max-width:720px}.pill{padding:6px 10px;border-radius:99px;color:var(--blue);background:var(--blue-soft);font-size:11px;font-weight:800;white-space:nowrap}.module{display:none}.module.active{display:block;animation:fadeIn .25s ease}@keyframes fadeIn{from{opacity:.55;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:17px;overflow:hidden}.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;border-bottom:1px solid var(--line)}.card-head h3{font-size:15px;margin:0;letter-spacing:-.02em}.card-head p{font-size:12px;color:var(--muted);margin:3px 0 0}.card-body{padding:20px}.controls{display:flex;gap:9px;flex-wrap:wrap;align-items:flex-end}.field{display:flex;flex-direction:column;gap:5px;min-width:130px}.field label{font-weight:750;color:#566178;font-size:11px;letter-spacing:.025em}.field input,.field select,.inline-input{min-width:0;border:1px solid #dce2ec;border-radius:9px;background:white;padding:9px 11px;color:var(--ink);height:39px}.field input:focus,.field select:focus,.inline-input:focus{border-color:var(--blue);outline:3px solid #dce6ff}.field.small{min-width:94px;max-width:125px}.field.grow{flex:1;min-width:180px}.btn{border:1px solid transparent;border-radius:9px;background:var(--blue);color:white;padding:9px 13px;min-height:39px;font-weight:750;font-size:12px;transition:transform .12s,background .15s}.btn:hover{filter:brightness(.97);transform:translateY(-1px)}.btn:active{transform:translateY(0)}.btn.secondary{background:white;color:#36445d;border-color:#dce2ec}.btn.ghost{background:transparent;color:var(--muted);border-color:var(--line)}.btn.danger{background:var(--red)}.btn.teal{background:var(--teal)}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.message{border-radius:10px;padding:10px 12px;margin-top:13px;font-size:12px;display:flex;align-items:flex-start;gap:9px;background:#f4f6fa;color:#4e5b72;min-height:40px}.message::before{content:'i';font-weight:900;display:inline-grid;place-items:center;flex:0 0 18px;height:18px;border-radius:50%;background:#e1e7f1;color:#59667c;font-size:11px}.message.success{background:var(--green-soft);color:#116b4b}.message.success::before{content:'✓';background:#c5efdb;color:#116b4b}.message.error{background:var(--red-soft);color:#a72c2c}.message.error::before{content:'!';background:#ffd7d7;color:#a72c2c}.message.warn{background:var(--orange-soft);color:#935414}.message.warn::before{content:'!';background:#ffe2b7;color:#935414}.status-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.status-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:7px;background:#f2f4f8;color:#536078;font-weight:800;font-size:10px;letter-spacing:.03em}.status-chip.full{background:var(--red-soft);color:var(--red)}.status-chip.empty{background:var(--orange-soft);color:#a05e1b}.status-chip.good{background:var(--green-soft);color:var(--green)}.split{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(270px,.8fr);gap:17px}.subheading{font-size:12px;font-weight:850;margin:0 0 10px;color:#46536a}.visual-wrap{border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,#fbfcff 0%,#fff 100%);padding:14px;min-width:0}.track-scroll{overflow-x:auto;padding-bottom:6px}.node-track{position:relative;min-height:205px;min-width:max-content;padding:8px 8px 10px}.node-svg{position:absolute;left:8px;top:0;overflow:visible;pointer-events:none;z-index:0}.nodes-row{position:relative;z-index:1;display:flex;align-items:flex-start;gap:11px;padding-top:82px}.node-cell{width:110px;flex:0 0 110px;position:relative}.node-flags{height:26px;display:flex;justify-content:center;align-items:center;gap:4px;margin-bottom:5px}.flag{font-size:9px;font-weight:900;letter-spacing:.025em;padding:3px 6px;border-radius:5px;background:#eef1f6;color:#778198;white-space:nowrap}.flag.start{background:var(--blue);color:#fff}.flag.free{background:var(--orange);color:#fff}.node-box{height:75px;position:relative;border:1.5px solid #cfd7e5;border-radius:11px;background:white;overflow:hidden;box-shadow:0 4px 10px #25375a0a;transition:border .2s,background .2s,transform .2s,opacity .2s}.node-box.occupied{border-color:#8eabff;background:#f4f7ff}.node-box.free-slot{border-style:dashed;background:#fbfcfe;border-color:#cfd5df}.node-box.is-start{box-shadow:0 0 0 2px #3566e82b}.node-box.is-free{border-color:#e2ae6b;background:#fffaf2}.node-box.current{outline:3px solid #f6bf4b;outline-offset:2px;animation:currentPulse .65s infinite alternate}.node-box.found{outline:3px solid #18a773;outline-offset:2px;animation:goodPulse .5s 2}.node-box.fail{animation:shake .35s}.node-box.enter{animation:slideIn .38s ease both}.node-box.exit{opacity:.2;transform:translateY(9px) scale(.94)}@keyframes currentPulse{to{box-shadow:0 0 0 5px #ffc94e35}}@keyframes goodPulse{50%{transform:scale(1.045)}}@keyframes shake{25%,75%{transform:translateX(-4px)}50%{transform:translateX(4px)}}@keyframes slideIn{from{opacity:.1;transform:translateY(-13px) scale(.9)}to{opacity:1;transform:none}}.node-index{position:absolute;top:6px;left:8px;color:#8893a5;font-size:9px;font-weight:800}.node-value{height:48px;display:grid;place-items:center;padding:14px 4px 0;font-weight:850;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.node-value.null{font-weight:600;color:#a6afbd;font-size:11px}.pointer-pill{position:absolute;bottom:5px;right:6px;padding:1px 5px;border-radius:4px;font-size:10px;font-weight:850;background:#e3eaff;color:#2d5bd1}.free-slot .pointer-pill{background:#f8e8d3;color:#9c601f}.slot-caption{text-align:center;font-size:10px;color:#8a94a5;margin-top:7px}.legend{display:flex;gap:13px;flex-wrap:wrap;margin-top:14px;color:var(--muted);font-size:11px}.legend span{display:inline-flex;align-items:center;gap:6px}.dot{width:8px;height:8px;border-radius:3px;display:inline-block}.dot.blue{background:var(--blue)}.dot.orange{background:var(--orange)}.dot.gray{background:#aeb7c7}.state-code{margin:0;padding:15px;background:#10192b;color:#deebff;border-radius:11px;font:12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-x:auto;white-space:pre}.state-label{font-size:10px;color:#94a4c0;text-transform:uppercase;letter-spacing:.11em;font-weight:850;margin:0 0 8px}.array-line{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;margin:0 0 10px;overflow-wrap:anywhere}.array-key{color:#8c98ac;font-weight:800}.caption-box{padding:12px 14px;background:#f6f8fc;border-left:3px solid var(--blue);border-radius:0 9px 9px 0;font-size:12px;color:#566178;margin-top:13px}.caption-box strong{color:var(--ink)}.code-card pre{margin:0;padding:17px 19px;overflow:auto;background:#10192b;color:#dce7f8;font:12px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre}.code-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#10192b;color:#9eacc4;border-bottom:1px solid #2c3547;padding:10px 15px;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.code-toolbar button{background:#25334d;border:1px solid #3a4964;color:#e5edff;padding:5px 8px;border-radius:6px;font-size:10px}.small-note{font-size:11px;color:var(--muted);margin:10px 0 0}.array-visual{display:flex;gap:8px;overflow-x:auto;padding:12px 4px 16px;min-height:100px;align-items:stretch}.array-cell{min-width:64px;max-width:130px;flex:1;position:relative;text-align:center;border:1.5px solid #d9dfeb;border-radius:10px;background:white;padding:13px 6px 10px;transition:transform .2s,background .2s,border .2s,opacity .2s;animation:fadeIn .2s ease}.array-cell .idx{display:block;color:#8a94a6;font-size:10px;font-weight:800;margin-bottom:8px}.array-cell .val{font-weight:850;font-size:15px;overflow-wrap:anywhere}.array-cell.hl{background:#fff4db;border-color:#e4a43c;transform:translateY(-4px);box-shadow:0 5px 14px #b87b1c18}.array-cell.match{background:var(--green-soft);border-color:#56bd90;transform:translateY(-4px)}.array-cell.low{border-top:4px solid #0d9488}.array-cell.mid{outline:3px solid var(--purple);outline-offset:1px}.array-cell.high{border-bottom:4px solid #d97706}.array-cell.sorted{background:#eef9f4;border-color:#b0e0ca}.array-cell.swap{animation:swap .38s ease}.array-cell.shift{animation:shift .28s ease}@keyframes swap{50%{transform:translateY(-7px) rotate(-2deg);background:#ffe3e3}}@keyframes shift{50%{transform:translateX(7px);background:#e6edff}}.mini-labels{display:flex;flex-wrap:wrap;gap:7px;font-size:10px;color:var(--muted);margin:0 0 10px}.mini-labels span{padding:4px 7px;background:#f2f4f8;border-radius:6px}.mini-labels .l{color:#087e72;background:#e5f8f5}.mini-labels .m{color:#7558cf;background:#f0eaff}.mini-labels .h{color:#a05e1b;background:#fff2df}.linear-stack{display:flex;flex-direction:column;gap:9px;max-width:440px}.stack-cell{min-height:46px;border:1.5px solid #d9dfeb;border-radius:10px;background:#fff;padding:10px 15px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:800;transition:.2s}.stack-cell.top-cell{border-color:#8eabff;background:#f1f5ff}.stack-cell.enter,.queue-cell.enter{animation:slideIn .35s ease both}.stack-cell.exit,.queue-cell.exit{animation:fadeOut .35s ease both}@keyframes fadeOut{to{opacity:0;transform:translateY(10px) scale(.94)}}.stack-cell .index{font-size:10px;color:#8993a5;font-weight:800}.stack-empty{border:1px dashed #cdd5e3;border-radius:10px;padding:28px;text-align:center;color:#9aa4b4;font-size:12px}.queue-track{display:flex;align-items:stretch;gap:8px;overflow-x:auto;padding:22px 5px}.queue-cell{min-width:72px;flex:0 0 72px;height:88px;border:1.5px solid #d9dfeb;border-radius:10px;background:white;padding:8px;text-align:center;position:relative}.queue-cell.filled{background:#f1f5ff;border-color:#9bb3ff}.queue-cell.front-cell{border-top:4px solid var(--teal)}.queue-cell.rear-cell{border-bottom:4px solid var(--orange)}.queue-cell .queue-idx{font-size:9px;color:#8a94a6;font-weight:850}.queue-cell .queue-val{margin-top:12px;font-size:14px;font-weight:850;overflow-wrap:anywhere}.queue-ptr{position:absolute;top:-23px;left:0;right:0;font-size:9px;font-weight:900}.test-results{font:12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;background:#f8f9fc;border:1px solid var(--line);border-radius:10px;padding:12px;white-space:pre-wrap;color:#47546b}.test-pass{color:#138054}.test-fail{color:#c33737}.range-label{font-size:11px;color:var(--muted);margin-top:10px}.play-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.delay{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);margin-left:auto}.delay input{width:92px;accent-color:var(--blue)}details summary{cursor:pointer;font-weight:800;font-size:13px;padding:17px 20px;list-style:none;display:flex;justify-content:space-between;align-items:center}details summary::-webkit-details-marker{display:none}details summary::after{content:'+';font-size:19px;color:var(--blue)}details[open] summary::after{content:'−'}.mobile-nav{display:none}.footer{display:flex;justify-content:space-between;gap:12px;color:#9099a8;font-size:10px;padding:2px 3px 15px}
+@media(max-width:1100px){.layout{grid-template-columns:190px minmax(0,1fr);gap:15px}.app{padding:17px}.split{grid-template-columns:1fr}.page-head h2{font-size:25px}}
+@media(max-width:760px){.app{padding:13px}.topbar{margin-bottom:14px}.top-note{display:none}.layout{display:block}.sidebar{display:none}.mobile-nav{display:flex;gap:6px;overflow-x:auto;padding:4px 0 12px;margin-bottom:9px}.mobile-nav .nav-btn{width:auto;white-space:nowrap;flex:0 0 auto;margin:0;background:white;border:1px solid var(--line);padding:8px 10px}.mobile-nav .nav-btn.active{background:var(--blue-soft);border-color:#c9d8ff}.page-head{align-items:flex-start;flex-direction:column;gap:9px;margin-bottom:14px}.page-head h2{font-size:25px}.pill{align-self:flex-start}.card-head,.card-body{padding:15px}.controls .field{flex:1;min-width:calc(50% - 8px)}.controls .field.grow{min-width:100%}.controls .btn{flex:1}.delay{margin-left:0;width:100%}.node-box{height:70px}.node-track{min-height:195px}.nodes-row{padding-top:82px}.footer{flex-direction:column}.card-head{align-items:flex-start}.status-line{align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
 </head>
-<body class="p-2 p-md-4">
-
-    <!-- Header Navigation Bar -->
-    <header class="container-fluid max-w-7xl mb-3">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 glass-card mb-0">
-            <div>
-                <h1 class="fw-bold mb-1 d-flex align-items-center gap-2">
-                    <i class="bi bi-cpu text-primary"></i> Data Structures Visualizer
-                </h1>
-                <p class="text-muted small mb-0">Array-based Memory Static Linked List & Array Stack in Python style</p>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">DS</div><div><div class="eyebrow">Interactive learning studio</div><h1>Data Structures Lab</h1></div></div>
+    <div class="top-note">Explore the structure. Trace the logic. Test the edge cases.</div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Module navigation">
+      <div class="nav-label">Data structures</div>
+      <button class="nav-btn active" data-module="linked"><span class="nav-icon">LL</span>Static linked list</button>
+      <button class="nav-btn" data-module="stack"><span class="nav-icon">ST</span>Stack</button>
+      <button class="nav-btn" data-module="queue"><span class="nav-icon">QU</span>Queue</button>
+      <div class="nav-label" style="margin-top:12px">Algorithms</div>
+      <button class="nav-btn" data-module="bubble"><span class="nav-icon">B↕</span>Bubble sort</button>
+      <button class="nav-btn" data-module="insertion"><span class="nav-icon">I↗</span>Insertion sort</button>
+      <button class="nav-btn" data-module="linear"><span class="nav-icon">L⌕</span>Linear search</button>
+      <button class="nav-btn" data-module="binary"><span class="nav-icon">B⌕</span>Binary search</button>
+      <div class="side-foot">Python-inspired logic<br>Vanilla JavaScript · Single file</div>
+    </aside>
+    <nav class="mobile-nav" aria-label="Module navigation">
+      <button class="nav-btn active" data-module="linked">Linked list</button><button class="nav-btn" data-module="stack">Stack</button><button class="nav-btn" data-module="queue">Queue</button><button class="nav-btn" data-module="bubble">Bubble sort</button><button class="nav-btn" data-module="insertion">Insertion sort</button><button class="nav-btn" data-module="linear">Linear search</button><button class="nav-btn" data-module="binary">Binary search</button>
+    </nav>
+    <main class="main">
+      <section class="module active" id="module-linked">
+        <div class="page-head"><div><div class="eyebrow">Data structure · 01</div><h2>Static linked list</h2><p>A linked list built from two parallel arrays. Follow the index pointers rather than the physical order of the boxes.</p></div><span class="pill">Array-based pointers</span></div>
+        <div class="card">
+          <div class="card-head"><div><h3>Operate on the list</h3><p>Insert adds at the head; find and delete stop at the first matching value.</p></div><div class="status-line" id="ll-badges"></div></div>
+          <div class="card-body">
+            <div class="controls">
+              <div class="field small"><label for="ll-capacity">Capacity</label><input id="ll-capacity" type="number" min="1" max="24" step="1" value="4"></div>
+              <button class="btn secondary" id="ll-reset">Create / reset</button>
+              <div class="field grow"><label for="ll-value">Value (text)</label><input id="ll-value" type="text" placeholder="e.g. mango" autocomplete="off"></div>
+              <button class="btn teal" id="ll-insert">Insert</button><button class="btn secondary" id="ll-find">Find</button><button class="btn danger" id="ll-delete">Delete</button><button class="btn ghost" id="ll-display">Display</button>
             </div>
-            
-            <div class="d-flex align-items-center gap-2 w-100 w-md-auto justify-content-between justify-content-md-end">
-                <!-- Navigation Tabs Switcher -->
-                <ul class="nav nav-pills flex-nowrap" id="dsTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="linked-list-tab" data-bs-toggle="pill" data-bs-target="#linked-list-pane" type="button" role="tab">
-                            <i class="bi bi-diagram-3-fill"></i> Linked List
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="stack-tab" data-bs-toggle="pill" data-bs-target="#stack-pane" type="button" role="tab">
-                            <i class="bi bi-layers-fill"></i> Stack
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="test-tab" data-bs-toggle="pill" data-bs-target="#test-pane" type="button" role="tab">
-                            <i class="bi bi-check2-circle"></i> Unit Tests
-                        </button>
-                    </li>
-                </ul>
-            </div>
+            <div class="message" id="ll-message" role="status" aria-live="polite">Create the list, then insert a value to see how the free list and active list change.</div>
+          </div>
         </div>
-    </header>
-
-    <!-- Main Content Container -->
-    <main class="container-fluid max-w-7xl flex-grow-1">
-        <div class="tab-content" id="dsTabContent">
-
-            <!-- ================= LINKED LIST TAB ================= -->
-            <div class="tab-pane fade show active" id="linked-list-pane" role="tabpanel" tabindex="0">
-                
-                <!-- Controls & Input Bar -->
-                <div class="glass-card">
-                    <div class="row g-3 align-items-center">
-                        <div class="col-12 col-sm-6 col-lg-3">
-                            <label class="form-label small text-muted mb-1 fw-semibold">Value Input</label>
-                            <input type="text" id="ll-input" class="form-control" placeholder="e.g. 42 or 'A'" maxlength="6">
-                        </div>
-                        <div class="col-6 col-sm-3 col-lg-2">
-                            <label class="form-label small text-muted mb-1 invisible">Insert</label>
-                            <button id="btn-ll-insert" class="btn btn-custom btn-custom-primary w-100">
-                                <i class="bi bi-plus-circle"></i> Insert
-                            </button>
-                        </div>
-                        <div class="col-6 col-sm-3 col-lg-2">
-                            <label class="form-label small text-muted mb-1 invisible">Delete</label>
-                            <button id="btn-ll-delete" class="btn btn-custom btn-custom-danger w-100">
-                                <i class="bi bi-trash"></i> Delete
-                            </button>
-                        </div>
-                        <div class="col-6 col-sm-3 col-lg-2">
-                            <label class="form-label small text-muted mb-1 invisible">Find</label>
-                            <button id="btn-ll-find" class="btn btn-custom btn-custom-secondary w-100">
-                                <i class="bi bi-search"></i> Find
-                            </button>
-                        </div>
-                        <div class="col-6 col-sm-3 col-lg-3">
-                            <label class="form-label small text-muted mb-1 fw-semibold">Capacity (3-8)</label>
-                            <div class="d-flex gap-2">
-                                <select id="ll-capacity-select" class="form-select">
-                                    <option value="3">3 Slots</option>
-                                    <option value="4" selected>4 Slots</option>
-                                    <option value="5">5 Slots</option>
-                                    <option value="6">6 Slots</option>
-                                    <option value="8">8 Slots</option>
-                                </select>
-                                <button id="btn-ll-reset" class="btn btn-custom btn-custom-secondary" title="Reset Memory">
-                                    <i class="bi bi-arrow-counterclockwise"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Linked List Visual Memory Area -->
-                <div class="glass-card">
-                    <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
-                        <h3 class="fw-bold mb-0 text-primary d-flex align-items-center gap-2">
-                            <i class="bi bi-cpu-fill"></i> Static Memory Array View
-                        </h3>
-                        <!-- Speed Control & Legend -->
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="small text-muted">Speed:</span>
-                                <input type="range" id="anim-speed" class="form-range" min="100" max="1000" step="100" value="400" style="width: 80px;">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Legend -->
-                    <div class="mb-3">
-                        <span class="legend-badge"><span class="legend-color" style="background: var(--accent-primary);"></span> Data Chain (`start_pointer`)</span>
-                        <span class="legend-badge"><span class="legend-color" style="background: var(--accent-free);"></span> Free Chain (`free_pointer`)</span>
-                        <span class="legend-badge"><span class="legend-color" style="background: var(--accent-warning);"></span> Traversal Step</span>
-                    </div>
-
-                    <!-- Memory Viewport with SVG overlay -->
-                    <div class="memory-viewport" id="ll-viewport">
-                        <svg class="svg-overlay" id="ll-svg-canvas">
-                            <defs>
-                                <marker id="arrowhead-data" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6"/>
-                                </marker>
-                                <marker id="arrowhead-free" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#06b6d4"/>
-                                </marker>
-                            </defs>
-                        </svg>
-
-                        <div class="memory-grid" id="ll-nodes-grid">
-                            <!-- Dynamically populated node slots -->
-                        </div>
-                    </div>
-                </div>
-
+        <div class="split">
+          <div class="card">
+            <div class="card-head"><div><h3>Memory slots and pointer paths</h3><p>Slot index is its physical position; arrows show logical links.</p></div></div>
+            <div class="card-body">
+              <div class="visual-wrap"><div class="track-scroll"><div class="node-track" id="ll-track"></div></div>
+                <div class="legend"><span><i class="dot blue"></i>Active list / Start</span><span><i class="dot orange"></i>Free pool / Free</span><span><i class="dot gray"></i>Empty slot</span></div>
+              </div>
+              <div class="caption-box" id="ll-caption"><strong>Pointer note:</strong> Start points to the first active node. Free points to the first unused slot.</div>
             </div>
-
-            <!-- ================= STACK TAB ================= -->
-            <div class="tab-pane fade" id="stack-pane" role="tabpanel" tabindex="0">
-                
-                <!-- Stack Controls Bar -->
-                <div class="glass-card">
-                    <div class="row g-3 align-items-center">
-                        <div class="col-12 col-sm-6 col-lg-3">
-                            <label class="form-label small text-muted mb-1 fw-semibold">Value Input</label>
-                            <input type="text" id="stack-input" class="form-control" placeholder="e.g. 99 or 'X'" maxlength="6">
-                        </div>
-                        <div class="col-6 col-sm-3 col-lg-2">
-                            <label class="form-label small text-muted mb-1 invisible">Push</label>
-                            <button id="btn-stack-push" class="btn btn-custom btn-custom-purple w-100">
-                                <i class="bi bi-box-arrow-in-down"></i> Push
-                            </button>
-                        </div>
-                        <div class="col-6 col-sm-3 col-lg-2">
-                            <label class="form-label small text-muted mb-1 invisible">Pop</label>
-                            <button id="btn-stack-pop" class="btn btn-custom btn-custom-danger w-100">
-                                <i class="bi bi-box-arrow-up"></i> Pop
-                            </button>
-                        </div>
-                        <div class="col-6 col-sm-3 col-lg-2">
-                            <label class="form-label small text-muted mb-1 invisible">Peek</label>
-                            <button id="btn-stack-peek" class="btn btn-custom btn-custom-secondary w-100">
-                                <i class="bi bi-eye"></i> Peek
-                            </button>
-                        </div>
-                        <div class="col-6 col-sm-3 col-lg-3">
-                            <label class="form-label small text-muted mb-1 fw-semibold">Capacity (3-8)</label>
-                            <div class="d-flex gap-2">
-                                <select id="stack-capacity-select" class="form-select">
-                                    <option value="3">3 Slots</option>
-                                    <option value="4" selected>4 Slots</option>
-                                    <option value="5">5 Slots</option>
-                                    <option value="6">6 Slots</option>
-                                    <option value="8">8 Slots</option>
-                                </select>
-                                <button id="btn-stack-reset" class="btn btn-custom btn-custom-secondary" title="Reset Stack">
-                                    <i class="bi bi-arrow-counterclockwise"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dual Stack Display Area -->
-                <div class="glass-card">
-                    <h3 class="fw-bold mb-3 text-purple d-flex align-items-center gap-2" style="color: var(--accent-stack);">
-                        <i class="bi bi-layers flex-shrink-0"></i> Stack Views (Vertical Bucket & Horizontal Array)
-                    </h3>
-
-                    <div class="stack-flex-container py-3">
-                        <!-- Vertical Bucket Container -->
-                        <div class="stack-bucket-wrapper">
-                            <div class="fw-bold small text-muted mb-2"><i class="bi bi-segmented-nav"></i> LIFO Vertical Vessel</div>
-                            <div class="stack-bucket" id="stack-vessel">
-                                <!-- Elements stacked vertically bottom to top -->
-                            </div>
-                        </div>
-
-                        <!-- Parallel Horizontal Memory Array View -->
-                        <div class="flex-grow-1 w-100" style="max-width: 600px;">
-                            <div class="fw-bold small text-muted mb-2"><i class="bi bi-border-all"></i> Physical Memory Array Representation</div>
-                            <div class="memory-viewport" style="min-height: auto; padding: 20px 10px;">
-                                <div class="memory-grid justify-content-start" id="stack-array-grid">
-                                    <!-- Memory slots horizontal -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- ================= UNIT TEST TAB ================= -->
-            <div class="tab-pane fade" id="test-pane" role="tabpanel" tabindex="0">
-                <div class="glass-card">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <h3 class="fw-bold mb-1 text-success"><i class="bi bi-shield-check"></i> Automated Algorithm Test Suite</h3>
-                            <p class="text-muted small mb-0">Verifies edge cases, memory exhaustion, pointer recycling, and stack bounds.</p>
-                        </div>
-                        <button id="btn-run-tests" class="btn btn-custom btn-custom-primary">
-                            <i class="bi bi-play-fill"></i> Run All Tests
-                        </button>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table class="table table-dark table-hover rounded-3 overflow-hidden" id="test-results-table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Test Case</th>
-                                    <th scope="col">Target DS</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Details</th>
-                                </tr>
-                            </thead>
-                            <tbody id="test-results-body">
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">Click "Run All Tests" to execute unit test assertions.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
+          </div>
+          <div class="card">
+            <div class="card-head"><div><h3>Live Python-style state</h3><p>Refreshed after each operation.</p></div><span class="status-chip">STATE</span></div>
+            <div class="card-body"><div class="state-label">Object state</div><pre class="state-code" id="ll-state"></pre><div class="caption-box">Each <code>pointers[i]</code> stores the next index. A value of <code>-1</code> marks the end of a chain.</div></div>
+          </div>
         </div>
+        <div class="card code-card"><div class="code-toolbar"><span>Python · core implementation</span><button class="copy-code" data-code="ll-python">Copy code</button></div><pre id="ll-python">class LinkList:
+    def __init__(self, capacity=4):
+        self.capacity = int(capacity)
+        self.free_pointer = 0
+        self.start_pointer = -1
+        self.list = [None] * capacity
+        self.pointers = [i + 1 for i in range(capacity)]
+        self.pointers[capacity - 1] = -1
 
-        <!-- ================= LIVE CODE STATE & LOG PANEL ================= -->
-        <div class="row g-3">
-            <!-- Python Live State View -->
-            <div class="col-12 col-lg-6">
-                <div class="glass-card h-100 mb-0">
-                    <div class="terminal-title">
-                        <span><i class="bi bi-terminal-fill text-warning"></i> Live Python Memory State</span>
-                        <span id="state-ds-indicator" class="badge bg-secondary">Linked List</span>
-                    </div>
-                    <pre class="terminal-panel mb-0" id="python-state-code"><code># Initializing memory state...</code></pre>
-                </div>
-            </div>
+    def insert(self, item):
+        if self.free_pointer == -1:
+            return False
+        temp = self.start_pointer
+        self.start_pointer = self.free_pointer
+        self.free_pointer = self.pointers[self.free_pointer]
+        self.pointers[self.start_pointer] = temp
+        self.list[self.start_pointer] = item
+        return True
 
-            <!-- Real-time Operation History Log -->
-            <div class="col-12 col-lg-6">
-                <div class="glass-card h-100 mb-0">
-                    <div class="terminal-title">
-                        <span><i class="bi bi-journal-text text-info"></i> Operation History Log</span>
-                        <button id="btn-clear-log" class="btn btn-sm btn-link text-muted p-0 text-decoration-none">Clear</button>
-                    </div>
-                    <ul class="log-list" id="operation-log">
-                        <li class="log-item">
-                            <span class="log-time">00:00:00</span>
-                            <span class="text-muted">Visualizer initialized and ready.</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    def find(self, item):
+        temp = self.start_pointer
+        while temp != -1 and self.list[temp] != item:
+            temp = self.pointers[temp]
+        return temp
+
+    def delete(self, item):
+        if self.start_pointer == -1:
+            return False
+        index = self.start_pointer
+        while index != -1 and self.list[index] != item:
+            old_pointer = index
+            index = self.pointers[index]
+        if index == -1:
+            return False
+        if index == self.start_pointer:
+            self.start_pointer = self.pointers[self.start_pointer]
+            self.pointers[index] = self.free_pointer
+            self.free_pointer = index
+            self.list[index] = None
+        else:
+            temp = self.pointers[index]
+            self.pointers[index] = self.free_pointer
+            self.free_pointer = index
+            self.pointers[old_pointer] = temp
+            self.list[index] = None
+        return True</pre></div>
+      </section>
+
+      <section class="module" id="module-stack">
+        <div class="page-head"><div><div class="eyebrow">Data structure · 02</div><h2>Stack</h2><p>A last-in, first-out (LIFO) structure. Push adds at the top; pop removes the top item.</p></div><span class="pill">LIFO</span></div>
+        <div class="card"><div class="card-head"><div><h3>Stack controls</h3><p>Top is an index into the array, not a separate node.</p></div><div class="status-line" id="stack-badges"></div></div><div class="card-body"><div class="controls"><div class="field small"><label for="stack-capacity">Capacity</label><input id="stack-capacity" type="number" min="1" max="24" value="5" step="1"></div><button class="btn secondary" id="stack-reset">Create / reset</button><div class="field grow"><label for="stack-value">Value</label><input id="stack-value" placeholder="e.g. 42" autocomplete="off"></div><button class="btn teal" id="stack-push">Push</button><button class="btn secondary" id="stack-peek">Peek</button><button class="btn danger" id="stack-pop">Pop</button></div><div class="message" id="stack-message" role="status" aria-live="polite">Push a value to place it at the top of the stack.</div></div></div>
+        <div class="split"><div class="card"><div class="card-head"><h3>Stack memory</h3></div><div class="card-body"><div class="visual-wrap"><div id="stack-view" class="linear-stack"></div><div class="legend"><span><i class="dot blue"></i>Occupied</span><span><i class="dot orange"></i>Top pointer</span></div></div><div class="caption-box" id="stack-caption">Top starts at -1, which means the stack is empty.</div></div></div><div class="card"><div class="card-head"><h3>State</h3><span class="status-chip">LIFO</span></div><div class="card-body"><pre class="state-code" id="stack-state"></pre></div></div></div>
+        <div class="card code-card"><div class="code-toolbar"><span>Python · stack operations</span><button class="copy-code" data-code="stack-python">Copy code</button></div><pre id="stack-python">class Stack:
+    def __init__(self, capacity):
+        self.items = [None] * capacity
+        self.top = -1
+
+    def push(self, item):
+        if self.top == len(self.items) - 1:
+            return False
+        self.top += 1
+        self.items[self.top] = item
+        return True
+
+    def pop(self):
+        if self.top == -1:
+            return None
+        item = self.items[self.top]
+        self.items[self.top] = None
+        self.top -= 1
+        return item
+
+    def peek(self):
+        return None if self.top == -1 else self.items[self.top]</pre></div>
+      </section>
+
+      <section class="module" id="module-queue">
+        <div class="page-head"><div><div class="eyebrow">Data structure · 03</div><h2>Queue</h2><p>A first-in, first-out (FIFO) structure. The front leaves first, while the rear receives new values.</p></div><span class="pill">FIFO · Circular array</span></div>
+        <div class="card"><div class="card-head"><div><h3>Queue controls</h3><p>This implementation uses a circular array so freed slots can be reused.</p></div><div class="status-line" id="queue-badges"></div></div><div class="card-body"><div class="controls"><div class="field small"><label for="queue-capacity">Capacity</label><input id="queue-capacity" type="number" min="1" max="24" value="5" step="1"></div><button class="btn secondary" id="queue-reset">Create / reset</button><div class="field grow"><label for="queue-value">Value</label><input id="queue-value" placeholder="e.g. blue" autocomplete="off"></div><button class="btn teal" id="queue-enqueue">Enqueue</button><button class="btn danger" id="queue-dequeue">Dequeue</button><button class="btn secondary" id="queue-front">Show front / rear</button></div><div class="message" id="queue-message" role="status" aria-live="polite">Enqueue a value to add it at the rear of the queue.</div></div></div>
+        <div class="split"><div class="card"><div class="card-head"><h3>Queue memory</h3></div><div class="card-body"><div class="visual-wrap"><div class="queue-track" id="queue-view"></div><div class="legend"><span><i class="dot blue"></i>Occupied slot</span><span><i class="dot blue" style="background:var(--teal)"></i>Front</span><span><i class="dot orange"></i>Rear</span></div></div><div class="caption-box" id="queue-caption">Front and rear are -1 while the queue is empty.</div></div></div><div class="card"><div class="card-head"><h3>State</h3><span class="status-chip">FIFO</span></div><div class="card-body"><pre class="state-code" id="queue-state"></pre></div></div></div>
+        <div class="card code-card"><div class="code-toolbar"><span>Python · circular queue</span><button class="copy-code" data-code="queue-python">Copy code</button></div><pre id="queue-python">class Queue:
+    def __init__(self, capacity):
+        self.items = [None] * capacity
+        self.front = 0
+        self.rear = -1
+        self.count = 0
+
+    def enqueue(self, item):
+        if self.count == len(self.items):
+            return False
+        self.rear = (self.rear + 1) % len(self.items)
+        self.items[self.rear] = item
+        self.count += 1
+        return True
+
+    def dequeue(self):
+        if self.count == 0:
+            return None
+        item = self.items[self.front]
+        self.items[self.front] = None
+        self.front = (self.front + 1) % len(self.items)
+        self.count -= 1
+        if self.count == 0:
+            self.front, self.rear = 0, -1
+        return item</pre></div>
+      </section>
+
+      <section class="module" id="module-bubble">
+        <div class="page-head"><div><div class="eyebrow">Algorithm · 04</div><h2>Bubble sort</h2><p>Compare adjacent values and swap out-of-order pairs. The largest remaining value settles at the end of each pass.</p></div><span class="pill">Adjacent comparisons</span></div>
+        <div class="card"><div class="card-head"><div><h3>Build an array</h3><p>Enter comma-separated numbers or short strings. Numeric-looking values are compared numerically.</p></div><span class="status-chip" id="bubble-pass">Pass 0</span></div><div class="card-body"><div class="controls"><div class="field grow"><label for="bubble-input">Array values</label><input id="bubble-input" value="7, 3, 5, 2, 8, 1" /></div><button class="btn secondary" id="bubble-load">Load array</button><div class="play-controls"><button class="btn" id="bubble-step">Step</button><button class="btn secondary" id="bubble-play">Play</button><button class="btn ghost" id="bubble-pause" disabled>Pause</button><button class="btn ghost" id="bubble-restart">Restart</button></div></div><div class="message" id="bubble-message" role="status">Load the array, then step through each adjacent comparison.</div></div></div>
+        <div class="card"><div class="card-head"><h3>Compare and swap</h3><div class="delay"><label for="algorithm-delay">Step delay</label><input id="algorithm-delay" class="delay-control" type="range" min="150" max="1400" step="50" value="650"><span id="delay-value" class="delay-value">650 ms</span></div></div><div class="card-body"><div class="array-visual" id="bubble-view"></div><div class="mini-labels"><span style="background:#fff4db;color:#99631c">Current comparison</span><span style="background:#ffe3e3;color:#ad3535">Swap</span><span style="background:#e5f7ef;color:#15845c">Sorted suffix</span></div><div class="caption-box" id="bubble-caption">A pass compares values from left to right.</div></div></div>
+        <div class="card code-card"><div class="code-toolbar"><span>Python · bubble sort</span><button class="copy-code" data-code="bubble-python">Copy code</button></div><pre id="bubble-python">def bubble_sort(values):
+    n = len(values)
+    for end in range(n - 1, 0, -1):
+        swapped = False
+        for i in range(end):
+            if values[i] > values[i + 1]:
+                values[i], values[i + 1] = values[i + 1], values[i]
+                swapped = True
+        if not swapped:
+            break
+    return values</pre></div>
+      </section>
+
+      <section class="module" id="module-insertion">
+        <div class="page-head"><div><div class="eyebrow">Algorithm · 05</div><h2>Insertion sort</h2><p>Grow a sorted prefix. Hold a key, shift larger values right, then insert the key into the gap.</p></div><span class="pill">Sorted prefix</span></div>
+        <div class="card"><div class="card-head"><div><h3>Build an array</h3><p>Use comma-separated values. Numeric-looking values are compared numerically.</p></div><span class="status-chip" id="insertion-progress">Item 1</span></div><div class="card-body"><div class="controls"><div class="field grow"><label for="insertion-input">Array values</label><input id="insertion-input" value="6, 2, 5, 3, 1, 4" /></div><button class="btn secondary" id="insertion-load">Load array</button><div class="play-controls"><button class="btn" id="insertion-step">Step</button><button class="btn secondary" id="insertion-play">Play</button><button class="btn ghost" id="insertion-pause" disabled>Pause</button><button class="btn ghost" id="insertion-restart">Restart</button></div></div><div class="message" id="insertion-message" role="status">Step to select the next key and shift values larger than it.</div></div></div>
+        <div class="card"><div class="card-head"><h3>Shift values into place</h3><div class="delay"><label for="insertion-delay">Step delay</label><input id="insertion-delay" class="delay-control" type="range" min="150" max="1400" step="50" value="650"><span class="delay-value">650 ms</span></div></div><div class="card-body"><div class="array-visual" id="insertion-view"></div><div class="mini-labels"><span style="background:#e5f7ef;color:#15845c">Sorted prefix</span><span style="background:#fff4db;color:#99631c">Key / current slot</span><span style="background:#eaf0ff;color:#315dcc">Shifted value</span></div><div class="caption-box" id="insertion-caption">At the start, the first element is considered sorted.</div></div></div>
+        <div class="card code-card"><div class="code-toolbar"><span>Python · insertion sort</span><button class="copy-code" data-code="insertion-python">Copy code</button></div><pre id="insertion-python">def insertion_sort(values):
+    for i in range(1, len(values)):
+        key = values[i]
+        j = i - 1
+        while j >= 0 and values[j] > key:
+            values[j + 1] = values[j]
+            j -= 1
+        values[j + 1] = key
+    return values</pre></div>
+      </section>
+
+      <section class="module" id="module-linear">
+        <div class="page-head"><div><div class="eyebrow">Algorithm · 06</div><h2>Linear search</h2><p>Check each element from left to right until a match is found or the array ends.</p></div><span class="pill">O(n) worst case</span></div>
+        <div class="card"><div class="card-head"><h3>Search an array</h3></div><div class="card-body"><div class="controls"><div class="field grow"><label for="linear-input">Array values</label><input id="linear-input" value="4, 8, 2, 9, 2, 7" /></div><div class="field"><label for="linear-target">Target</label><input id="linear-target" value="2" /></div><button class="btn secondary" id="linear-load">Load / reset</button><div class="play-controls"><button class="btn" id="linear-step">Step</button><button class="btn secondary" id="linear-play">Play</button><button class="btn ghost" id="linear-pause" disabled>Pause</button></div></div><div class="message" id="linear-message" role="status">Start to inspect index 0.</div></div></div>
+        <div class="card"><div class="card-head"><h3>Index-by-index traversal</h3><div class="delay"><label for="linear-delay">Step delay</label><input id="linear-delay" class="delay-control" type="range" min="150" max="1400" step="50" value="650"><span class="delay-value">650 ms</span></div></div><div class="card-body"><div class="array-visual" id="linear-view"></div><div class="caption-box" id="linear-caption">Linear search does not require a sorted array.</div></div></div>
+        <div class="card code-card"><div class="code-toolbar"><span>Python · linear search</span><button class="copy-code" data-code="linear-python">Copy code</button></div><pre id="linear-python">def linear_search(values, target):
+    for index, value in enumerate(values):
+        if value == target:
+            return index
+    return -1</pre></div>
+      </section>
+
+      <section class="module" id="module-binary">
+        <div class="page-head"><div><div class="eyebrow">Algorithm · 07</div><h2>Binary search</h2><p>Repeatedly halve the search range. The input must be sorted in ascending order before searching.</p></div><span class="pill">O(log n) worst case</span></div>
+        <div class="card"><div class="card-head"><h3>Search a sorted array</h3><span class="status-chip" id="binary-sort-status">Sorted check pending</span></div><div class="card-body"><div class="controls"><div class="field grow"><label for="binary-input">Array values</label><input id="binary-input" value="1, 3, 5, 7, 9, 11, 13, 15" /></div><div class="field"><label for="binary-target">Target</label><input id="binary-target" value="11" /></div><button class="btn secondary" id="binary-load">Load / reset</button><div class="play-controls"><button class="btn" id="binary-step">Step</button><button class="btn secondary" id="binary-play">Play</button><button class="btn ghost" id="binary-pause" disabled>Pause</button></div></div><div class="message" id="binary-message" role="status">Load a sorted array, then step to see low, mid, and high narrow the range.</div></div></div>
+        <div class="card"><div class="card-head"><h3>Range narrowing</h3><div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap"><div class="mini-labels"><span class="l">Low</span><span class="m">Mid</span><span class="h">High</span></div><div class="delay"><label for="binary-delay">Step delay</label><input id="binary-delay" class="delay-control" type="range" min="150" max="1400" step="50" value="650"><span class="delay-value">650 ms</span></div></div></div><div class="card-body"><div class="array-visual" id="binary-view"></div><div class="caption-box" id="binary-caption">Mid = floor((low + high) / 2).</div></div></div>
+        <div class="card code-card"><div class="code-toolbar"><span>Python · binary search</span><button class="copy-code" data-code="binary-python">Copy code</button></div><pre id="binary-python">def binary_search(values, target):
+    low, high = 0, len(values) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if values[mid] == target:
+            return mid
+        if values[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1</pre></div>
+      </section>
+
+      <section class="card" style="margin-top:18px" id="testing-card">
+        <details><summary>Built-in checks · linked list, stack, queue, sorting and searching</summary><div class="card-body"><p class="small-note" style="margin-top:0">Runs against fresh logic instances, separately from the interactive visualizations.</p><button class="btn" id="run-tests">Run all tests</button><div id="test-summary" class="message" style="margin-bottom:12px">No tests run yet.</div><div id="test-results" class="test-results">Test output will appear here.</div></div></details>
+      </section>
+      <div class="footer"><span>Data Structures Lab · educational visualizer</span><span>Light mode · keyboard-friendly controls</span></div>
     </main>
-
-    <!-- Toast Notification Container for Alerts -->
-    <div class="toast-container-custom" id="toast-container"></div>
-
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Visualizer Core Logic Application JS -->
-    <script>
-        /**
-         * ====================================================================
-         * STATIC LINKED LIST & STACK DATA STRUCTURE ENGINE (PYTHON PARITY)
-         * ====================================================================
-         */
-
-        // Utility: Pause execution for animations
-        const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-        // Global State Objects
-        const AppState = {
-            activeTab: 'linked-list', // 'linked-list' | 'stack'
-            animSpeed: 400,
-
-            // Linked List (Static Array Memory Allocation Model)
-            linkedList: {
-                capacity: 4,
-                list: [null, null, null, null],
-                pointers: [1, 2, 3, -1],
-                start_pointer: -1,
-                free_pointer: 0
-            },
-
-            // Stack (Static Array Stack)
-            stack: {
-                capacity: 4,
-                stack: [null, null, null, null],
-                top: -1
-            }
-        };
-
-        // DOM Element Cache
-        const DOM = {
-            // Linked List Controls
-            llInput: document.getElementById('ll-input'),
-            btnLLInsert: document.getElementById('btn-ll-insert'),
-            btnLLDelete: document.getElementById('btn-ll-delete'),
-            btnLLFind: document.getElementById('btn-ll-find'),
-            btnLLReset: document.getElementById('btn-ll-reset'),
-            llCapacitySelect: document.getElementById('ll-capacity-select'),
-            llViewport: document.getElementById('ll-viewport'),
-            llNodesGrid: document.getElementById('ll-nodes-grid'),
-            llSvgCanvas: document.getElementById('ll-svg-canvas'),
-
-            // Stack Controls
-            stackInput: document.getElementById('stack-input'),
-            btnStackPush: document.getElementById('btn-stack-push'),
-            btnStackPop: document.getElementById('btn-stack-pop'),
-            btnStackPeek: document.getElementById('btn-stack-peek'),
-            btnStackReset: document.getElementById('btn-stack-reset'),
-            stackCapacitySelect: document.getElementById('stack-capacity-select'),
-            stackVessel: document.getElementById('stack-vessel'),
-            stackArrayGrid: document.getElementById('stack-array-grid'),
-
-            // Common
-            animSpeedInput: document.getElementById('anim-speed'),
-            pythonStateCode: document.getElementById('python-state-code'),
-            stateDsIndicator: document.getElementById('state-ds-indicator'),
-            operationLog: document.getElementById('operation-log'),
-            btnClearLog: document.getElementById('btn-clear-log'),
-            toastContainer: document.getElementById('toast-container'),
-
-            // Tabs
-            tabLinkedList: document.getElementById('linked-list-tab'),
-            tabStack: document.getElementById('stack-tab'),
-            tabTest: document.getElementById('test-tab'),
-            btnRunTests: document.getElementById('btn-run-tests'),
-            testResultsBody: document.getElementById('test-results-body')
-        };
-
-        // --- Toast / Banner Alert System ---
-        function showToast(message, type = 'info') {
-            const toast = document.createElement('div');
-            const bgClass = type === 'danger' ? 'bg-danger text-white' : 
-                             type === 'success' ? 'bg-success text-white' : 
-                             type === 'warning' ? 'bg-warning text-dark' : 'bg-primary text-white';
-            
-            toast.className = `toast align-items-center border-0 show ${bgClass} mb-2 shadow-lg`;
-            toast.setAttribute('role', 'alert');
-            toast.innerHTML = `
-                <div class="d-flex">
-                    <div class="toast-body font-bold">
-                        <i class="bi ${type === 'danger' ? 'bi-exclamation-triangle-fill' : type === 'success' ? 'bi-check-circle-fill' : 'bi-info-circle-fill'} me-2"></i>
-                        ${message}
-                    </div>
-                    <button type="button" class="btn-close ${type === 'warning' ? '' : 'btn-close-white'} me-2 m-auto" data-bs-dismiss="toast"></button>
-                </div>
-            `;
-            DOM.toastContainer.appendChild(toast);
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        // --- Log History System ---
-        function logAction(msg, type = 'normal') {
-            const timeStr = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            const li = document.createElement('li');
-            li.className = 'log-item';
-            
-            let colorStyle = '';
-            if (type === 'error') colorStyle = 'text-danger fw-bold';
-            else if (type === 'success') colorStyle = 'text-success fw-bold';
-            else if (type === 'warn') colorStyle = 'text-warning';
-
-            li.innerHTML = `<span class="log-time">${timeStr}</span> <span class="${colorStyle}">${msg}</span>`;
-            DOM.operationLog.prepend(li);
-        }
-
-        // --- Python State Code Display Panel ---
-        function updatePythonStatePanel() {
-            if (AppState.activeTab === 'linked-list') {
-                DOM.stateDsIndicator.textContent = "Linked List";
-                DOM.stateDsIndicator.className = "badge bg-primary";
-                const ll = AppState.linkedList;
-                DOM.pythonStateCode.innerHTML = 
-`<span class="text-secondary"># Linked List Memory State</span>
-<span class="text-info">start_pointer</span> = <span class="text-warning">${ll.start_pointer}</span>
-<span class="text-info">free_pointer</span>  = <span class="text-warning">${ll.free_pointer}</span>
-<span class="text-info">list</span>          = ${JSON.stringify(ll.list)}
-<span class="text-info">pointers</span>      = ${JSON.stringify(ll.pointers)}`;
-            } else if (AppState.activeTab === 'stack') {
-                DOM.stateDsIndicator.textContent = "Stack";
-                DOM.stateDsIndicator.className = "badge bg-purple";
-                DOM.stateDsIndicator.style.background = "var(--accent-stack)";
-                const st = AppState.stack;
-                DOM.pythonStateCode.innerHTML = 
-`<span class="text-secondary"># Stack Memory State</span>
-<span class="text-info">top</span>   = <span class="text-warning">${st.top}</span>
-<span class="text-info">stack</span> = ${JSON.stringify(st.stack)}`;
-            }
-        }
-
-        /**
-         * ====================================================================
-         * LINKED LIST VISUALIZER RENDERING & SVG ARROWS ENGINE
-         * ====================================================================
-         */
-
-        function initLinkedListMemory(capacity) {
-            AppState.linkedList.capacity = capacity;
-            AppState.linkedList.list = new Array(capacity).fill(null);
-            AppState.linkedList.pointers = Array.from({ length: capacity }, (_, i) => i < capacity - 1 ? i + 1 : -1);
-            AppState.linkedList.start_pointer = -1;
-            AppState.linkedList.free_pointer = 0;
-            renderLinkedList();
-            logAction(`Linked List memory initialized with capacity ${capacity}.`);
-        }
-
-        function renderLinkedList() {
-            const ll = AppState.linkedList;
-            DOM.llNodesGrid.innerHTML = '';
-
-            for (let i = 0; i < ll.capacity; i++) {
-                const isFree = ll.list[i] === null;
-                const nodeCard = document.createElement('div');
-                nodeCard.className = `node-card ${isFree ? 'free' : 'occupied'}`;
-                nodeCard.id = `ll-node-${i}`;
-
-                // Check pointers matching this node
-                let tagsHTML = '';
-                if (ll.start_pointer === i) tagsHTML += `<span class="tag-badge tag-start">START</span>`;
-                if (ll.free_pointer === i) tagsHTML += `<span class="tag-badge tag-free">FREE</span>`;
-
-                nodeCard.innerHTML = `
-                    <div class="node-index-badge">Index #${i}</div>
-                    <div class="pointer-tag-container mb-1">${tagsHTML}</div>
-                    <div class="node-box">
-                        <div class="cell-data" id="ll-data-${i}">${ll.list[i] !== null ? ll.list[i] : '<span style="opacity:0.2;">—</span>'}</div>
-                        <div class="cell-pointer">Next: <span class="fw-bold text-white">${ll.pointers[i]}</span></div>
-                    </div>
-                `;
-                DOM.llNodesGrid.appendChild(nodeCard);
-            }
-
-            // Draw connecting SVG arrows after DOM layout settles
-            requestAnimationFrame(() => drawSvgArrows());
-            updatePythonStatePanel();
-        }
-
-        /**
-         * Dynamic Bezier SVG Arrow Calculator for Linked List Chains
-         */
-        function drawSvgArrows() {
-            const ll = AppState.linkedList;
-            const svg = DOM.llSvgCanvas;
-            
-            // Clear existing paths (preserve defs)
-            const paths = svg.querySelectorAll('path');
-            paths.forEach(p => p.remove());
-
-            if (AppState.activeTab !== 'linked-list') return;
-
-            const viewportRect = DOM.llViewport.getBoundingClientRect();
-
-            // Function to get center top/bottom anchor points of a node card
-            const getAnchor = (index, position = 'bottom') => {
-                const card = document.getElementById(`ll-node-${index}`);
-                if (!card) return { x: 0, y: 0 };
-                const rect = card.getBoundingClientRect();
-                const x = rect.left + rect.width / 2 - viewportRect.left + DOM.llViewport.scrollLeft;
-                const y = position === 'top' ? (rect.top - viewportRect.top) : (rect.bottom - viewportRect.top);
-                return { x, y };
-            };
-
-            // Helper to draw a smooth curved SVG arrow path
-            const createPath = (fromIdx, toIdx, type = 'data', arcHeight = 35) => {
-                if (fromIdx < 0 || toIdx < 0) return;
-                const isTop = type === 'free';
-                const start = getAnchor(fromIdx, isTop ? 'top' : 'bottom');
-                const end = getAnchor(toIdx, isTop ? 'top' : 'bottom');
-
-                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                path.setAttribute('class', type === 'data' ? 'svg-arrow-data' : 'svg-arrow-free');
-
-                const dx = end.x - start.x;
-                const curveY = isTop ? Math.min(start.y, end.y) - arcHeight : Math.max(start.y, end.y) + arcHeight;
-
-                // Control point calculation for smooth Bezier curve
-                const controlX = start.x + dx / 2;
-                const d = `M ${start.x} ${start.y} Q ${controlX} ${curveY} ${end.x} ${end.y}`;
-                
-                path.setAttribute('d', d);
-                svg.appendChild(path);
-            };
-
-            // 1. Draw Data Chain Paths (Bottom curved arrows)
-            let currData = ll.start_pointer;
-            const visitedData = new Set();
-            while (currData !== -1 && !visitedData.has(currData)) {
-                visitedData.add(currData);
-                const nextData = ll.pointers[currData];
-                if (nextData !== -1) {
-                    const jumpDistance = Math.abs(nextData - currData);
-                    createPath(currData, nextData, 'data', 30 + jumpDistance * 10);
-                }
-                currData = nextData;
-            }
-
-            // 2. Draw Free Pool Chain Paths (Top curved dashed arrows)
-            let currFree = ll.free_pointer;
-            const visitedFree = new Set();
-            while (currFree !== -1 && !visitedFree.has(currFree)) {
-                visitedFree.add(currFree);
-                const nextFree = ll.pointers[currFree];
-                if (nextFree !== -1) {
-                    const jumpDistance = Math.abs(nextFree - currFree);
-                    createPath(currFree, nextFree, 'free', 25 + jumpDistance * 8);
-                }
-                currFree = nextFree;
-            }
-        }
-
-        /**
-         * Linked List Operations
-         */
-        async function insertLinkedList(val) {
-            const ll = AppState.linkedList;
-
-            // Check Overflow
-            if (ll.free_pointer === -1) {
-                showToast("Memory Full! No free memory slot available.", "danger");
-                DOM.llViewport.classList.add('shake-target');
-                setTimeout(() => DOM.llViewport.classList.remove('shake-target'), 500);
-                logAction(`Insert '${val}' failed: Memory Full (free_pointer = -1).`, 'error');
-                return false;
-            }
-
-            // Allocate free node
-            const newNodeIndex = ll.free_pointer;
-            ll.free_pointer = ll.pointers[newNodeIndex];
-
-            // Store value
-            ll.list[newNodeIndex] = val;
-
-            // Insert at head (Standard low-level static list allocation)
-            ll.pointers[newNodeIndex] = ll.start_pointer;
-            ll.start_pointer = newNodeIndex;
-
-            renderLinkedList();
-
-            // Visual animation feedback
-            const card = document.getElementById(`ll-node-${newNodeIndex}`);
-            if (card) {
-                card.classList.add('anim-drop');
-                setTimeout(() => card.classList.remove('anim-drop'), 500);
-            }
-
-            showToast(`Inserted '${val}' into allocated slot #${newNodeIndex}.`, "success");
-            logAction(`Inserted '${val}' at slot #${newNodeIndex}. Updated start_pointer = ${newNodeIndex}.`, 'success');
-            return true;
-        }
-
-        async function deleteLinkedList(val) {
-            const ll = AppState.linkedList;
-
-            if (ll.start_pointer === -1) {
-                showToast("List is empty! Nothing to delete.", "warning");
-                DOM.llViewport.classList.add('shake-target');
-                setTimeout(() => DOM.llViewport.classList.remove('shake-target'), 500);
-                logAction(`Delete '${val}' failed: List is empty.`, 'warn');
-                return false;
-            }
-
-            let curr = ll.start_pointer;
-            let prev = -1;
-            let found = false;
-
-            // Traversal animation search
-            while (curr !== -1) {
-                const card = document.getElementById(`ll-node-${curr}`);
-                if (card) card.classList.add('scan-active');
-                await sleep(AppState.animSpeed);
-
-                if (String(ll.list[curr]) === String(val)) {
-                    found = true;
-                    if (card) card.classList.remove('scan-active');
-                    break;
-                }
-
-                if (card) card.classList.remove('scan-active');
-                prev = curr;
-                curr = ll.pointers[curr];
-            }
-
-            if (!found) {
-                showToast(`Value '${val}' not found in Linked List.`, "danger");
-                logAction(`Delete failed: '${val}' not found.`, 'error');
-                return false;
-            }
-
-            // Unlink from active chain
-            if (prev === -1) {
-                // Deleting head
-                ll.start_pointer = ll.pointers[curr];
-            } else {
-                // Deleting middle / tail
-                ll.pointers[prev] = ll.pointers[curr];
-            }
-
-            // Recycle node into free pool chain
-            ll.list[curr] = null;
-            ll.pointers[curr] = ll.free_pointer;
-            ll.free_pointer = curr;
-
-            renderLinkedList();
-            showToast(`Deleted '${val}' from slot #${curr} and recycled to free pool.`, "success");
-            logAction(`Deleted '${val}' from slot #${curr}. Recycled to free pool.`, 'success');
-            return true;
-        }
-
-        async function findLinkedList(val) {
-            const ll = AppState.linkedList;
-
-            if (ll.start_pointer === -1) {
-                showToast("List is empty!", "warning");
-                return false;
-            }
-
-            let curr = ll.start_pointer;
-            let step = 0;
-
-            logAction(`Starting step-by-step traversal for '${val}' from start_pointer (${ll.start_pointer})...`);
-
-            while (curr !== -1) {
-                step++;
-                const card = document.getElementById(`ll-node-${curr}`);
-                if (card) card.classList.add('scan-active');
-                
-                logAction(`Step ${step}: Inspecting slot #${curr} (Value = ${ll.list[curr]})...`);
-                await sleep(AppState.animSpeed);
-
-                if (String(ll.list[curr]) === String(val)) {
-                    if (card) {
-                        card.classList.remove('scan-active');
-                        card.classList.add('pulse-target');
-                        setTimeout(() => card.classList.remove('pulse-target'), 1000);
-                    }
-                    showToast(`Found '${val}' at slot #${curr} in ${step} step(s)!`, "success");
-                    logAction(`SUCCESS: '${val}' found at slot #${curr}!`, 'success');
-                    return true;
-                }
-
-                if (card) card.classList.remove('scan-active');
-                curr = ll.pointers[curr];
-            }
-
-            showToast(`'${val}' not found in Linked List.`, "danger");
-            logAction(`Traversal finished. '${val}' not found.`, 'error');
-            return false;
-        }
-
-
-        /**
-         * ====================================================================
-         * STACK VISUALIZER ENGINE
-         * ====================================================================
-         */
-
-        function initStackMemory(capacity) {
-            AppState.stack.capacity = capacity;
-            AppState.stack.stack = new Array(capacity).fill(null);
-            AppState.stack.top = -1;
-            renderStack();
-            logAction(`Stack memory initialized with capacity ${capacity}.`);
-        }
-
-        function renderStack() {
-            const st = AppState.stack;
-
-            // 1. Render Vertical Vessel View (Bottom to Top)
-            DOM.stackVessel.innerHTML = '';
-            // Height calculation based on capacity
-            DOM.stackVessel.style.height = `${st.capacity * 52 + 20}px`;
-
-            for (let i = 0; i < st.capacity; i++) {
-                if (st.stack[i] !== null) {
-                    const el = document.createElement('div');
-                    el.className = `stack-element ${st.top === i ? 'border border-warning border-2' : ''}`;
-                    el.id = `stack-elem-${i}`;
-                    el.innerHTML = `
-                        <span>${st.stack[i]}</span>
-                        <span class="stack-element-idx">#${i} ${st.top === i ? 'TOP' : ''}</span>
-                    `;
-                    DOM.stackVessel.appendChild(el);
-                }
-            }
-
-            // 2. Render Horizontal Physical Array View
-            DOM.stackArrayGrid.innerHTML = '';
-            for (let i = 0; i < st.capacity; i++) {
-                const isOccupied = i <= st.top && st.stack[i] !== null;
-                const card = document.createElement('div');
-                card.className = `node-card ${isOccupied ? 'occupied' : 'free'}`;
-                card.id = `stack-array-node-${i}`;
-
-                card.innerHTML = `
-                    <div class="node-index-badge">Index #${i}</div>
-                    <div class="pointer-tag-container mb-1">
-                        ${st.top === i ? '<span class="tag-badge tag-top">TOP</span>' : ''}
-                    </div>
-                    <div class="node-box">
-                        <div class="cell-data">${st.stack[i] !== null ? st.stack[i] : '<span style="opacity:0.2;">—</span>'}</div>
-                    </div>
-                `;
-                DOM.stackArrayGrid.appendChild(card);
-            }
-
-            updatePythonStatePanel();
-        }
-
-        async function pushStack(val) {
-            const st = AppState.stack;
-
-            if (st.top >= st.capacity - 1) {
-                showToast("Stack Overflow! Maximum capacity reached.", "danger");
-                DOM.stackVessel.classList.add('shake-target');
-                setTimeout(() => DOM.stackVessel.classList.remove('shake-target'), 500);
-                logAction(`Push '${val}' failed: Stack Overflow.`, 'error');
-                return false;
-            }
-
-            st.top++;
-            st.stack[st.top] = val;
-            renderStack();
-
-            // Animate dropped element
-            const el = document.getElementById(`stack-elem-${st.top}`);
-            if (el) el.classList.add('anim-drop');
-
-            showToast(`Pushed '${val}' onto stack at top index #${st.top}.`, "success");
-            logAction(`Pushed '${val}' to index #${st.top}. New top = ${st.top}.`, 'success');
-            return true;
-        }
-
-        async function popStack() {
-            const st = AppState.stack;
-
-            if (st.top === -1) {
-                showToast("Stack Underflow! Stack is completely empty.", "danger");
-                DOM.stackVessel.classList.add('shake-target');
-                setTimeout(() => DOM.stackVessel.classList.remove('shake-target'), 500);
-                logAction(`Pop failed: Stack Underflow.`, 'error');
-                return false;
-            }
-
-            const poppedVal = st.stack[st.top];
-            const el = document.getElementById(`stack-elem-${st.top}`);
-
-            if (el) {
-                el.classList.add('anim-lift');
-                await sleep(300);
-            }
-
-            st.stack[st.top] = null;
-            st.top--;
-            renderStack();
-
-            showToast(`Popped value '${poppedVal}' from stack.`, "success");
-            logAction(`Popped '${poppedVal}'. New top = ${st.top}.`, 'success');
-            return poppedVal;
-        }
-
-        async function peekStack() {
-            const st = AppState.stack;
-
-            if (st.top === -1) {
-                showToast("Stack is empty! Cannot peek.", "warning");
-                logAction(`Peek failed: Stack empty.`, 'warn');
-                return null;
-            }
-
-            const val = st.stack[st.top];
-            const card = document.getElementById(`stack-array-node-${st.top}`);
-            const elem = document.getElementById(`stack-elem-${st.top}`);
-
-            if (card) card.classList.add('pulse-target');
-            if (elem) elem.classList.add('pulse-target');
-
-            setTimeout(() => {
-                if (card) card.classList.remove('pulse-target');
-                if (elem) elem.classList.remove('pulse-target');
-            }, 1000);
-
-            showToast(`Top Element (Peek): '${val}' at index #${st.top}`, "info");
-            logAction(`Peeked top item '${val}' at index #${st.top}.`, 'normal');
-            return val;
-        }
-
-
-        /**
-         * ====================================================================
-         * AUTOMATED UNIT TEST SUITE ENGINE
-         * ====================================================================
-         */
-        async function runUnitTestSuite() {
-            const tbody = DOM.testResultsBody;
-            tbody.innerHTML = `<tr><td colspan="5" class="text-center text-info py-4"><div class="spinner-border spinner-border-sm me-2"></div> Running test assertions...</td></tr>`;
-
-            const tests = [
-                {
-                    name: "Linked List: Insertion until capacity full",
-                    ds: "Linked List",
-                    fn: async () => {
-                        initLinkedListMemory(3);
-                        const r1 = await insertLinkedList("A");
-                        const r2 = await insertLinkedList("B");
-                        const r3 = await insertLinkedList("C");
-                        const r4 = await insertLinkedList("D"); // Should overflow
-                        return r1 && r2 && r3 && (r4 === false);
-                    }
-                },
-                {
-                    name: "Linked List: Delete head, middle, and missing item",
-                    ds: "Linked List",
-                    fn: async () => {
-                        initLinkedListMemory(4);
-                        await insertLinkedList("10");
-                        await insertLinkedList("20");
-                        await insertLinkedList("30");
-                        const delHead = await deleteLinkedList("30");
-                        const delMissing = await deleteLinkedList("99");
-                        return delHead && (delMissing === false);
-                    }
-                },
-                {
-                    name: "Linked List: Free memory pool chain recycling",
-                    ds: "Linked List",
-                    fn: async () => {
-                        initLinkedListMemory(3);
-                        await insertLinkedList("X");
-                        await deleteLinkedList("X");
-                        return AppState.linkedList.free_pointer === 0 && AppState.linkedList.start_pointer === -1;
-                    }
-                },
-                {
-                    name: "Stack: Push items to capacity",
-                    ds: "Stack",
-                    fn: async () => {
-                        initStackMemory(3);
-                        const p1 = await pushStack("1");
-                        const p2 = await pushStack("2");
-                        const p3 = await pushStack("3");
-                        return p1 && p2 && p3 && AppState.stack.top === 2;
-                    }
-                },
-                {
-                    name: "Stack: Overflow protection on full stack",
-                    ds: "Stack",
-                    fn: async () => {
-                        initStackMemory(2);
-                        await pushStack("1");
-                        await pushStack("2");
-                        const overflow = await pushStack("3"); // Should fail
-                        return overflow === false;
-                    }
-                },
-                {
-                    name: "Stack: Underflow protection on empty pop",
-                    ds: "Stack",
-                    fn: async () => {
-                        initStackMemory(3);
-                        const underflow = await popStack(); // Should fail
-                        return underflow === false;
-                    }
-                },
-                {
-                    name: "Stack: LIFO Order Verification",
-                    ds: "Stack",
-                    fn: async () => {
-                        initStackMemory(3);
-                        await pushStack("FIRST");
-                        await pushStack("SECOND");
-                        const popped = await popStack();
-                        return popped === "SECOND";
-                    }
-                }
-            ];
-
-            tbody.innerHTML = '';
-            let passedCount = 0;
-
-            for (let i = 0; i < tests.length; i++) {
-                const test = tests[i];
-                let pass = false;
-                let errMsg = '';
-
-                try {
-                    pass = await test.fn();
-                } catch (e) {
-                    pass = false;
-                    errMsg = e.message;
-                }
-
-                if (pass) passedCount++;
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <th scope="row">${i + 1}</th>
-                    <td>${test.name}</td>
-                    <td><span class="badge bg-secondary">${test.ds}</span></td>
-                    <td>
-                        <span class="badge ${pass ? 'bg-success' : 'bg-danger'}">
-                            ${pass ? '<i class="bi bi-check-lg"></i> PASS' : '<i class="bi bi-x-lg"></i> FAIL'}
-                        </span>
-                    </td>
-                    <td class="small text-muted">${pass ? 'Assertion met successfully' : (errMsg || 'Condition failed')}</td>
-                `;
-                tbody.appendChild(tr);
-            }
-
-            logAction(`Unit test suite execution completed. Passed ${passedCount}/${tests.length} tests.`, passedCount === tests.length ? 'success' : 'warn');
-        }
-
-
-        /**
-         * ====================================================================
-         * EVENT LISTENERS & RESIZE OBSERVER BINDINGS
-         * ====================================================================
-         */
-        function bindEvents() {
-            // Speed slider
-            DOM.animSpeedInput.addEventListener('input', (e) => {
-                AppState.animSpeed = 1100 - parseInt(e.target.value);
-            });
-
-            // Linked List Controls
-            DOM.btnLLInsert.addEventListener('click', () => {
-                const val = DOM.llInput.value.trim() || String(Math.floor(Math.random() * 90 + 10));
-                insertLinkedList(val);
-                DOM.llInput.value = '';
-            });
-
-            DOM.llInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    if (AppState.activeTab === 'linked-list') DOM.btnLLInsert.click();
-                    else if (AppState.activeTab === 'stack') DOM.btnStackPush.click();
-                }
-            });
-
-            DOM.btnLLDelete.addEventListener('click', () => {
-                const val = DOM.llInput.value.trim();
-                if (!val) {
-                    showToast("Please enter a value to delete.", "warning");
-                    return;
-                }
-                deleteLinkedList(val);
-                DOM.llInput.value = '';
-            });
-
-            DOM.btnLLFind.addEventListener('click', () => {
-                const val = DOM.llInput.value.trim();
-                if (!val) {
-                    showToast("Please enter a value to find.", "warning");
-                    return;
-                }
-                findLinkedList(val);
-            });
-
-            DOM.btnLLReset.addEventListener('click', () => {
-                const cap = parseInt(DOM.llCapacitySelect.value);
-                initLinkedListMemory(cap);
-            });
-
-            DOM.llCapacitySelect.addEventListener('change', (e) => {
-                initLinkedListMemory(parseInt(e.target.value));
-            });
-
-            // Stack Controls
-            DOM.btnStackPush.addEventListener('click', () => {
-                const val = DOM.stackInput.value.trim() || String(Math.floor(Math.random() * 90 + 10));
-                pushStack(val);
-                DOM.stackInput.value = '';
-            });
-
-            DOM.btnStackPop.addEventListener('click', () => {
-                popStack();
-            });
-
-            DOM.btnStackPeek.addEventListener('click', () => {
-                peekStack();
-            });
-
-            DOM.btnStackReset.addEventListener('click', () => {
-                const cap = parseInt(DOM.stackCapacitySelect.value);
-                initStackMemory(cap);
-            });
-
-            DOM.stackCapacitySelect.addEventListener('change', (e) => {
-                initStackMemory(parseInt(e.target.value));
-            });
-
-            // Tab Switchers
-            DOM.tabLinkedList.addEventListener('shown.bs.tab', () => {
-                AppState.activeTab = 'linked-list';
-                updatePythonStatePanel();
-                requestAnimationFrame(() => drawSvgArrows());
-            });
-
-            DOM.tabStack.addEventListener('shown.bs.tab', () => {
-                AppState.activeTab = 'stack';
-                updatePythonStatePanel();
-            });
-
-            DOM.tabTest.addEventListener('shown.bs.tab', () => {
-                AppState.activeTab = 'test';
-            });
-
-            DOM.btnRunTests.addEventListener('click', () => {
-                runUnitTestSuite();
-            });
-
-            DOM.btnClearLog.addEventListener('click', () => {
-                DOM.operationLog.innerHTML = '';
-            });
-
-            // Responsive recalculation listeners
-            window.addEventListener('resize', () => {
-                if (AppState.activeTab === 'linked-list') drawSvgArrows();
-            });
-
-            DOM.llViewport.addEventListener('scroll', () => {
-                if (AppState.activeTab === 'linked-list') drawSvgArrows();
-            });
-
-            // ResizeObserver on the memory grid for accurate SVG arrow positioning
-            const resizeObserver = new ResizeObserver(() => {
-                if (AppState.activeTab === 'linked-list') drawSvgArrows();
-            });
-            resizeObserver.observe(DOM.llNodesGrid);
-        }
-
-        /**
-         * App Initialization Routine
-         */
-        window.addEventListener('DOMContentLoaded', () => {
-            initLinkedListMemory(4);
-            initStackMemory(4);
-            bindEvents();
-
-            // Populate initial mock data for instant visualization
-            insertLinkedList("A");
-            insertLinkedList("B");
-
-            pushStack("10");
-            pushStack("25");
-        });
-    </script>
+  </div>
+</div>
+<script>
+'use strict';
+
+// ---------------------------- Core logic ----------------------------
+class LinkList {
+  constructor(capacity = 4) {
+    validateCapacity(capacity);
+    this.capacity = Number(capacity);
+    this.freePointer = 0;
+    this.startPointer = -1;
+    this.list = Array(this.capacity).fill(null);
+    this.pointers = Array.from({length: this.capacity}, (_, index) => index + 1);
+    this.pointers[this.capacity - 1] = -1;
+  }
+  insert(item) {
+    if (this.freePointer === -1) return {ok:false, reason:'full'};
+    const temp = this.startPointer;
+    this.startPointer = this.freePointer;
+    this.freePointer = this.pointers[this.freePointer];
+    this.pointers[this.startPointer] = temp;
+    this.list[this.startPointer] = item;
+    return {ok:true, index:this.startPointer};
+  }
+  find(item) {
+    let temp = this.startPointer;
+    while (temp !== -1 && this.list[temp] !== item) temp = this.pointers[temp];
+    return temp;
+  }
+  trace(item) {
+    const path = [];
+    let temp = this.startPointer;
+    while (temp !== -1) {
+      path.push(temp);
+      if (this.list[temp] === item) break;
+      temp = this.pointers[temp];
+    }
+    return path;
+  }
+  delete(item) {
+    if (this.startPointer === -1) return {ok:false, reason:'empty'};
+    let index = this.startPointer;
+    let oldPointer;
+    while (index !== -1 && this.list[index] !== item) {
+      oldPointer = index;
+      index = this.pointers[index];
+    }
+    if (index === -1) return {ok:false, reason:'not-found'};
+    if (index === this.startPointer) {
+      this.startPointer = this.pointers[this.startPointer];
+      this.pointers[index] = this.freePointer;
+      this.freePointer = index;
+      this.list[index] = null;
+    } else {
+      const temp = this.pointers[index];
+      this.pointers[index] = this.freePointer;
+      this.freePointer = index;
+      this.pointers[oldPointer] = temp;
+      this.list[index] = null;
+    }
+    return {ok:true, index};
+  }
+  display() {
+    return `Free Pointer: ${this.freePointer} | Start Pointer: ${this.startPointer}\nLink List: ${pythonArray(this.list)}\nPointer List: ${pythonArray(this.pointers)}`;
+  }
+  activeIndices() {
+    const result = []; let i = this.startPointer; const seen = new Set();
+    while (i !== -1 && !seen.has(i)) { result.push(i); seen.add(i); i = this.pointers[i]; }
+    return result;
+  }
+  freeIndices() {
+    const result = []; let i = this.freePointer; const seen = new Set();
+    while (i !== -1 && !seen.has(i)) { result.push(i); seen.add(i); i = this.pointers[i]; }
+    return result;
+  }
+}
+class Stack {
+  constructor(capacity) { validateCapacity(capacity); this.items = Array(Number(capacity)).fill(null); this.top = -1; }
+  push(value) { if (this.top === this.items.length - 1) return {ok:false, reason:'full'}; this.top += 1; this.items[this.top] = value; return {ok:true,index:this.top}; }
+  pop() { if (this.top === -1) return {ok:false,reason:'empty'}; const index=this.top, value=this.items[index]; this.items[index]=null; this.top-=1; return {ok:true,value,index}; }
+  peek() { return this.top === -1 ? {ok:false,reason:'empty'} : {ok:true,value:this.items[this.top],index:this.top}; }
+}
+class Queue {
+  constructor(capacity) { validateCapacity(capacity); this.items=Array(Number(capacity)).fill(null); this.front=0; this.rear=-1; this.count=0; }
+  enqueue(value) { if(this.count===this.items.length) return {ok:false,reason:'full'}; this.rear=(this.rear+1)%this.items.length; this.items[this.rear]=value; this.count++; return {ok:true,index:this.rear}; }
+  dequeue() { if(this.count===0) return {ok:false,reason:'empty'}; const index=this.front,value=this.items[index]; this.items[index]=null; this.front=(this.front+1)%this.items.length; this.count--; if(this.count===0){this.front=0;this.rear=-1;} return {ok:true,index,value}; }
+  peek() { return this.count===0 ? {ok:false,reason:'empty'} : {ok:true,index:this.front,value:this.items[this.front]}; }
+}
+function validateCapacity(value) {
+  const n = Number(value);
+  if (!Number.isInteger(n) || n < 1 || n > 24) throw new Error('Capacity must be a positive integer from 1 to 24.');
+  return n;
+}
+function pythonArray(arr) { return '[' + arr.map(v => v === null || v === undefined ? 'None' : typeof v === 'number' ? String(v) : `'${String(v).replaceAll("'", "\\'")}'`).join(', ') + ']'; }
+function parseValue(raw, label='Value') { if (String(raw ?? '').trim() === '') throw new Error(`${label} cannot be empty or whitespace-only.`); return String(raw).trim(); }
+function parseArray(raw) {
+  if (String(raw ?? '').trim() === '') throw new Error('Enter at least one array value.');
+  const values = String(raw).split(',').map(s=>s.trim());
+  if(values.some(v=>v==='')) throw new Error('Array values cannot be empty. Separate values with commas.');
+  if(values.length>24) throw new Error('Use 24 values or fewer.');
+  return values.map(v => /^[-+]?(?:\d+\.?\d*|\.\d+)$/.test(v) ? Number(v) : v);
+}
+function compare(a,b) { const an=typeof a==='number'?a:(String(a).trim()!==''?Number(a):NaN); const bn=typeof b==='number'?b:(String(b).trim()!==''?Number(b):NaN); if(Number.isFinite(an)&&Number.isFinite(bn)) return an<bn?-1:an>bn?1:0; const as=String(a),bs=String(b); return as<bs?-1:as>bs?1:0; }
+function sameValue(a,b) { if (typeof a==='number' && typeof b==='number') return a===b; return String(a)===String(b); }
+function bubbleSort(values) { const a=[...values]; for(let end=a.length-1;end>0;end--){let swapped=false;for(let i=0;i<end;i++){if(compare(a[i],a[i+1])>0){[a[i],a[i+1]]=[a[i+1],a[i]];swapped=true;}}if(!swapped)break;}return a; }
+function insertionSort(values) { const a=[...values];for(let i=1;i<a.length;i++){const key=a[i];let j=i-1;while(j>=0&&compare(a[j],key)>0){a[j+1]=a[j];j--;}a[j+1]=key;}return a; }
+function linearSearch(values,target) { for(let i=0;i<values.length;i++) if(sameValue(values[i],target)) return i; return -1; }
+function binarySearch(values,target) { for(let i=1;i<values.length;i++) if(compare(values[i-1],values[i])>0) return {ok:false,reason:'unsorted'}; let low=0,high=values.length-1;while(low<=high){const mid=Math.floor((low+high)/2);if(sameValue(values[mid],target))return {ok:true,index:mid};if(compare(values[mid],target)<0)low=mid+1;else high=mid-1;}return {ok:true,index:-1}; }
+
+// ------------------------------ Shared UI ------------------------------
+const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(resolve=>setTimeout(resolve,ms));
+let currentModule='linked';
+document.querySelectorAll('[data-module]').forEach(btn=>btn.addEventListener('click',()=>{
+  currentModule=btn.dataset.module;
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.module===currentModule));
+  document.querySelectorAll('.module').forEach(s=>s.classList.toggle('active',s.id===`module-${currentModule}`));
+}));
+function setMessage(id,text,type='info'){const el=$(id);el.className='message'+(type==='success'?' success':type==='error'?' error':type==='warn'?' warn':'');el.textContent=text;}
+function chip(text,type=''){return `<span class="status-chip ${type}">${text}</span>`;}
+function esc(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function copyText(text,button){const done=()=>{const old=button.textContent;button.textContent='Copied';setTimeout(()=>button.textContent=old,1000);};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text,done));else fallbackCopy(text,done);}
+function fallbackCopy(text,done){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(e){}ta.remove();}
+document.querySelectorAll('.copy-code').forEach(btn=>btn.addEventListener('click',()=>copyText($(btn.dataset.code).textContent,btn)));
+
+// ---------------------------- Linked list UI ----------------------------
+let linked = new LinkList(4), llCurrent=-1, llFound=-1, llFailed=false, llMotion=-1, llBusy=false, llVersion=0;
+function renderLinked() {
+  const active=linked.activeIndices(), free=linked.freeIndices();
+  $('ll-badges').innerHTML=chip(`${active.length}/${linked.capacity} USED`,active.length===linked.capacity?'full':'good')+chip(active.length===0?'EMPTY':'ACTIVE',active.length===0?'empty':'');
+  const track=$('ll-track'), n=linked.capacity, width=n*121-11;
+  track.style.width=`${width+16}px`; track.style.minWidth=`${width+16}px`;
+  let paths='';
+  // Active-list arrows are routed in lanes above the node cards so long links remain legible.
+  active.forEach((idx,k)=>{const to=linked.pointers[idx];if(to===-1)return;const x1=idx*121+55,x2=to*121+55;const lane=13+(k%3)*12;paths+=`<path d="M ${x1} 73 C ${x1} ${lane}, ${x2} ${lane}, ${x2} 73" fill="none" stroke="#3566e8" stroke-width="2" marker-end="url(#ll-arrow-blue)"/><circle cx="${x1}" cy="73" r="2.5" fill="#3566e8"/>`;});
+  // Free-list links use dashed, lower-contrast paths.
+  free.forEach((idx,k)=>{const to=linked.pointers[idx];if(to===-1)return;const x1=idx*121+55,x2=to*121+55;const lane=48+(k%2)*10;paths+=`<path d="M ${x1} 75 C ${x1} ${lane}, ${x2} ${lane}, ${x2} 75" fill="none" stroke="#ce8a36" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#ll-arrow-orange)" opacity=".8"/>`;});
+  let cells='';
+  for(let i=0;i<n;i++){
+    const isActive=active.includes(i),isFree=free.includes(i),flags=[];
+    if(linked.startPointer===i)flags.push('<span class="flag start">START</span>');
+    if(linked.freePointer===i)flags.push('<span class="flag free">FREE</span>');
+    const classes=['node-box',isActive?'occupied':'free-slot',linked.startPointer===i?'is-start':'',linked.freePointer===i?'is-free':'',(llCurrent===i&&!llFailed&&llFound!==i)?'current':'',llFound===i?'found':'',llFailed&&llCurrent===i?'fail':'',llMotion===i?(isActive?'enter':'exit'):''].filter(Boolean).join(' ');
+    const v=linked.list[i];
+    cells+=`<div class="node-cell"><div class="node-flags">${flags.join('')||'<span class="flag">SLOT</span>'}</div><div class="${classes}" title="Index ${i}"><span class="node-index">INDEX ${i}</span><div class="node-value ${v===null?'null':''}">${v===null?'None':esc(v)}</div><span class="pointer-pill">→ ${linked.pointers[i]}</span></div><div class="slot-caption">${isActive?'occupied':isFree?'free slot':'unused'}</div></div>`;
+  }
+  track.innerHTML=`<svg class="node-svg" width="${width+16}" height="82" viewBox="0 0 ${width+16} 82" aria-hidden="true"><defs><marker id="ll-arrow-blue" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#3566e8"/></marker><marker id="ll-arrow-orange" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#ce8a36"/></marker></defs>${paths}</svg><div class="nodes-row">${cells}</div>`;
+  $('ll-state').textContent=linked.display();
+}
+function llCaption(text){$('ll-caption').innerHTML=`<strong>Pointer note:</strong> ${esc(text)}`;}
+function clearLLHighlight(){llCurrent=-1;llFound=-1;llFailed=false;llMotion=-1;renderLinked();}
+$('ll-reset').addEventListener('click',()=>{
+  try{const cap=validateCapacity($('ll-capacity').value);llVersion++;llBusy=false;linked=new LinkList(cap);clearLLHighlight();setMessage('ll-message',`Created an empty list with capacity ${cap}. Free points to slot 0; Start is -1.`, 'success');llCaption('Initialise pointers as 1, 2, …, capacity−1, then set the last pointer to -1.');}
+  catch(e){setMessage('ll-message',e.message,'error');}
+});
+$('ll-display').addEventListener('click',()=>{if(linked.startPointer===-1){setMessage('ll-message','The linked list is EMPTY. Start = -1, so there are no active nodes.','warn');llCaption('Display leaves the arrays unchanged; the active chain is empty.');}else{setMessage('ll-message',`Displayed the current state: ${linked.activeIndices().length} node(s) in head-to-tail order.`,'success');llCaption('Display follows Start through pointers. The physical array order can differ from the logical list order.');}renderLinked();});
+$('ll-insert').addEventListener('click',()=>{
+  if(llBusy)return;let value;try{value=parseValue($('ll-value').value);}catch(e){setMessage('ll-message',e.message,'error');return;}
+  const before=linked.startPointer;const result=linked.insert(value);
+  if(!result.ok){setMessage('ll-message','FULL: the linked list has no free slots. Increase capacity or delete a node first.','error');llCaption('Free = -1 indicates the free list is exhausted; no pointers or values changed.');renderLinked();return;}
+  llCurrent=-1;llFound=-1;llFailed=false;llMotion=result.index;renderLinked();setMessage('ll-message',`Inserted “${value}” at index ${result.index}; it is now the head of the list.`,'success');llCaption(`Start changed from ${before} to ${result.index}; Free advanced to ${linked.freePointer}. The new node's pointer is ${linked.pointers[result.index]}, the previous Start.`);$('ll-value').value='';const version=llVersion;setTimeout(()=>{if(version===llVersion){llMotion=-1;renderLinked();}},500);
+});
+async function traverseLinked(action){
+  if(llBusy)return;let value;try{value=parseValue($('ll-value').value,'Search value');}catch(e){setMessage('ll-message',e.message,'error');return;}
+  if(linked.startPointer===-1){setMessage('ll-message',`EMPTY: cannot ${action} because the linked list has no active nodes.`,'error');llCaption('Start = -1 means traversal has no first node.');renderLinked();return;}
+  llBusy=true;const version=++llVersion;llFound=-1;llFailed=false;
+  const trace=linked.trace(value);let found=-1;
+  for(const idx of trace){if(version!==llVersion)break;llCurrent=idx;renderLinked();setMessage('ll-message',`${action==='find'?'Finding':'Deleting'} “${value}”: checking index ${idx}…`);llCaption(`Inspect list[${idx}] = ${linked.list[idx]}. Next index is pointers[${idx}] = ${linked.pointers[idx]}.`);await sleep(470);if(linked.list[idx]===value){found=idx;break;}}
+  if(version!==llVersion){llBusy=false;return;}
+  if(action==='find'){
+    if(found!==-1){llFound=found;llCurrent=found;setMessage('ll-message',`Found “${value}” at index ${found}.`,'success');llCaption(`find returns ${found} at the first match reached from Start. Duplicate values later in the chain are not examined.`);}
+    else{llFailed=true;llCurrent=trace.length?trace[trace.length-1]:-1;setMessage('ll-message',`“${value}” is not in the list. find returns -1.`,'error');llCaption('The traversal followed pointers to -1 without finding the value; the structure is unchanged.');}
+  }else{
+    if(found===-1){llFailed=true;llCurrent=trace.length?trace[trace.length-1]:-1;setMessage('ll-message',`ERROR: “${value}” is not in the list. No changes were made.`,'error');llCaption('The chain ended at -1. Since the item was not found, the arrays stay unchanged.');}
+    else{const oldStart=linked.startPointer;const beforeFree=linked.freePointer;const result=linked.delete(value);llMotion=result.index;llFound=-1;renderLinked();setMessage('ll-message',`Deleted the first “${value}” at index ${result.index}; that slot returned to the free list.`,'success');llCaption(result.index===oldStart?`Head deletion: Start advanced to ${linked.startPointer}; pointers[${result.index}] now links to previous Free (${beforeFree}), and Free becomes ${result.index}.`:`Non-head deletion: the previous node now points to ${linked.pointers[result.index]}; pointers[${result.index}] links to old Free (${beforeFree}), and Free becomes ${result.index}.`);$('ll-value').value='';setTimeout(()=>{if(version===llVersion){llMotion=-1;renderLinked();}},520);}
+  }
+  renderLinked();llBusy=false;
+}
+$('ll-find').addEventListener('click',()=>traverseLinked('find'));
+$('ll-delete').addEventListener('click',()=>traverseLinked('delete'));
+$('ll-value').addEventListener('keydown',e=>{if(e.key==='Enter')$('ll-insert').click();});
+renderLinked();
+
+// ------------------------------ Stack UI ------------------------------
+let stack=new Stack(5),stackMotion=null,stackTimer=null;
+function renderStack(){
+  const used=stack.top+1;$('stack-badges').innerHTML=chip(`${used}/${stack.items.length} USED`,used===stack.items.length?'full':'good')+chip(used===0?'EMPTY':'TOP '+stack.top,used===0?'empty':'');
+  const view=$('stack-view');let html='';
+  if(stackMotion&&stackMotion.type==='pop')html+=`<div class="stack-cell exit"><span>${esc(stackMotion.value)}</span><span class="index">POPPED · index ${stackMotion.index}</span></div>`;
+  if(used===0)html+='<div class="stack-empty">EMPTY · top = -1<br>Push a value to begin.</div>';
+  else for(let i=stack.top;i>=0;i--){html+=`<div class="stack-cell ${i===stack.top?'top-cell':''} ${stackMotion&&stackMotion.type==='push'&&i===stackMotion.index?'enter':''}"><span>${esc(stack.items[i])}</span><span class="index">${i===stack.top?'TOP ← ':''}index ${i}</span></div>`;}
+  view.innerHTML=html;
+  $('stack-state').textContent=`Capacity: ${stack.items.length}\nTop: ${stack.top}\nItems: ${pythonArray(stack.items)}`;
+}
+function clearStackMotion(){if(stackTimer)clearTimeout(stackTimer);stackTimer=setTimeout(()=>{stackMotion=null;renderStack();},450);}
+$('stack-reset').addEventListener('click',()=>{try{stack=new Stack(validateCapacity($('stack-capacity').value));stackMotion=null;renderStack();setMessage('stack-message',`Created an empty stack with capacity ${stack.items.length}. Top = -1.`,'success');$('stack-caption').textContent='Top starts at -1, which means the stack is empty.';}catch(e){setMessage('stack-message',e.message,'error');}});
+$('stack-push').addEventListener('click',()=>{let v;try{v=parseValue($('stack-value').value);}catch(e){setMessage('stack-message',e.message,'error');return;}const r=stack.push(v);if(!r.ok){setMessage('stack-message','FULL: stack capacity reached. Pop an item or create a larger stack.','error');$('stack-caption').textContent='The top pointer is already at the last valid index. Push is blocked and the array is unchanged.';renderStack();return;}stackMotion={type:'push',index:r.index};renderStack();setMessage('stack-message',`Pushed “${v}” onto the stack at index ${r.index}.`,'success');$('stack-caption').textContent=`Top moved to ${stack.top}; the new item is the next one to be popped.`;$('stack-value').value='';clearStackMotion();});
+$('stack-pop').addEventListener('click',()=>{const r=stack.pop();if(!r.ok){setMessage('stack-message','EMPTY: cannot pop because the stack contains no items.','error');$('stack-caption').textContent='Top = -1 indicates there is no item to remove.';renderStack();return;}stackMotion={type:'pop',value:r.value,index:r.index};renderStack();setMessage('stack-message',`Popped “${r.value}” from index ${r.index}.`,'success');$('stack-caption').textContent=`The value at index ${r.index} was cleared, then Top decreased to ${stack.top}.` ;clearStackMotion();});
+$('stack-peek').addEventListener('click',()=>{const r=stack.peek();if(!r.ok){setMessage('stack-message','EMPTY: there is no top item to peek at.','error');$('stack-caption').textContent='Peek does not change the stack; Top = -1.';}else{setMessage('stack-message',`Top item is “${r.value}” at index ${r.index}; no item was removed.`,'success');$('stack-caption').textContent='Peek reads items[Top] without changing Top or the array.';}renderStack();});
+renderStack();
+
+// ------------------------------ Queue UI ------------------------------
+let queue=new Queue(5),queueMotion=null,queueTimer=null;
+function renderQueue(){const q=$('queue-view');const used=queue.count;$('queue-badges').innerHTML=chip(`${used}/${queue.items.length} USED`,used===queue.items.length?'full':'good')+chip(used===0?'EMPTY':`FRONT ${queue.front} · REAR ${queue.rear}`,used===0?'empty':'');let html='';for(let i=0;i<queue.items.length;i++){const front=used>0&&i===queue.front,rear=used>0&&i===queue.rear;const exiting=queueMotion&&queueMotion.type==='dequeue'&&queueMotion.index===i;const entering=queueMotion&&queueMotion.type==='enqueue'&&queueMotion.index===i;const value=exiting?queueMotion.value:queue.items[i];html+=`<div class="queue-cell ${value!==null?'filled':''} ${front?'front-cell':''} ${rear?'rear-cell':''} ${exiting?'exit':''} ${entering?'enter':''}"><div class="queue-ptr">${front?'FRONT': ''}${front&&rear?' / ':''}${rear?'REAR':''}</div><div class="queue-idx">INDEX ${i}</div><div class="queue-val">${value===null?'—':esc(value)}</div></div>`;}$('queue-view').innerHTML=html;$('queue-state').textContent=`Capacity: ${queue.items.length}\nCount: ${queue.count}\nFront: ${queue.count===0?-1:queue.front}\nRear: ${queue.rear}\nItems: ${pythonArray(queue.items)}`;}
+function clearQueueMotion(){if(queueTimer)clearTimeout(queueTimer);queueTimer=setTimeout(()=>{queueMotion=null;renderQueue();},450);}
+$('queue-reset').addEventListener('click',()=>{try{queue=new Queue(validateCapacity($('queue-capacity').value));queueMotion=null;renderQueue();setMessage('queue-message',`Created an empty circular queue with capacity ${queue.items.length}.`,'success');$('queue-caption').textContent='Front and rear are -1 while the queue is empty.';}catch(e){setMessage('queue-message',e.message,'error');}});
+$('queue-enqueue').addEventListener('click',()=>{let v;try{v=parseValue($('queue-value').value);}catch(e){setMessage('queue-message',e.message,'error');return;}const r=queue.enqueue(v);if(!r.ok){setMessage('queue-message','FULL: queue capacity reached. Dequeue an item or create a larger queue.','error');$('queue-caption').textContent='Count equals capacity, so enqueue is blocked; no state changed.';renderQueue();return;}queueMotion={type:'enqueue',index:r.index};renderQueue();setMessage('queue-message',`Enqueued “${v}” at rear index ${r.index}.`,'success');$('queue-caption').textContent=`Rear advanced to index ${queue.rear}; the new item waits behind existing items. Front remains ${queue.front}.`;$('queue-value').value='';clearQueueMotion();});
+$('queue-dequeue').addEventListener('click',()=>{const r=queue.dequeue();if(!r.ok){setMessage('queue-message','EMPTY: cannot dequeue because the queue has no items.','error');$('queue-caption').textContent='An empty queue has no front item to remove.';renderQueue();return;}queueMotion={type:'dequeue',index:r.index,value:r.value};renderQueue();setMessage('queue-message',`Dequeued “${r.value}” from front index ${r.index}.`,'success');$('queue-caption').textContent=`The old front slot was cleared. Front is now ${queue.count===0?-1:queue.front}${queue.count===0?' because the queue is empty':'.'}`;clearQueueMotion();});
+$('queue-front').addEventListener('click',()=>{const r=queue.peek();if(!r.ok){setMessage('queue-message','EMPTY: front and rear are not pointing to queued values.','error');$('queue-caption').textContent='Front = -1 and Rear = -1 represent the empty state.';}else{setMessage('queue-message',`Front is “${r.value}” at index ${r.index}; rear is index ${queue.rear}.`,'success');$('queue-caption').textContent='Reading front/rear does not change the queue.';}renderQueue();});
+renderQueue();
+
+// -------------------------- Sort/search visual engines --------------------------
+let delay=650;let runners={};document.querySelectorAll('.delay-control').forEach(el=>el.addEventListener('input',()=>{delay=Number(el.value);document.querySelectorAll('.delay-control').forEach(r=>{if(r!==el)r.value=String(delay);});document.querySelectorAll('.delay-value').forEach(v=>v.textContent=`${delay} ms`);}));
+function setupRunner(key, values, target) {
+  stopRunner(key);
+  const r={key,original:[...values],values:[...values],target,playing:false,timer:null,done:false,highlight:[],swap:[],shift:[],match:-1,low:-1,mid:-1,high:-1,pass:0,stepNo:0,caption:'Ready.',message:'Ready to begin.',type:key};
+  if(key==='bubble'){r.i=0;r.j=0;r.pass=0;}
+  if(key==='insertion'){r.i=1;r.keyValue=null;r.j=-1;r.phase='start';r.sortedEnd=1;r.currentKey=-1;}
+  if(key==='linear'){r.index=0;r.match=-1;}
+  if(key==='binary'){r.low=0;r.high=values.length-1;r.mid=-1;r.sorted=values.every((v,i)=>i===0||compare(values[i-1],v)<=0);if(!r.sorted){r.done=true;r.message='UNSORTED: binary search requires ascending order. Sort or edit the array, then load again.';r.caption='No search was performed because binary search is only valid for sorted data.';}}
+  runners[key]=r;return r;
+}
+function stopRunner(key){const r=runners[key];if(r&&r.timer)clearTimeout(r.timer);if(r)r.playing=false;const pause=$(key+'-pause'),play=$(key+'-play');if(pause)pause.disabled=true;if(play)play.disabled=false;}
+function runnerInput(key){const values=parseArray($(key+'-input').value);let target=null;if(key==='linear'||key==='binary')target=parseArray($(key+'-target').value);if(target&&target.length!==1)throw new Error('Search target must be a single value.');return {values,target:target?target[0]:null};}
+function loadRunner(key){stopRunner(key);try{const input=runnerInput(key);const r=setupRunner(key,input.values,input.target);renderRunner(key);if(key==='binary'){if(r.sorted){$('binary-sort-status').textContent='SORTED ✓';$('binary-sort-status').className='status-chip good';setMessage('binary-message','Array is sorted in ascending order. Step or play to narrow the range.','success');}else{$('binary-sort-status').textContent='NOT SORTED';$('binary-sort-status').className='status-chip full';setMessage('binary-message',r.message,'error');}}else setMessage(key+'-message',`${input.values.length} value(s) loaded. Press Step or Play to begin.`,'success');}catch(e){runners[key]=null;setMessage(key+'-message',e.message,'error');}}
+function renderArray(key){const r=runners[key];if(!r)return;const view=$(key+'-view');let html='';for(let i=0;i<r.values.length;i++){const cls=['array-cell'];if(r.highlight.includes(i))cls.push('hl');if(r.match===i)cls.push('match');if(r.swap.includes(i))cls.push('swap');if(r.shift.includes(i))cls.push('shift');if(key==='bubble'&&i>=r.values.length-r.pass&&r.pass>0)cls.push('sorted');if(key==='insertion'&&i<r.sortedEnd)cls.push('sorted');if(key==='binary'&&i===r.low)cls.push('low');if(key==='binary'&&i===r.mid)cls.push('mid');if(key==='binary'&&i===r.high)cls.push('high');html+=`<div class="${cls.join(' ')}"><span class="idx">INDEX ${i}</span><span class="val">${esc(r.values[i])}</span></div>`;}view.innerHTML=html;}
+function renderRunner(key){const r=runners[key];if(!r)return;renderArray(key);$(key+'-caption').textContent=r.caption;const messageType=(r.message.startsWith('UNSORTED')||r.message.startsWith('NOT FOUND'))?'error':(r.done||r.match>=0)?'success':'info';setMessage(key+'-message',r.message,messageType);if(key==='bubble')$('bubble-pass').textContent=`Pass ${r.pass}`;if(key==='insertion')$('insertion-progress').textContent=r.done?'Complete':`Key index ${Math.min(r.i,r.values.length-1)}`;if(key==='binary'&&r.sorted){$('binary-sort-status').textContent=r.done?'SEARCH COMPLETE':'SORTED ✓';$('binary-sort-status').className='status-chip '+(r.done?'good':'good');}}
+function nextRunnerStep(key){const r=runners[key];if(!r||r.done)return false;r.highlight=[];r.swap=[];r.shift=[];r.match=-1;
+  if(key==='bubble'){
+    const n=r.values.length;if(n<2||r.i>=n-1){r.done=true;r.message='SORTED: all required passes are complete.';r.caption='The array is in ascending order.';renderRunner(key);return false;}
+    const j=r.j;r.highlight=[j,j+1];const left=r.values[j],right=r.values[j+1];r.stepNo++;
+    if(compare(left,right)>0){[r.values[j],r.values[j+1]]=[r.values[j+1],r.values[j]];r.swap=[j,j+1];r.message=`Compare ${left} and ${right}: swap them.`;r.caption=`values[${j}] and values[${j+1}] exchanged places because ${left} > ${right}.`;}
+    else{r.message=`Compare ${left} and ${right}: no swap needed.`;r.caption=`${left} ≤ ${right}, so both values remain in place.`;}
+    r.j++;if(r.j>=n-1-r.i){r.i++;r.pass++;r.j=0;if(r.i>=n-1){r.done=true;r.message+=' Final pass complete; array sorted.';}}
+  } else if(key==='insertion'){
+    if(r.values.length<2||r.i>=r.values.length){r.done=true;r.message='SORTED: every key has been inserted into the sorted prefix.';r.caption='The entire array is now sorted.';renderRunner(key);return false;}
+    if(r.phase==='start'){r.keyValue=r.values[r.i];r.j=r.i-1;r.currentKey=r.i;r.highlight=[r.i];r.phase='compare';r.message=`Select key ${r.keyValue} at index ${r.i}.`;r.caption=`The sorted prefix ends at index ${r.i-1}. Hold ${r.keyValue} while comparing leftward.`;}
+    else if(r.j>=0&&compare(r.values[r.j],r.keyValue)>0){const prev=r.values[r.j];r.values[r.j+1]=prev;r.highlight=[r.j,r.j+1];r.shift=[r.j,r.j+1];r.message=`${prev} > ${r.keyValue}: shift ${prev} one place right.`;r.caption=`Copied values[${r.j}] to values[${r.j+1}]. The gap for key ${r.keyValue} moved left.`;r.j--;}
+    else{r.values[r.j+1]=r.keyValue;r.highlight=[r.j+1];r.match=r.j+1;r.sortedEnd=r.i+1;r.message=`Insert key ${r.keyValue} at index ${r.j+1}.`;r.caption=`The key fills the gap at index ${r.j+1}; indices 0 through ${r.i} are now sorted.`;r.i++;r.phase='start';r.currentKey=-1;if(r.i>=r.values.length)r.done=true;}
+  } else if(key==='linear'){
+    if(r.index>=r.values.length){r.done=true;r.message=`NOT FOUND: ${r.target} is not in the array.`;r.caption='Every index was checked; linear search returns -1.';renderRunner(key);return false;}
+    const i=r.index,v=r.values[i];r.highlight=[i];r.message=`Check index ${i}: ${v} ${sameValue(v,r.target)?'matches':'does not match'} ${r.target}.`;r.caption=sameValue(v,r.target)?`Match at index ${i}. Linear search stops at the first occurrence.`:`No match at index ${i}; move to index ${i+1}.`;
+    if(sameValue(v,r.target)){r.match=i;r.done=true;r.message=`FOUND: ${r.target} at index ${i}.`;r.caption=`The first match is at index ${i}; no later values need to be inspected.`;}else{r.index++;if(r.index>=r.values.length){r.done=true;r.message=`NOT FOUND: ${r.target} is not in the array.`;r.caption='The final value did not match; linear search returns -1.';}}
+  } else if(key==='binary'){
+    if(!r.sorted){r.done=true;r.message='UNSORTED: binary search requires ascending order.';renderRunner(key);return false;}
+    if(r.low>r.high){r.done=true;r.message=`NOT FOUND: ${r.target} is not in the array.`;r.caption='Low moved past High, so the target cannot be in the remaining range.';renderRunner(key);return false;}
+    r.mid=Math.floor((r.low+r.high)/2);r.highlight=[r.low,r.mid,r.high];const m=r.mid,v=r.values[m];r.message=`low=${r.low}, mid=${m}, high=${r.high}. Compare ${v} with ${r.target}.`;
+    if(sameValue(v,r.target)){r.match=m;r.done=true;r.message=`FOUND: ${r.target} at index ${m}.`;r.caption=`values[${m}] equals the target. The search ends.`;}
+    else if(compare(v,r.target)<0){r.caption=`${v} < ${r.target}, so discard indices ${r.low} through ${m}. Set low = ${m+1}.`;r.low=m+1;if(r.low>r.high){r.done=true;r.message=`NOT FOUND: ${r.target} is not in the array.`;}}
+    else{r.caption=`${v} > ${r.target}, so discard indices ${m} through ${r.high}. Set high = ${m-1}.`;r.high=m-1;if(r.low>r.high){r.done=true;r.message=`NOT FOUND: ${r.target} is not in the array.`;}}
+  }
+  renderRunner(key);return !r.done;
+}
+function playRunner(key){const r=runners[key];if(!r||r.done)return;stopRunner(key);r.playing=true;$(key+'-pause').disabled=false;$(key+'-play').disabled=true;const tick=()=>{if(!r.playing)return;const continues=nextRunnerStep(key);if(continues&&r.playing)r.timer=setTimeout(tick,delay);else{r.playing=false;$(key+'-pause').disabled=true;$(key+'-play').disabled=false;}};tick();}
+function pauseRunner(key){const r=runners[key];if(r){r.playing=false;if(r.timer)clearTimeout(r.timer);}$(key+'-pause').disabled=true;$(key+'-play').disabled=false;}
+for(const key of ['bubble','insertion','linear','binary']){
+  $(key+'-load').addEventListener('click',()=>loadRunner(key));
+  if($(key+'-step'))$(key+'-step').addEventListener('click',()=>{pauseRunner(key);if(!runners[key])loadRunner(key);nextRunnerStep(key);});
+  $(key+'-play').addEventListener('click',()=>{if(!runners[key])loadRunner(key);playRunner(key);});
+  $(key+'-pause').addEventListener('click',()=>pauseRunner(key));
+  if($(key+'-restart'))$(key+'-restart').addEventListener('click',()=>loadRunner(key));
+}
+// Initialise each visualizer from its default input values.
+for(const key of ['bubble','insertion','linear','binary'])loadRunner(key);
+
+// ------------------------------- Test suite -------------------------------
+function runTests(){const results=[];let passed=0;const test=(name,fn)=>{try{fn();passed++;results.push({name,ok:true});}catch(e){results.push({name,ok:false,error:e.message});}};const assert=(condition,msg='assertion failed')=>{if(!condition)throw new Error(msg);};
+ test('Linked list initializes pointer chain',()=>{const l=new LinkList(4);assert(l.freePointer===0&&l.startPointer===-1);assert(JSON.stringify(l.pointers)==='[1,2,3,-1]');assert(l.list.every(x=>x===null));});
+ test('Insert and find',()=>{const l=new LinkList(3);l.insert('A');l.insert('B');assert(l.find('B')===1);assert(l.find('A')===0);});
+ test('Duplicate values: first match from head',()=>{const l=new LinkList(4);l.insert('x');l.insert('y');l.insert('x');assert(l.find('x')===2);const d=l.delete('x');assert(d.index===2&&l.find('x')===0);});
+ test('Delete not-found leaves arrays unchanged',()=>{const l=new LinkList(3);l.insert('A');const before=l.display();const d=l.delete('Z');assert(!d.ok&&d.reason==='not-found'&&l.display()===before);});
+ test('Delete head returns node to free list',()=>{const l=new LinkList(3);l.insert('A');l.insert('B');const d=l.delete('B');assert(d.ok&&d.index===1&&l.startPointer===0&&l.freePointer===1&&l.list[1]===null);});
+ test('Delete middle/tail repairs links',()=>{const l=new LinkList(4);l.insert('A');l.insert('B');l.insert('C');const middle=l.delete('B');assert(middle.ok&&l.pointers[2]===0&&l.freePointer===1);const tail=l.delete('A');assert(tail.ok&&l.pointers[2]===-1&&l.freePointer===0);});
+ test('Linked list full and empty states',()=>{const l=new LinkList(1);assert(l.insert('a').ok);assert(l.insert('b').reason==='full');assert(l.delete('a').ok);assert(l.delete('a').reason==='empty');});
+ test('Capacity validation rejects non-positive and non-integers',()=>{for(const v of [0,-1,1.5,'abc']){let failed=false;try{validateCapacity(v);}catch(e){failed=true;}assert(failed,`expected ${v} to fail`);}assert(validateCapacity('2')===2);});
+ test('Stack push, peek, pop and full/empty',()=>{const s=new Stack(1);assert(s.push('a').ok);assert(s.push('b').reason==='full');assert(s.peek().value==='a');assert(s.pop().value==='a');assert(s.pop().reason==='empty');});
+ test('Queue FIFO, wraparound, full and empty',()=>{const q=new Queue(2);q.enqueue('a');q.enqueue('b');assert(q.enqueue('c').reason==='full');assert(q.dequeue().value==='a');q.enqueue('c');assert(q.dequeue().value==='b');assert(q.dequeue().value==='c');assert(q.dequeue().reason==='empty');});
+ test('Bubble sort orders values',()=>{assert(JSON.stringify(bubbleSort([4,1,3,2]))==='[1,2,3,4]');});
+ test('Insertion sort orders values',()=>{assert(JSON.stringify(insertionSort([5,2,2,1]))==='[1,2,2,5]');});
+ test('Linear search returns first matching index',()=>{assert(linearSearch([3,2,2],2)===1&&linearSearch([3],9)===-1);});
+ test('Binary search finds item and rejects unsorted input',()=>{assert(binarySearch([1,3,5,7],5).index===2);assert(binarySearch([2,1,3],1).reason==='unsorted');});
+ const out=$('test-results');out.innerHTML=results.map((r,i)=>`<div class="${r.ok?'test-pass':'test-fail'}">${r.ok?'✓':'✗'} ${i+1}. ${esc(r.name)}${r.ok?'':` — ${esc(r.error)}`}</div>`).join('');setMessage('test-summary',`${passed}/${results.length} tests passed. ${passed===results.length?'All logic checks are green.':'Review the failed checks below.'}`,passed===results.length?'success':'error');
+}
+$('run-tests').addEventListener('click',runTests);
+</script>
 </body>
 </html>
